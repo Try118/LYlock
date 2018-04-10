@@ -18,6 +18,7 @@
         <activity android:name=".View.Login"/>
         <activity android:name=".View.LegalProvisions"/>
         <activity android:name=".View.AddLock"/>
+        <activity android:name=".View.SearchDoorLock2" />
     </application>
 
 </manifest>

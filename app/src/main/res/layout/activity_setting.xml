@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EBEBEB"
-    android:orientation="vertical"
-    tools:context="test.xk_ys_VOOLOC.Setting">
+    android:orientation="vertical">
 
     <RelativeLayout
         style="@style/RelativeLayout_style"

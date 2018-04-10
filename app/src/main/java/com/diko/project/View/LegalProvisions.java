@@ -10,6 +10,7 @@ import static com.diko.project.R.string.login;
 
 /**
  * Created by YX_PC on 2018/4/10.
+ * 法律条款
  */
 
 public class LegalProvisions extends BaseActivity {

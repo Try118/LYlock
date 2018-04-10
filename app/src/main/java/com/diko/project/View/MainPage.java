@@ -12,6 +12,11 @@ import com.diko.project.R;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Created by YX_PC on 2018/4/10.
+ * 启动界面
+ */
+
 public class MainPage extends BaseActivity {
 
     private TextView tv;//2秒后跳转

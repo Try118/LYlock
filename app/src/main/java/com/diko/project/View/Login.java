@@ -10,6 +10,7 @@ import com.diko.project.R;
 
 /**
  * Created by YX_PC on 2018/4/10.
+ * 登陆界面
  */
 
 public class Login extends BaseActivity {
