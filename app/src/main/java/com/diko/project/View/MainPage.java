@@ -7,11 +7,11 @@ import android.view.View;
 import com.diko.basemodule.Essential.BaseTemplate.BaseActivity;
 import com.diko.project.R;
 
-public class MainActivity extends BaseActivity {
+public class MainPage extends BaseActivity {
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_main;
+        return R.layout.activity_main_page;
     }
 
     @Override
