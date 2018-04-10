@@ -6,4 +6,5 @@ package com.diko.project.Adapter;
 
 public class ttt {
     int anInt;
+    int b;
 }
