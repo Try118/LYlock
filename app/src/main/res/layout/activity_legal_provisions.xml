@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="test.xk_ys_VOOLOC.legal_provisions">
+    android:orientation="vertical">
 
     <RelativeLayout
         style="@style/RelativeLayout_style"
@@ -12,11 +11,9 @@
 
         <TextView
             android:id="@+id/correct_back"
-            style="@style/correct_back"
-            />
+            style="@style/correct_back" />
 
-        <TextView
-            style="@style/forward"/>
+        <TextView style="@style/forward" />
     </RelativeLayout>
 
     <LinearLayout
@@ -62,27 +59,27 @@
                 android:orientation="horizontal">
 
                 <Button
+                    android:id="@+id/agress"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="2dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_frame"
                     android:text="@string/agress"
-                    android:id="@+id/agress"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/text_emphasize" />
 
                 <Button
+                    android:id="@+id/disagress"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="2dp"
                     android:layout_weight="1"
-                    android:maxLines="1"
-                    android:lines="1"
                     android:background="@drawable/button_frame"
+                    android:lines="1"
+                    android:maxLines="1"
                     android:text="@string/disagress"
                     android:textColor="#ffffff"
-                    android:id="@+id/disagress"
                     android:textSize="@dimen/text_emphasize" />
             </LinearLayout>
         </LinearLayout>
