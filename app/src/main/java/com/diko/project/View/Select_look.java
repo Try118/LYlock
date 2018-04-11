@@ -22,7 +22,7 @@ public class Select_look extends BaseActivity {
     private LinearLayout giver;//用户授权
     @Override
     public int getLayoutId() {
-        return 0;
+        return R.layout.activity_select__lock;
     }
 
     @Override
