@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="test.xk_ys_VOOLOC.Select_Lock">
+    android:orientation="vertical">
 
     <RelativeLayout
         style="@style/RelativeLayout_style"
@@ -13,33 +12,34 @@
         <TextView
             android:id="@+id/back"
             style="@style/correct_back"
-            android:background="@drawable/back"/>
+            android:background="@drawable/back" />
 
         <TextView
-            style="@style/banerText"
             android:id="@+id/lock_name"
+            style="@style/banerText"
             android:text="@string/Select_Lock" />
 
         <TextView
-            android:background="@drawable/set"
             android:id="@+id/lock_setting"
-            style="@style/forward"/>
+            style="@style/forward"
+            android:background="@drawable/set" />
     </RelativeLayout>
 
 
     <LinearLayout
-        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="12dp"
-        >
-       <TextView
-            android:layout_gravity="center"
-            android:background="@drawable/power"
-            android:layout_width="32dp"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <TextView
             android:id="@+id/power_photo"
-            android:layout_height="32dp" />
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:background="@drawable/power" />
+
         <TextView
 
             android:id="@+id/power"
@@ -73,8 +73,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:layout_weight="1">
 
                 <TextView
                     style="@style/TextView_style8"
@@ -94,13 +94,13 @@
 
     <LinearLayout
         style="@style/LinearLayout_style2"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
+
         <LinearLayout
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
 
         </LinearLayout>
@@ -108,8 +108,8 @@
         <LinearLayout
             android:layout_width="0dip"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
 
         </LinearLayout>
@@ -119,13 +119,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="12dp">
+        android:layout_marginTop="12dp"
+        android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/open_lock"
             style="@style/lock_operation"
             android:background="@drawable/rectangle1"
-            android:id="@+id/open_lock"
             android:orientation="horizontal">
 
             <TextView
@@ -133,7 +133,7 @@
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
-                android:background="@drawable/open_lock"/>
+                android:background="@drawable/open_lock" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -155,9 +155,9 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/send_password"
             style="@style/lock_operation"
             android:background="@drawable/rectangle2"
-            android:id="@+id/send_password"
             android:orientation="horizontal">
 
             <TextView
@@ -165,7 +165,7 @@
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
-                android:background="@drawable/sent"/>
+                android:background="@drawable/sent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -177,16 +177,18 @@
                     style="@style/lock_operation.one"
                     android:text="@string/sending_password"
                     android:textSize="@dimen/text_emphasize" />
+
                 <TextView
                     style="@style/lock_operation.one"
                     android:text="@string/sent_password_news"
                     android:textSize="@dimen/text_normal" />
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/giver"
             style="@style/lock_operation"
             android:background="@drawable/rectangle3"
-            android:id="@+id/giver"
             android:orientation="horizontal">
 
             <TextView
@@ -194,7 +196,7 @@
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
-                android:background="@drawable/quanxian"/>
+                android:background="@drawable/quanxian" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -214,5 +216,5 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    </LinearLayout>
+</LinearLayout>
 
