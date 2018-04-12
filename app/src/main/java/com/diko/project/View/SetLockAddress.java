@@ -15,6 +15,7 @@ public class SetLockAddress extends BaseActivity {
     private TextView textView6;//设置门锁地址文字
     private TextView lock_address;//填写门锁地址
     private TextView finish;//确定门锁地址
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_set_lock_address;
@@ -41,9 +42,9 @@ public class SetLockAddress extends BaseActivity {
 
     @Override
     public void processClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
-//                startActivity();
+                finish();
                 break;
             case R.id.finish:
 //                startActivity();

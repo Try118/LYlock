@@ -48,7 +48,7 @@ public class LockSentAuthorityOne extends BaseActivity {
     public void processClick(View v) {
         switch(v.getId()){
             case R.id.back:
-//                startActivity();
+                finish();
                 break;
             case R.id.get_phone:
 //                startActivity();
@@ -57,7 +57,7 @@ public class LockSentAuthorityOne extends BaseActivity {
 //                startActivity();
                 break;
             case R.id.WeChat:
-//                startActivity();
+                startActivity(LockSentAuthorityTwo.class);
                 break;
             default:
                 break;

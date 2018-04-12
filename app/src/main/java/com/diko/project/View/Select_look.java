@@ -56,19 +56,19 @@ public class Select_look extends BaseActivity {
     public void processClick(View v) {
         switch (v.getId()){
             case R.id.back:
-//                startActivity();
+                finish();
                 break;
             case R.id.lock_setting:
-                //  startActivity();
+                  startActivity(SetLock.class);
                 break;
             case R.id.open_lock:
                 //  startActivity();
                 break;
             case R.id.send_password:
-                //  startActivity();
+                  startActivity(LockSentPasswordOne.class);
                 break;
             case R.id.giver:
-                //  startActivity();
+                startActivity(LockSentAuthorityOne.class);
                 break;
             default:
                 break;

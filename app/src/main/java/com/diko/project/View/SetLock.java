@@ -11,7 +11,7 @@ import com.diko.project.R;
  * Created by jie on 2018/4/11.
  */
 
-public class SetLock extends BaseActivity {
+public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClickListener {
     private TextView back;//返回控件
     private MyFastMenuBar correct_lock_name;//修改门锁名称
     private MyFastMenuBar correct_lock_address;//修改门锁地址
@@ -43,14 +43,14 @@ public class SetLock extends BaseActivity {
     @Override
     public void initListener() {
         back.setOnClickListener(this);
-        correct_lock_name.setOnClickListener(this);
-        set_open_password.setOnClickListener(this);
-        correct_lock_address.setOnClickListener(this);
-        updated_lock_time.setOnClickListener(this);
-        open_record.setOnClickListener(this);
-        giver_record.setOnClickListener(this);
-        delete_all_password.setOnClickListener(this);
-        delete_lock.setOnClickListener(this);
+        correct_lock_name.setOnMenuBarClickListener(this);
+        set_open_password.setOnMenuBarClickListener(this);
+        correct_lock_address.setOnMenuBarClickListener(this);
+        updated_lock_time.setOnMenuBarClickListener(this);
+        open_record.setOnMenuBarClickListener(this);
+        giver_record.setOnMenuBarClickListener(this);
+        delete_all_password.setOnMenuBarClickListener(this);
+        delete_lock.setOnMenuBarClickListener(this);
     }
 
     @Override
@@ -62,31 +62,63 @@ public class SetLock extends BaseActivity {
     public void processClick(View v) {
         switch (v.getId()) {
             case R.id.back:
-//                startActivity();
+                finish();
                 break;
             case R.id.correct_lock_name:
-                //  startActivity();
+                startActivity(SetLockName.class);
                 break;
             case R.id.set_open_password:
-                //  startActivity();
+                startActivity(SetLockPassword.class);
                 break;
             case R.id.correct_lock_address:
-                //  startActivity();
+                startActivity(SetLockAddress.class);
                 break;
             case R.id.updated_lock_time:
-                //  startActivity();
+                startActivity(SetUpdateLockTime.class);
                 break;
             case R.id.open_record:
-                //  startActivity();
+                startActivity(SetLockOpenLockRecord.class);
                 break;
             case R.id.giver_record:
-                //  startActivity();
+                startActivity(SetLockAuthorizationRecord.class);
                 break;
             case R.id.delete_all_password:
-                //  startActivity();
+                startActivity(SetLockDeleteAllPassword.class);
                 break;
             case R.id.delete_lock:
-                //  startActivity();
+                startActivity(SetLockDeletePage.class);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onMenuBarClick(MyFastMenuBar view) {
+        switch (view.getId()) {
+            case R.id.correct_lock_name:
+                startActivity(SetLockName.class);
+                break;
+            case R.id.set_open_password:
+                startActivity(SetLockPassword.class);
+                break;
+            case R.id.correct_lock_address:
+                startActivity(SetLockAddress.class);
+                break;
+            case R.id.updated_lock_time:
+                startActivity(SetUpdateLockTime.class);
+                break;
+            case R.id.open_record:
+                startActivity(SetLockOpenLockRecord.class);
+                break;
+            case R.id.giver_record:
+                startActivity(SetLockAuthorizationRecord.class);
+                break;
+            case R.id.delete_all_password:
+                startActivity(SetLockDeleteAllPassword.class);
+                break;
+            case R.id.delete_lock:
+                startActivity(SetLockDeletePage.class);
                 break;
             default:
                 break;

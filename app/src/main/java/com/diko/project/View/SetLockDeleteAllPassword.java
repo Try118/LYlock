@@ -27,7 +27,8 @@ public class SetLockDeleteAllPassword extends BaseActivity {
 
     @Override
     public void initListener() {
-
+        back.setOnClickListener(this);
+        delete_all_password.setOnClickListener(this);
     }
 
     @Override
@@ -39,6 +40,7 @@ public class SetLockDeleteAllPassword extends BaseActivity {
     public void processClick(View v) {
         switch (v.getId()){
             case R.id.back:
+                finish();
                 break;
             case R.id.delete_all_password:
                 break;

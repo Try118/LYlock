@@ -22,7 +22,10 @@ public class LockSentPasswordTwo extends BaseActivity {
 
     @Override
     public void initViews() {
-
+        back = findView(R.id.back);
+        times = findView(R.id.times);
+        Once = findView(R.id.once);
+        send = findView(R.id.send);
     }
 
     @Override
@@ -42,7 +45,7 @@ public class LockSentPasswordTwo extends BaseActivity {
     public void processClick(View v) {
         switch (v.getId()){
             case R.id.back:
-//                startActivity();
+                finish();
                 break;
             case R.id.times:
 //                startActivity();
@@ -51,7 +54,7 @@ public class LockSentPasswordTwo extends BaseActivity {
 //                startActivity();
                 break;
             case R.id.send:
-//                startActivity();
+                startActivity(LockSentPasswordThree.class);
                 break;
             default:
                 break;

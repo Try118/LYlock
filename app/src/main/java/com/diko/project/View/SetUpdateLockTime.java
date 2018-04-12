@@ -14,6 +14,7 @@ import com.diko.project.R;
 public class SetUpdateLockTime extends BaseActivity {
     private TextView back;//返回控件
     private Button update;//更新时间
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_set_update_locktime_page;
@@ -38,8 +39,9 @@ public class SetUpdateLockTime extends BaseActivity {
 
     @Override
     public void processClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
+                finish();
                 break;
             case R.id.update:
                 break;

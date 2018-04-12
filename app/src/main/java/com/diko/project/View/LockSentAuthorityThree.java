@@ -20,6 +20,7 @@ public class LockSentAuthorityThree extends BaseActivity {
     private TextView start_time;//设置开始时间
     private TextView end_time;//设置结束时间
     private TextView next;//下一步按钮
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_sent_lock_authority_three;
@@ -58,9 +59,9 @@ public class LockSentAuthorityThree extends BaseActivity {
 
     @Override
     public void processClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
-//                startActivity();
+                finish();
                 break;
             case R.id.self:
 //                startActivity();

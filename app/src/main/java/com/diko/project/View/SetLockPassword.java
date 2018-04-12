@@ -19,7 +19,7 @@ public class SetLockPassword extends BaseActivity {
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_sent_lock_password_two;
+        return R.layout.activity_set_lock_pw;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class SetLockPassword extends BaseActivity {
     public void processClick(View v) {
         switch (v.getId()) {
             case R.id.back:
-//                startActivity();
+                finish();
                 break;
             case R.id.next:
 //                startActivity();

@@ -43,7 +43,7 @@ public class SetLockName extends BaseActivity {
     public void processClick(View v) {
         switch (v.getId()){
             case R.id.back:
-//                startActivity();
+                finish();
                 break;
             case R.id.finish:
 //                startActivity();

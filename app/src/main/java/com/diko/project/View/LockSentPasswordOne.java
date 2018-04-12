@@ -48,13 +48,13 @@ public class LockSentPasswordOne extends BaseActivity {
     public void processClick(View v) {
         switch(v.getId()){
             case R.id.back:
-//                startActivity();
+                finish();
                 break;
             case R.id.get_phone:
 //                startActivity();
                 break;
             case R.id.next:
-//                startActivity();
+                startActivity(LockSentPasswordTwo.class);
                 break;
             case R.id.WeChat:
 //                startActivity();

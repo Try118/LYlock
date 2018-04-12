@@ -22,6 +22,7 @@ public class SetLockOpenLockRecord extends BaseActivity {
     private LinearLayout title;//标题栏
     private ListView list;//listview展示列表
     private OpenRecordAdapter adapter;//listview的适配器
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_open__records;
@@ -46,16 +47,17 @@ public class SetLockOpenLockRecord extends BaseActivity {
 
     private void initlistviwe() {
         List<OpenRecord> lists = new ArrayList<OpenRecord>();
-        OpenRecord dailyCheck = new OpenRecord("XNC1344", "20天", "项目一"," ");
+        OpenRecord dailyCheck = new OpenRecord("XNC1344", "20天", "项目一", " ");
         lists.add(dailyCheck);
-        adapter=new OpenRecordAdapter(lists,getApplication());
+        adapter = new OpenRecordAdapter(lists, getApplication());
         list.setAdapter(adapter);
     }
 
     @Override
     public void processClick(View v) {
-        switch(v.getId()){
+        switch (v.getId()) {
             case R.id.back:
+                finish();
                 break;
             default:
                 break;

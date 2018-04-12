@@ -2,6 +2,7 @@ package com.diko.project.View;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.diko.basemodule.Essential.BaseTemplate.BaseActivity;
 import com.diko.project.R;
@@ -12,6 +13,8 @@ import com.diko.project.R;
 
 public class SetLockDeletePage extends BaseActivity {
     private Button delete;//删除门锁控件
+    private TextView back;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_delete_page;
@@ -19,11 +22,13 @@ public class SetLockDeletePage extends BaseActivity {
 
     @Override
     public void initViews() {
-         delete = findView(R.id.delete);
+        delete = findView(R.id.delete);
+        back = findView(R.id.back);
     }
 
     @Override
     public void initListener() {
+        back.setOnClickListener(this);
         delete.setOnClickListener(this);
     }
 
@@ -34,9 +39,12 @@ public class SetLockDeletePage extends BaseActivity {
 
     @Override
     public void processClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
+            case R.id.back:
+                finish();
+                break;
             case R.id.delete:
-//                startActivity();
+                finish();
                 break;
             default:
                 break;

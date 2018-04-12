@@ -14,6 +14,7 @@ import com.diko.project.R;
 public class SetLockAuthorizationRecord extends BaseActivity {
     private TextView back;//返回控件
     private ListView giver_record;//授权记录列表
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_authorization_records;
@@ -37,9 +38,9 @@ public class SetLockAuthorizationRecord extends BaseActivity {
 
     @Override
     public void processClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
-//                startActivity();
+                finish();
                 break;
             default:
                 break;
