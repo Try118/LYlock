@@ -24,6 +24,7 @@ public class SetLockDeletePage extends BaseActivity {
     public void initViews() {
         delete = findView(R.id.delete);
         back = findView(R.id.back);
+
     }
 
     @Override
