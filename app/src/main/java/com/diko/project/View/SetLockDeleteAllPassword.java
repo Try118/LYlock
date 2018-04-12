@@ -1,37 +1,33 @@
 package com.diko.project.View;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.diko.basemodule.Essential.BaseTemplate.BaseActivity;
 import com.diko.project.R;
 
 /**
- * Created by jie on 2018/4/11.
+ * Created by jie on 2018/4/12.
  */
 
-public class Set_lock_address extends BaseActivity {
-    private TextView back;
-    private TextView textView6;
-    private TextView lock_address;
-    private TextView finish;
+public class SetLockDeleteAllPassword extends BaseActivity {
+    private TextView back;//返回控件
+    private Button delete_all_password;//确定删除所有密码控件
     @Override
     public int getLayoutId() {
-        return R.layout.activity_set_lock_address;
+        return R.layout.activity_delete_all_password;
     }
 
     @Override
     public void initViews() {
         back = findView(R.id.back);
-        textView6 = findView(R.id.textView6);
-        lock_address = findView(R.id.lock_address);
-        finish = findView(R.id.finish);
+        delete_all_password = findView(R.id.delete_all_password);
     }
 
     @Override
     public void initListener() {
-        back.setOnClickListener(this);
-        finish.setOnClickListener(this);
+
     }
 
     @Override
@@ -43,10 +39,8 @@ public class Set_lock_address extends BaseActivity {
     public void processClick(View v) {
         switch (v.getId()){
             case R.id.back:
-//                startActivity();
                 break;
-            case R.id.finish:
-//                startActivity();
+            case R.id.delete_all_password:
                 break;
             default:
                 break;

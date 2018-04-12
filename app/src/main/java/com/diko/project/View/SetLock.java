@@ -11,7 +11,7 @@ import com.diko.project.R;
  * Created by jie on 2018/4/11.
  */
 
-public class Setting_of_Lock extends BaseActivity {
+public class SetLock extends BaseActivity {
     private TextView back;//返回控件
     private MyFastMenuBar correct_lock_name;//修改门锁名称
     private MyFastMenuBar correct_lock_address;//修改门锁地址

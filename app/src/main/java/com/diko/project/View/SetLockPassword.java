@@ -4,34 +4,36 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.diko.basemodule.Essential.BaseTemplate.BaseActivity;
+import com.diko.project.CustomView.SetLockPasswordView;
 import com.diko.project.R;
 
 /**
  * Created by jie on 2018/4/11.
  */
 
-public class Set_lock_name extends BaseActivity {
-    private TextView back;
-    private TextView textView6;
-    private TextView lock_name;
-    private TextView finish;
+public class SetLockPassword extends BaseActivity {
+    private TextView back;//返回控件
+    private TextView textView6;//设置门锁密码的文字
+    private SetLockPasswordView my_password;//六个密码框
+    private TextView next;//下一步
+
     @Override
     public int getLayoutId() {
-        return R.layout.activity_set_lock_name;
+        return R.layout.activity_sent_lock_password_two;
     }
 
     @Override
     public void initViews() {
         back = findView(R.id.back);
         textView6 = findView(R.id.textView6);
-        lock_name = findView(R.id.lock_name);
-        finish = findView(R.id.finish);
+        my_password = findView(R.id.my_password);
+        next = findView(R.id.next);
     }
 
     @Override
     public void initListener() {
         back.setOnClickListener(this);
-        finish.setOnClickListener(this);
+        next.setOnClickListener(this);
     }
 
     @Override
@@ -41,11 +43,11 @@ public class Set_lock_name extends BaseActivity {
 
     @Override
     public void processClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
 //                startActivity();
                 break;
-            case R.id.finish:
+            case R.id.next:
 //                startActivity();
                 break;
             default:
