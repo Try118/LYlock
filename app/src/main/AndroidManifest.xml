@@ -15,16 +15,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.Login"/>
-        <activity android:name=".View.LegalProvisions"/>
-        <activity android:name=".View.AddLock"/>
+        <activity android:name=".View.Login" />
+        <activity android:name=".View.LegalProvisions" />
+        <activity android:name=".View.AddLock" />
         <activity android:name=".View.SearchDoorLock2" />
-        <activity android:name=".View.Select_look"/>
-        <activity android:name=".View.Setting_of_Lock"/>
-        <activity android:name=".View.Set_lock_name"/>
-        <activity android:name=".View.Set_lock_address"/>
-        <activity android:name=".View.SetOpenLockPasswordPage"/>
-        <activity android:name=".View.SetUpdateLockTime"/>
+        <activity android:name=".View.Select_look" />
+        <activity android:name=".View.Setting" />
+        <activity android:name=".View.GestureSetting" />
+        <activity android:name=".View.VerifyRegistration" />
     </application>
 
 </manifest>
