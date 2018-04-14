@@ -49,6 +49,7 @@ public class MyLockAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        final int p=position;
         holder = new ViewHolder();
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.my_lock_view, null);
@@ -65,7 +66,9 @@ public class MyLockAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, Select_look.class);
-
+                i.putExtra("lock_name",lists.get(p).getLockname());
+                i.putExtra("starttime",lists.get(p).getStarttime());
+                i.putExtra("endtime",lists.get(p).getEndtime());
                 context.startActivity(i);
             }
         });
