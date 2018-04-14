@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.diko.basemodule.Essential.BaseTemplate.BaseActivity;
 import com.diko.project.Adapter.MyLockAdapter;
+import com.diko.project.Controller.LockController;
 import com.diko.project.Controller.LoginController;
 import com.diko.project.CustomView.RefreshableView;
 import com.diko.project.Manager.InterfaceManger;
@@ -16,7 +17,11 @@ import com.diko.project.Module.OpenRecord;
 import com.diko.project.Module.ReadAllLock;
 import com.diko.project.R;
 import com.diko.project.Utils.RetrofitUtils;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +45,7 @@ public class AddLock extends BaseActivity {
     private TextView setting;//右上角三点
     private ListView lockList;//门锁列表
     private MyLockAdapter adapter;
+    private List<ReadAllLock> lists = new ArrayList<ReadAllLock>();
 
     @Override
     public int getLayoutId() {
@@ -65,39 +71,35 @@ public class AddLock extends BaseActivity {
     }
 
     private void intit() {
-        String account = "13823839265";
+        String phone = "13823839265";
         String password = "123456";
         List<String> photos = new ArrayList<>();
 
         List<MultipartBody.Part> parts = null;
-//        parts = RetrofitUtils.filesToMultipartBodyParts("photo", photos);
         Map<String, RequestBody> params = new HashMap<>();
-//        params.put("token", RetrofitUtils.convertToRequestBody(PrefManager.getToken()));
-        params.put("account", RetrofitUtils.convertToRequestBody(account));
+        params.put("phone", RetrofitUtils.convertToRequestBody(phone));
         params.put("password", RetrofitUtils.convertToRequestBody(password));
-        LoginController.login(params, parts, new InterfaceManger.OnRequestListener() {
+        LockController.ReadAllLock(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
-                ReadAllLock announcements = (ReadAllLock) success;
-                try {
-                    JSONObject myJsonArray = new JSONObject(String.valueOf(announcements));
-                    JSONArray lockinfo = new JSONArray(myJsonArray);
-                    List<ReadAllLock> lists = new ArrayList<ReadAllLock>();
-                    for (int i=0;i<lockinfo.length();i++){
-                        JSONObject myjObject = lockinfo.getJSONObject(i);
-                        ReadAllLock readAllLock = new ReadAllLock( );
-                        readAllLock.setName(myjObject.getString("name"));
-                        readAllLock.setName(myjObject.getString("name"));
-                        lists.add(readAllLock);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
+                Log.e("1234123: ",String.valueOf(success));
+
+                JsonParser parser = new JsonParser();
+                //将JSON的String 转成一个JsonArray对象
+                JsonArray jsonArray = parser.parse(String.valueOf(success)).getAsJsonArray();
+
+                Gson gson = new Gson();
+                ArrayList<ReadAllLock> userBeanList = new ArrayList<>();
+
+                //加强for循环遍历JsonArray
+                for (JsonElement user : jsonArray) {
+                    //使用GSON，直接转成Bean对象
+                    ReadAllLock userBean = gson.fromJson(user, ReadAllLock.class);
+                    lists.add(userBean);
                 }
-                Log.e("onSuccess: ", String.valueOf(announcements));
-//                adapter = new MyLockAdapter(AddLock.this, announcements);
-//                lockList.setAdapter(adapter);
-//                com.diko.project.Module.Login login = (com.diko.project.Module.Login) success;
-//                startActivity(AddLock.class);
+                adapter = new MyLockAdapter(AddLock.this, lists);
+                lockList.setAdapter(adapter);
             }
 
             @Override
@@ -107,7 +109,7 @@ public class AddLock extends BaseActivity {
 
             @Override
             public void onComplete() {
-
+//                showToast("12312312");
             }
         });
     }

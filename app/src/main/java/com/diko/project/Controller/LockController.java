@@ -1,6 +1,7 @@
 package com.diko.project.Controller;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.diko.project.Manager.InterfaceManger;
 import com.diko.project.Module.Login;
@@ -28,8 +29,8 @@ public class LockController {
     /**
      * 门锁信息列表模块
      */
-    public static void readAllLock(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
-        Call<ResponseBody> call = RetrofitUtils.getInstance().readAllLock(map, parts);
+    public static void ReadAllLock(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().ReadAllLock(map, parts);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -42,16 +43,22 @@ public class LockController {
                 }
                 try {
                     String body = response.body().string().toString();
-                    JSONObject jsonObject = new JSONObject(body);
-                    Log.e("onResponse", body);
-
-                    int code = jsonObject.getInt("code");
-                    Log.e("onResponse", String.valueOf(code));
-                    if (code!=4||code!=6){
-                        listener.onSuccess(new Gson().fromJson(body, ReadAllLock.class));
+                    Object object = body;
+//                    Log.e("find: ", body);
+//                    JSONObject jsonObject = new JSONObject(body);
+//                    Log.e("123434534", body);
+                    if (!body.contains("error")){
+                        listener.onSuccess(object);
                     }else{
                         listener.onError("未知错误");
                     }
+//                    int code = jsonObject.getInt("code");
+//                    Log.e("onResponse", String.valueOf(code));
+//                    if (code!=4||code!=6){
+
+//                    }else{
+//                        listener.onError("未知错误");
+//                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

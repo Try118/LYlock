@@ -23,7 +23,7 @@ import java.util.Vector;
 
 public class MyLockAdapter extends BaseAdapter {
 
-    private List<ReadAllLock> lists = new ArrayList<>();
+    private List<ReadAllLock> lists;
     private Context context;
     private ViewHolder holder;
 
@@ -58,8 +58,8 @@ public class MyLockAdapter extends BaseAdapter {
         }else {
             holder=(ViewHolder)convertView.getTag();
         }
-        holder.lockAddress.setText("地址地址地址");
-//        holder.lockAddress.setText(lockName.get(position));
+          holder.lockAddress.setText(lists.get(position).getAddress());
+          holder.lockName.setText(lists.get(position).getLockname());
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
