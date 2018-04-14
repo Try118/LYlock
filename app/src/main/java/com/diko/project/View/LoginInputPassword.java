@@ -64,8 +64,8 @@ public class LoginInputPassword extends BaseActivity {
             case R.id.input_forget_password:
                 break;
             case R.id.login:
-                String account = input_account.getText().toString();
-                String password = input_password.getText().toString();
+                String account = input_account.getText().toString().trim();
+                String password = input_password.getText().toString().trim();
                 verify(account,password);
 //                startActivity(AddLock.class);
                 break;
@@ -82,7 +82,6 @@ public class LoginInputPassword extends BaseActivity {
 
         List<MultipartBody.Part> parts = null;
 //        parts = RetrofitUtils.filesToMultipartBodyParts("photo", photos);
-
         Map<String, RequestBody> params = new HashMap<>();
 //        params.put("token", RetrofitUtils.convertToRequestBody(PrefManager.getToken()));
         params.put("account", RetrofitUtils.convertToRequestBody(account));
@@ -99,9 +98,7 @@ public class LoginInputPassword extends BaseActivity {
 
             @Override
             public void onError(String error) {
-//                Toast.makeText(LoginInputPassword.this, error.toString(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(LoginInputPassword.this, "登录密码错误", Toast.LENGTH_SHORT).show();
-//                Toast.makeText(LoginInputPassword.this,"登录密码错误",Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginInputPassword.this, error, Toast.LENGTH_SHORT).show();
             }
 
             @Override

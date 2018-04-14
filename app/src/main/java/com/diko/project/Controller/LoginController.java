@@ -50,7 +50,8 @@ public class LoginController {
                     if (code == 1) {
                         listener.onSuccess(new Gson().fromJson(body, Login.class));
                     } else {
-                        listener.onError("");
+//                        listener.onError("获取失败:" + jsonObject.getString("content"));
+                        listener.onError("账号密码错误");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

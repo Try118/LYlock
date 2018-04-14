@@ -71,6 +71,11 @@ public class RetrofitUtils {
         @POST("User/isexist")
         Call<ResponseBody> isexist(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
 
+        //获取账号所拥有的所有门锁接口
+        @Multipart
+        @POST("lock/ReadAllLock")
+        Call<ResponseBody> readAllLock(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
 //        //新建入库
 //        @Multipart
 //        @POST("goods/createGoods")

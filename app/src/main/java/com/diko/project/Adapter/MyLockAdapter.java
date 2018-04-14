@@ -9,10 +9,12 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.diko.project.Module.LockInfo;
+import com.diko.project.Module.ReadAllLock;
 import com.diko.project.R;
 import com.diko.project.View.Select_look;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -21,24 +23,22 @@ import java.util.Vector;
 
 public class MyLockAdapter extends BaseAdapter {
 
-    private Vector<String> lockName;
-    private Vector<LockInfo> lockInfo;
+    private List<ReadAllLock> lists = new ArrayList<>();
     private Context context;
     private ViewHolder holder;
 
-    public MyLockAdapter(Context context,Vector<String> lockName,Vector<LockInfo> lockInfo){
+    public MyLockAdapter(Context context,List<ReadAllLock> lists){
         this.context=context;
-        this.lockInfo=lockInfo;
-        this.lockName=lockName;
+        this.lists = lists;
     }
     @Override
     public int getCount() {
-        return lockName.size();
+        return lists.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return lockName.get(position);
+        return lists.get(position);
     }
 
     @Override
