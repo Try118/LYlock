@@ -1,5 +1,6 @@
 package com.diko.project.View;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -44,8 +45,8 @@ public class AddLock extends BaseActivity {
     private RelativeLayout addLock;//添加门锁
     private TextView setting;//右上角三点
     private ListView lockList;//门锁列表
-    private MyLockAdapter adapter;
-    private List<ReadAllLock> lists = new ArrayList<ReadAllLock>();
+    private MyLockAdapter adapter;//适配器
+    private List<ReadAllLock> lists = new ArrayList<ReadAllLock>();//数据集
 
     @Override
     public int getLayoutId() {
@@ -56,7 +57,7 @@ public class AddLock extends BaseActivity {
     public void initViews() {
         addLock = (RelativeLayout) findView(R.id.add_lock);
         setting = (TextView) findView(R.id.setting);
-        lockList=(ListView)findView(R.id.lock_list);
+        lockList = (ListView) findView(R.id.lock_list);
     }
 
     @Override
@@ -67,12 +68,13 @@ public class AddLock extends BaseActivity {
 
     @Override
     public void initData() {
-        intit();
+        Intent intent = getIntent();
+        String phone = intent.getStringExtra("phone");
+        String password = intent.getStringExtra("password");
+        intit(phone,password);
     }
 
-    private void intit() {
-        String phone = "13823839265";
-        String password = "123456";
+    private void intit(String phone,String password) {
         List<String> photos = new ArrayList<>();
 
         List<MultipartBody.Part> parts = null;
@@ -83,7 +85,7 @@ public class AddLock extends BaseActivity {
             @Override
             public void onSuccess(Object success) {
 
-                Log.e("1234123: ",String.valueOf(success));
+                Log.e("1234123: ", String.valueOf(success));
 
                 JsonParser parser = new JsonParser();
                 //将JSON的String 转成一个JsonArray对象
@@ -97,6 +99,7 @@ public class AddLock extends BaseActivity {
                     ReadAllLock userBean = gson.fromJson(user, ReadAllLock.class);
                     lists.add(userBean);
                 }
+
                 adapter = new MyLockAdapter(AddLock.this, lists);
                 lockList.setAdapter(adapter);
             }

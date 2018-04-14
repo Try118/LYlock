@@ -65,6 +65,7 @@ public class MyLockAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(context, Select_look.class);
+
                 context.startActivity(i);
             }
         });
