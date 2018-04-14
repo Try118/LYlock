@@ -4,9 +4,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.diko.basemodule.Essential.BaseTemplate.BaseActivity;
+import com.diko.project.Controller.LoginController;
+import com.diko.project.Manager.InterfaceManger;
+import com.diko.project.Manager.PrefManager;
+import com.diko.project.Module.*;
 import com.diko.project.R;
+import com.diko.project.Utils.RetrofitUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * Created by jie on 2018/4/14.
@@ -50,7 +64,10 @@ public class LoginInputPassword extends BaseActivity {
             case R.id.input_forget_password:
                 break;
             case R.id.login:
-                startActivity(AddLock.class);
+                String account = input_account.getText().toString();
+                String password = input_password.getText().toString();
+                verify(account,password);
+//                startActivity(AddLock.class);
                 break;
             case R.id.input_back:
                 finish();
@@ -58,5 +75,39 @@ public class LoginInputPassword extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    private void verify(String account,String password) {
+        List<String> photos = new ArrayList<>();
+
+        List<MultipartBody.Part> parts = null;
+//        parts = RetrofitUtils.filesToMultipartBodyParts("photo", photos);
+
+        Map<String, RequestBody> params = new HashMap<>();
+//        params.put("token", RetrofitUtils.convertToRequestBody(PrefManager.getToken()));
+        params.put("account", RetrofitUtils.convertToRequestBody(account));
+        params.put("password", RetrofitUtils.convertToRequestBody(password));
+        LoginController.login(params, parts, new InterfaceManger.OnRequestListener() {
+            @Override
+            public void onSuccess(Object success) {
+//                Announcements announcements = (Announcements) success;
+//                mAdapter = new AnnouncementsAdapter(AnnouncementsCompanyActivity.this, announcements.getContent().getContent());
+//                lv_announcements.setAdapter(mAdapter);
+//                com.diko.project.Module.Login login = (com.diko.project.Module.Login) success;
+                startActivity(AddLock.class);
+            }
+
+            @Override
+            public void onError(String error) {
+//                Toast.makeText(LoginInputPassword.this, error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginInputPassword.this, "登录密码错误", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(LoginInputPassword.this,"登录密码错误",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 }
