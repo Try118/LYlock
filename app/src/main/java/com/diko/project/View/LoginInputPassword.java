@@ -97,7 +97,7 @@ public class LoginInputPassword extends BaseActivity {
 //                lv_announcements.setAdapter(mAdapter);
 //                com.diko.project.Module.Login login = (com.diko.project.Module.Login) success;
 
-                Intent i = new Intent();
+                Intent i = new Intent(LoginInputPassword.this,AddLock.class);
                 i.putExtra("phone",account);
                 i.putExtra("password",password);
                 startActivity(i);
