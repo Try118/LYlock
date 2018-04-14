@@ -44,21 +44,11 @@ public class LockController {
                 try {
                     String body = response.body().string().toString();
                     Object object = body;
-//                    Log.e("find: ", body);
-//                    JSONObject jsonObject = new JSONObject(body);
-//                    Log.e("123434534", body);
-                    if (!body.contains("error")){
+                    if (!body.contains("error")) {
                         listener.onSuccess(object);
-                    }else{
+                    } else {
                         listener.onError("未知错误");
                     }
-//                    int code = jsonObject.getInt("code");
-//                    Log.e("onResponse", String.valueOf(code));
-//                    if (code!=4||code!=6){
-
-//                    }else{
-//                        listener.onError("未知错误");
-//                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -90,7 +90,6 @@ public class AddLock extends BaseActivity {
                 JsonArray jsonArray = parser.parse(String.valueOf(success)).getAsJsonArray();
 
                 Gson gson = new Gson();
-                ArrayList<ReadAllLock> userBeanList = new ArrayList<>();
 
                 //加强for循环遍历JsonArray
                 for (JsonElement user : jsonArray) {
@@ -109,7 +108,6 @@ public class AddLock extends BaseActivity {
 
             @Override
             public void onComplete() {
-//                showToast("12312312");
             }
         });
     }

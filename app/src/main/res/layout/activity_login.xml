@@ -51,6 +51,7 @@
                     android:inputType="phone"
                     android:lines="1"
                     android:padding="8dp"
+                    android:text="13823839265"
                     android:textColorHint="@color/colorhint"
                     android:textCursorDrawable="@null"
                     android:textSize="16dp" />
