@@ -44,7 +44,7 @@ public class Login extends BaseActivity {
     public void processClick(View v) {
         switch (v.getId()){
             case R.id.login_next:
-                startActivity(AddLock.class);
+                startActivity(LoginInputPassword.class);
                 break;
             default:
                 break;

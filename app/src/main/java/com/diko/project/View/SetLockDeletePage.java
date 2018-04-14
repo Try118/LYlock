@@ -13,7 +13,7 @@ import com.diko.project.R;
 
 public class SetLockDeletePage extends BaseActivity {
     private Button delete;//删除门锁控件
-    private TextView back;
+    private TextView back;//返回控件
 
     @Override
     public int getLayoutId() {
@@ -24,7 +24,6 @@ public class SetLockDeletePage extends BaseActivity {
     public void initViews() {
         delete = findView(R.id.delete);
         back = findView(R.id.back);
-
     }
 
     @Override
