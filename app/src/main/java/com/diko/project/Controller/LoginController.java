@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.diko.project.Manager.InterfaceManger;
 import com.diko.project.Module.Login;
+import com.diko.project.Module.isexist;
 import com.diko.project.Utils.RetrofitUtils;
 import com.google.gson.Gson;
 
@@ -46,7 +47,7 @@ public class LoginController {
 
                     int code = jsonObject.getInt("code");
                     Log.e("onResponse", String.valueOf(code));
-                    if (code==1) {
+                    if (code == 1) {
                         listener.onSuccess(new Gson().fromJson(body, Login.class));
                     } else {
                         listener.onError("");
@@ -65,6 +66,46 @@ public class LoginController {
                 Log.e("onFailure", t.toString());
                 listener.onError(t.toString());
                 listener.onComplete();
+            }
+        });
+    }
+
+    /**
+     * 登录(输入手机号)模块
+     */
+    public static void isexist(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().isexist(map, parts);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (listener == null) {
+                    return;
+                }
+                if (!response.isSuccessful() || response == null) {
+                    listener.onError("服务器错误，error code:" + response.code());
+                    return;
+                }
+                try {
+                    String body = response.body().string();
+                    JSONObject jsonObject = new JSONObject(body);
+                    int code = jsonObject.getInt("code");
+                    if (code == 1) {
+                        listener.onSuccess(new Gson().fromJson(body, isexist.class));
+                    }
+                    if (code == 0) {
+                        listener.onError("账号不存在");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                listener.onComplete();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (listener == null) {
+                    return;
+                }
             }
         });
     }

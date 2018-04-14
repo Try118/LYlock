@@ -66,6 +66,11 @@ public class RetrofitUtils {
         @POST("User/login")
         Call<ResponseBody> login(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
 
+        //验证手机号是否存在接口
+        @Multipart
+        @POST("User/isexist")
+        Call<ResponseBody> isexist(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
 //        //新建入库
 //        @Multipart
 //        @POST("goods/createGoods")
