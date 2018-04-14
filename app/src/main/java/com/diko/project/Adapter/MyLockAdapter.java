@@ -27,10 +27,11 @@ public class MyLockAdapter extends BaseAdapter {
     private Context context;
     private ViewHolder holder;
 
-    public MyLockAdapter(Context context,List<ReadAllLock> lists){
-        this.context=context;
+    public MyLockAdapter(Context context, List<ReadAllLock> lists) {
+        this.context = context;
         this.lists = lists;
     }
+
     @Override
     public int getCount() {
         return lists.size();
@@ -49,28 +50,28 @@ public class MyLockAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         holder = new ViewHolder();
-        if(convertView==null){
-            convertView= LayoutInflater.from(context).inflate(R.layout.my_lock_view, null);
-            holder.lockAddress=(TextView)convertView.findViewById(R.id.lock_address);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.my_lock_view, null);
+            holder.lockAddress = (TextView) convertView.findViewById(R.id.lock_address);
             holder.lockName = (TextView) convertView.findViewById(R.id.lock_name);
-            holder.linearLayout=(LinearLayout)convertView.findViewById(R.id.linear) ;
+            holder.linearLayout = (LinearLayout) convertView.findViewById(R.id.linear);
             convertView.setTag(holder);
-        }else {
-            holder=(ViewHolder)convertView.getTag();
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
-          holder.lockAddress.setText(lists.get(position).getAddress());
-          holder.lockName.setText(lists.get(position).getLockname());
+        holder.lockAddress.setText(lists.get(position).getAddress());
+        holder.lockName.setText(lists.get(position).getLockname());
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(context, Select_look.class);
+                Intent i = new Intent(context, Select_look.class);
                 context.startActivity(i);
             }
         });
         return convertView;
     }
 
-    class ViewHolder{
+    class ViewHolder {
         TextView lockAddress;
         TextView lockName;
         LinearLayout linearLayout;

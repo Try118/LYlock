@@ -1,5 +1,6 @@
 package com.diko.project.View;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,8 @@ import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+
+
 
 /**
  * Created by jie on 2018/4/14.
@@ -77,8 +80,8 @@ public class LoginInputPassword extends BaseActivity {
         }
     }
 
-    private void verify(String account,String password) {
-        List<String> photos = new ArrayList<>();
+    private void verify(final String account, final String password) {
+        final List<String> photos = new ArrayList<>();
 
         List<MultipartBody.Part> parts = null;
 //        parts = RetrofitUtils.filesToMultipartBodyParts("photo", photos);
@@ -93,7 +96,11 @@ public class LoginInputPassword extends BaseActivity {
 //                mAdapter = new AnnouncementsAdapter(AnnouncementsCompanyActivity.this, announcements.getContent().getContent());
 //                lv_announcements.setAdapter(mAdapter);
 //                com.diko.project.Module.Login login = (com.diko.project.Module.Login) success;
-                startActivity(AddLock.class);
+
+                Intent i = new Intent();
+                i.putExtra("phone",account);
+                i.putExtra("password",password);
+                startActivity(i);
             }
 
             @Override
