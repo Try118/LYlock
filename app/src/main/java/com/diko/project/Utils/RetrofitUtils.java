@@ -81,6 +81,11 @@ public class RetrofitUtils {
         @POST("Lock/SetLockAddress")
         Call<ResponseBody> SetLockAddress(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
 
+        //修改相对应门锁的名称
+        @Multipart
+        @POST("lock/changeLockName")
+        Call<ResponseBody> changeLockName(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
 //        //新建入库
 //        @Multipart
 //        @POST("goods/createGoods")

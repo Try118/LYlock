@@ -1,10 +1,26 @@
 package com.diko.project.View;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.diko.basemodule.Essential.BaseTemplate.BaseActivity;
+import com.diko.project.Controller.LockController;
+import com.diko.project.Controller.LockSetController;
+import com.diko.project.Manager.InterfaceManger;
 import com.diko.project.R;
+import com.diko.project.Utils.RetrofitUtils;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * Created by jie on 2018/4/11.
@@ -15,6 +31,10 @@ public class SetLockName extends BaseActivity {
     private TextView textView6;//设置门锁名字的文字
     private TextView lock_name;//填写门锁名字
     private TextView finish;//确定门锁名字
+    private String lockKey;//密钥
+    private String account;//账号
+    private String password;//密码
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_set_lock_name;
@@ -36,20 +56,61 @@ public class SetLockName extends BaseActivity {
 
     @Override
     public void initData() {
+        lockKey = getIntent().getStringExtra("lockKey");
+        SharedPreferences preferences = getSharedPreferences("UserInformation", MODE_PRIVATE);
+        account = preferences.getString("account", null);
+        password = preferences.getString("password", null);
 
+        if (account == null || password == null || lockKey == null) {
+            showToast(getString(R.string.read_error));
+            finish();
+        }
     }
 
     @Override
     public void processClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
                 finish();
                 break;
             case R.id.finish:
-//                startActivity();
+                setLockName();
                 break;
             default:
                 break;
+        }
+    }
+
+    private void setLockName() {
+        String lockName = lock_name.getText().toString().trim();
+        if (TextUtils.isEmpty(lockName)) {
+            showToast(getString(R.string.no_write_lock_name));
+        } else {
+            List<MultipartBody.Part> parts = null;
+            Map<String, RequestBody> params = new HashMap<>();
+            params.put("phone", RetrofitUtils.convertToRequestBody(account));
+            params.put("password", RetrofitUtils.convertToRequestBody(password));
+            params.put("lockKey", RetrofitUtils.convertToRequestBody(lockKey));
+            params.put("name", RetrofitUtils.convertToRequestBody(lockName));
+            LockSetController.changeLockName(params, parts, new InterfaceManger.OnRequestListener() {
+                @Override
+                public void onSuccess(Object success) {
+                    showToast(getString(R.string.correct_successfully));
+                    startActivity(AddLock.class);
+                    finish();
+                }
+
+                @Override
+                public void onError(String error) {
+//                    showToast(getString(R.string.correct_fault));
+                    showToast(error);
+                }
+
+                @Override
+                public void onComplete() {
+
+                }
+            });
         }
     }
 }

@@ -68,4 +68,50 @@ public class LockSetController {
             }
         });
     }
+
+    /**
+     * 修改门锁名称
+     */
+    public static void changeLockName(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().SetLockAddress(map, parts);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (listener == null) {
+                    return;
+                }
+                if (!response.isSuccessful() || response == null) {
+                    Log.e("response", String.valueOf(response));
+                    listener.onError("服务器错误，error code:" + response.code());
+                    return;
+                }
+                try {
+                    String body = response.body().string();
+                    JSONObject jsonObject = new JSONObject(body);
+                    Log.e("onResponsettt", body);
+
+                    int code = jsonObject.getInt("code");
+                    Log.e("onResponsettt", String.valueOf(code));
+                    if (code == 1) {
+                        listener.onSuccess(body);
+                    } else {
+                        listener.onError("修改名称失败");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                listener.onComplete();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (listener == null) {
+                    return;
+                }
+                Log.e("onFailure", t.toString());
+                listener.onError(t.toString());
+                listener.onComplete();
+            }
+        });
+    }
 }

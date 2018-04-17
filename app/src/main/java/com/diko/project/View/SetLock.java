@@ -86,7 +86,10 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
     public void onMenuBarClick(MyFastMenuBar view) {
         switch (view.getId()) {
             case R.id.correct_lock_name:
+                Intent i = new Intent(SetLock.this, SetLockName.class);
                 startActivity(SetLockName.class);
+                i.putExtra("lockKey",lockKey);
+                startActivity(i);
                 break;
             case R.id.set_open_password:
                 startActivity(SetLockPassword.class);
