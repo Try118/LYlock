@@ -75,30 +75,6 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
             case R.id.back:
                 finish();
                 break;
-            case R.id.correct_lock_name:
-                startActivity(SetLockName.class);
-                break;
-            case R.id.set_open_password:
-                startActivity(SetLockPassword.class);
-                break;
-            case R.id.correct_lock_address:
-                startActivity(SetLockAddress.class);
-                break;
-            case R.id.updated_lock_time:
-                startActivity(SetUpdateLockTime.class);
-                break;
-            case R.id.open_record:
-                startActivity(SetLockOpenLockRecord.class);
-                break;
-            case R.id.giver_record:
-                startActivity(SetLockAuthorizationRecord.class);
-                break;
-            case R.id.delete_all_password:
-                startActivity(SetLockDeleteAllPassword.class);
-                break;
-            case R.id.delete_lock:
-                startActivity(SetLockDeletePage.class);
-                break;
             default:
                 break;
         }
