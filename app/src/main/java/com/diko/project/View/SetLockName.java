@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,11 +30,13 @@ import okhttp3.RequestBody;
 public class SetLockName extends BaseActivity {
     private TextView back;//返回控件
     private TextView textView6;//设置门锁名字的文字
-    private TextView lock_name;//填写门锁名字
+    private EditText lock_name;//填写门锁名字
     private TextView finish;//确定门锁名字
+
     private String lockKey;//密钥
     private String account;//账号
     private String password;//密码
+    private String lockName;//门锁名字
 
     @Override
     public int getLayoutId() {
@@ -60,11 +63,6 @@ public class SetLockName extends BaseActivity {
         SharedPreferences preferences = getSharedPreferences("UserInformation", MODE_PRIVATE);
         account = preferences.getString("account", null);
         password = preferences.getString("password", null);
-
-        if (account == null || password == null || lockKey == null) {
-            showToast(getString(R.string.read_error));
-            finish();
-        }
     }
 
     @Override
@@ -82,35 +80,37 @@ public class SetLockName extends BaseActivity {
     }
 
     private void setLockName() {
-        String lockName = lock_name.getText().toString().trim();
+        lockName = lock_name.getText().toString().trim();
         if (TextUtils.isEmpty(lockName)) {
             showToast(getString(R.string.no_write_lock_name));
         } else {
-            List<MultipartBody.Part> parts = null;
-            Map<String, RequestBody> params = new HashMap<>();
-            params.put("phone", RetrofitUtils.convertToRequestBody(account));
-            params.put("password", RetrofitUtils.convertToRequestBody(password));
-            params.put("lockKey", RetrofitUtils.convertToRequestBody(lockKey));
-            params.put("name", RetrofitUtils.convertToRequestBody(lockName));
-            LockSetController.changeLockName(params, parts, new InterfaceManger.OnRequestListener() {
-                @Override
-                public void onSuccess(Object success) {
-                    showToast(getString(R.string.correct_successfully));
-                    startActivity(AddLock.class);
-                    finish();
-                }
-
-                @Override
-                public void onError(String error) {
-//                    showToast(getString(R.string.correct_fault));
-                    showToast(error);
-                }
-
-                @Override
-                public void onComplete() {
-
-                }
-            });
+            revise_name();
         }
+    }
+
+    private void revise_name() {
+        List<MultipartBody.Part> parts = null;
+        Map<String, RequestBody> params = new HashMap<>();
+        params.put("phone", RetrofitUtils.convertToRequestBody(account));
+        params.put("password", RetrofitUtils.convertToRequestBody(password));
+        params.put("lockKey", RetrofitUtils.convertToRequestBody(lockKey));
+        params.put("name", RetrofitUtils.convertToRequestBody(lockName));
+        LockSetController.changeLockName(params, parts, new InterfaceManger.OnRequestListener() {
+            @Override
+            public void onSuccess(Object success) {
+                showToast("修改成功");
+                finish();
+            }
+
+            @Override
+            public void onError(String error) {
+                showToast(error);
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 }

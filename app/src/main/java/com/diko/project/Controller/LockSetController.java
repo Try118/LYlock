@@ -73,7 +73,7 @@ public class LockSetController {
      * 修改门锁名称
      */
     public static void changeLockName(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
-        Call<ResponseBody> call = RetrofitUtils.getInstance().SetLockAddress(map, parts);
+        Call<ResponseBody> call = RetrofitUtils.getInstance().changeLockName(map, parts);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
