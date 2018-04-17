@@ -62,7 +62,10 @@ public class Select_look extends BaseActivity {
         endtime = i.getStringExtra("endtime");
         lockKey = i.getStringExtra("lockKey");
         address = i.getStringExtra("address");
+        initviewtime();
+    }
 
+    private void initviewtime() {
         lockname.setText(lock_name);
         start.setText(StringToDate.times(String.valueOf(Long.valueOf(starttime) * 1000)));
         if (endtime.equals("0")) {
@@ -70,7 +73,6 @@ public class Select_look extends BaseActivity {
         } else {
             end_time.setText(StringToDate.times(String.valueOf(Long.valueOf(endtime) * 1000)));
         }
-
     }
 
     @Override
@@ -80,13 +82,7 @@ public class Select_look extends BaseActivity {
                 finish();
                 break;
             case R.id.lock_setting:
-                Intent intent = new Intent(this,SetLock.class);
-                intent.putExtra("lock_name",lock_name);
-                intent.putExtra("starttime",starttime);
-                intent.putExtra("endtime",endtime);
-                intent.putExtra("lockKey",lockKey);
-                intent.putExtra("address",address);
-                startActivity(intent);
+                lock_setting_click();
                 break;
             case R.id.open_lock:
                 //  startActivity();
@@ -100,5 +96,15 @@ public class Select_look extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    private void lock_setting_click() {
+        Intent intent = new Intent(this,SetLock.class);
+        intent.putExtra("lock_name",lock_name);
+        intent.putExtra("starttime",starttime);
+        intent.putExtra("endtime",endtime);
+        intent.putExtra("lockKey",lockKey);
+        intent.putExtra("address",address);
+        startActivity(intent);
     }
 }
