@@ -1,5 +1,6 @@
 package com.diko.project.View;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,6 +22,11 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
     private MyFastMenuBar giver_record;//授权记录
     private MyFastMenuBar delete_all_password;//删除所有密码
     private MyFastMenuBar delete_lock;//删除门锁
+    private String lock_name;//相对应的门锁名字
+    private String starttime;//相对应的开始时间
+    private String endtime;//相对应的门锁结束时间
+    private String lockKey;//相对应门锁的密钥
+    private String address;//相对应的门锁地址
 
     @Override
     public int getLayoutId() {
@@ -55,7 +61,12 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
 
     @Override
     public void initData() {
-
+        Intent i = getIntent();
+        lock_name = i.getStringExtra("lock_name");
+        starttime = i.getStringExtra("starttime");
+        endtime = i.getStringExtra("endtime");
+        lockKey = i.getStringExtra("lockKey");
+        address = i.getStringExtra("address");
     }
 
     @Override

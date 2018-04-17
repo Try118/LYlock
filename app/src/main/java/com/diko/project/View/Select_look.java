@@ -22,6 +22,11 @@ public class Select_look extends BaseActivity {
     private LinearLayout open_lock;//开锁
     private LinearLayout send_password;//发送密码
     private LinearLayout giver;//用户授权
+    private String lock_name;//相对应的门锁名字
+    private String starttime;//相对应的开始时间
+    private String endtime;//相对应的门锁结束时间
+    private String lockKey;//相对应门锁的密钥
+    private String address;//相对应的门锁地址
 
     @Override
     public int getLayoutId() {
@@ -52,9 +57,11 @@ public class Select_look extends BaseActivity {
     @Override
     public void initData() {
         Intent i = getIntent();
-        String lock_name = i.getStringExtra("lock_name");
-        String starttime = i.getStringExtra("starttime");
-        String endtime = i.getStringExtra("endtime");
+        lock_name = i.getStringExtra("lock_name");
+        starttime = i.getStringExtra("starttime");
+        endtime = i.getStringExtra("endtime");
+        lockKey = i.getStringExtra("lockKey");
+        address = i.getStringExtra("address");
 
         lockname.setText(lock_name);
         start.setText(StringToDate.times(String.valueOf(Long.valueOf(starttime) * 1000)));
@@ -73,7 +80,13 @@ public class Select_look extends BaseActivity {
                 finish();
                 break;
             case R.id.lock_setting:
-                startActivity(SetLock.class);
+                Intent intent = new Intent(this,SetLock.class);
+                intent.putExtra("lock_name",lock_name);
+                intent.putExtra("starttime",starttime);
+                intent.putExtra("endtime",endtime);
+                intent.putExtra("lockKey",lockKey);
+                intent.putExtra("address",address);
+                startActivity(intent);
                 break;
             case R.id.open_lock:
                 //  startActivity();
