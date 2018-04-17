@@ -48,6 +48,16 @@ public class AddLock extends BaseActivity {
     private MyLockAdapter adapter;//适配器
     private List<ReadAllLock> lists = new ArrayList<ReadAllLock>();//数据集
 
+    private String phone;//电话号码
+    private String password;//用户账号
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        lists.clear();
+        intit(phone,password);
+    }
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_add_lock;
@@ -69,14 +79,13 @@ public class AddLock extends BaseActivity {
     @Override
     public void initData() {
         Intent intent = getIntent();
-        String phone = intent.getStringExtra("phone");
-        String password = intent.getStringExtra("password");
+        phone = intent.getStringExtra("phone");
+        password = intent.getStringExtra("password");
         intit(phone,password);
     }
 
     private void intit(String phone,String password) {
         List<String> photos = new ArrayList<>();
-
         List<MultipartBody.Part> parts = null;
         Map<String, RequestBody> params = new HashMap<>();
         params.put("phone", RetrofitUtils.convertToRequestBody(phone));
@@ -102,6 +111,7 @@ public class AddLock extends BaseActivity {
 
                 adapter = new MyLockAdapter(AddLock.this, lists);
                 lockList.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
 
             @Override

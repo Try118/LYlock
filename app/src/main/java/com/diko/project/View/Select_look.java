@@ -1,6 +1,7 @@
 package com.diko.project.View;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,11 +23,13 @@ public class Select_look extends BaseActivity {
     private LinearLayout open_lock;//开锁
     private LinearLayout send_password;//发送密码
     private LinearLayout giver;//用户授权
+
     private String lock_name;//相对应的门锁名字
     private String starttime;//相对应的开始时间
     private String endtime;//相对应的门锁结束时间
     private String lockKey;//相对应门锁的密钥
     private String address;//相对应的门锁地址
+
 
     @Override
     public int getLayoutId() {
@@ -43,6 +46,7 @@ public class Select_look extends BaseActivity {
         open_lock = findView(R.id.open_lock);
         send_password = findView(R.id.send_password);
         giver = findView(R.id.giver);
+
     }
 
     @Override
@@ -62,6 +66,7 @@ public class Select_look extends BaseActivity {
         endtime = i.getStringExtra("endtime");
         lockKey = i.getStringExtra("lockKey");
         address = i.getStringExtra("address");
+        Log.e("initData:---- ", lock_name + "00 " + starttime + " 00" + endtime + "00 " + lockKey + "00 " + address + "00");
         initviewtime();
     }
 
@@ -99,12 +104,12 @@ public class Select_look extends BaseActivity {
     }
 
     private void lock_setting_click() {
-        Intent intent = new Intent(this,SetLock.class);
-        intent.putExtra("lock_name",lock_name);
-        intent.putExtra("starttime",starttime);
-        intent.putExtra("endtime",endtime);
-        intent.putExtra("lockKey",lockKey);
-        intent.putExtra("address",address);
+        Intent intent = new Intent(this, SetLock.class);
+        intent.putExtra("lock_name", lock_name);
+        intent.putExtra("starttime", starttime);
+        intent.putExtra("endtime", endtime);
+        intent.putExtra("lockKey", lockKey);
+        intent.putExtra("address", address);
         startActivity(intent);
     }
 }

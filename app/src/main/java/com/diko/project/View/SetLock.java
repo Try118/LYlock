@@ -1,6 +1,7 @@
 package com.diko.project.View;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
     private MyFastMenuBar giver_record;//授权记录
     private MyFastMenuBar delete_all_password;//删除所有密码
     private MyFastMenuBar delete_lock;//删除门锁
+
     private String lock_name;//相对应的门锁名字
     private String starttime;//相对应的开始时间
     private String endtime;//相对应的门锁结束时间
@@ -90,7 +92,9 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
                 startActivity(SetLockPassword.class);
                 break;
             case R.id.correct_lock_address:
-                startActivity(SetLockAddress.class);
+                Intent intent = new Intent(SetLock.this, SetLockAddress.class);
+                intent.putExtra("lockKey",lockKey);
+                startActivity(intent);
                 break;
             case R.id.updated_lock_time:
                 startActivity(SetUpdateLockTime.class);
