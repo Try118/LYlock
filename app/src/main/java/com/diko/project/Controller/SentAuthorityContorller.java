@@ -5,4 +5,5 @@ package com.diko.project.Controller;
  */
 
 public class SentAuthorityContorller {
+
 }
