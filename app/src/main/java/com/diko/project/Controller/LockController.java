@@ -42,7 +42,7 @@ public class LockController {
                     return;
                 }
                 try {
-                    String body = response.body().string().toString();
+                    String body = response.body().string();
                     Object object = body;
                     if (!body.contains("error")) {
                         listener.onSuccess(object);

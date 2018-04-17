@@ -29,6 +29,7 @@ public class Select_look extends BaseActivity {
     private String endtime;//相对应的门锁结束时间
     private String lockKey;//相对应门锁的密钥
     private String address;//相对应的门锁地址
+    private String power;//权限
 
 
     @Override
@@ -66,7 +67,12 @@ public class Select_look extends BaseActivity {
         endtime = i.getStringExtra("endtime");
         lockKey = i.getStringExtra("lockKey");
         address = i.getStringExtra("address");
+        power=i.getStringExtra("power");
         Log.e("initData:---- ", lock_name + "00 " + starttime + " 00" + endtime + "00 " + lockKey + "00 " + address + "00");
+        if(power.equals("3")){
+            send_password.setVisibility(View.INVISIBLE);
+            giver.setVisibility(View.INVISIBLE);
+        }
         initviewtime();
     }
 
@@ -110,6 +116,7 @@ public class Select_look extends BaseActivity {
         intent.putExtra("endtime", endtime);
         intent.putExtra("lockKey", lockKey);
         intent.putExtra("address", address);
+        intent.putExtra("power",power);
         startActivity(intent);
     }
 }
