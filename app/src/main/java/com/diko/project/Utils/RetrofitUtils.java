@@ -91,7 +91,10 @@ public class RetrofitUtils {
         @POST("Lock/GetLockPassword")
         Call<ResponseBody> GetLockPassword(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
 
-
+        //发送权限的接口
+        @Multipart
+        @POST("lock/GiveLock")
+        Call<ResponseBody> GiveLock(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
 //        //新建入库
 //        @Multipart
 //        @POST("goods/createGoods")
