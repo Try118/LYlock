@@ -10,7 +10,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -48,7 +50,10 @@ public class LockSentAuthorityOne extends BaseActivity implements TextWatcher {
 
     private String lockKey;//门锁密钥
     private String power;//当前户权限
-
+    private String customer;//即将授权的客户手机号码或是邮箱
+    private String customerName;//客户的备注名
+    private String starttime;//门锁信息的开始时间
+    private String endtime;//门锁信息的结束时间
     @Override
     public int getLayoutId() {
         return R.layout.activity_sent_lock_authority_one;
@@ -79,6 +84,10 @@ public class LockSentAuthorityOne extends BaseActivity implements TextWatcher {
         Intent intent = getIntent();
         lockKey = intent.getStringExtra("lockKey");
         power = intent.getStringExtra("power");
+        starttime = intent.getStringExtra("starttime");
+        endtime = intent.getStringExtra("endtime");
+        customer = intent.getStringExtra("starttime");
+        customerName = intent.getStringExtra("endtime");
     }
 
     @Override
@@ -166,16 +175,33 @@ public class LockSentAuthorityOne extends BaseActivity implements TextWatcher {
     }
 
     private void next_click() {
-        if (power.contains("1")) {
-            Intent intent = new Intent(this, LockSentAuthorityTwo.class);
-            intent.putExtra("power", power);
-            intent.putExtra("lockKey", lockKey);
-            startActivity(intent);
-        } else {
-            Intent intent = new Intent(this, LockSentAuthorityThree.class);
-            intent.putExtra("power", power);
-            intent.putExtra("lockKey", lockKey);
-            startActivity(intent);
+        customer = phone.getText().toString().trim();
+        customerName = name.getText().toString().trim();
+        Log.e("next_click: ",lockKey+"--"+power+"--"+customer+"--"+customerName+"--"+starttime+"--"+endtime );
+        if (TextUtils.isEmpty(customer)||TextUtils.isEmpty(customerName)){
+            showToast("请填写信息");
+        }else{
+            if (power.contains("1")) {
+                Intent intent = new Intent(this, LockSentAuthorityTwo.class);
+                intent.putExtra("customer",customer);
+                intent.putExtra("customerName",customerName);
+                intent.putExtra("power", power);
+                intent.putExtra("lockKey", lockKey);
+                intent.putExtra("starttime", starttime);
+                intent.putExtra("endtime", endtime);
+                startActivity(intent);
+            } else {
+                String customerPower = "3";
+                Intent intent = new Intent(this, LockSentAuthorityThree.class);
+                intent.putExtra("customer",customer);
+                intent.putExtra("customerName",customerName);
+                intent.putExtra("power", power);
+                intent.putExtra("lockKey", lockKey);
+                intent.putExtra("starttime", starttime);
+                intent.putExtra("endtime", endtime);
+                intent.putExtra("customerPower", customerPower);
+                startActivity(intent);
+            }
         }
     }
 

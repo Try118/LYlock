@@ -55,7 +55,7 @@ public class AddLock extends BaseActivity {
     protected void onRestart() {
         super.onRestart();
         lists.clear();
-        intit(phone,password);
+        intit(phone, password);
     }
 
     @Override
@@ -81,10 +81,10 @@ public class AddLock extends BaseActivity {
         Intent intent = getIntent();
         phone = intent.getStringExtra("phone");
         password = intent.getStringExtra("password");
-        intit(phone,password);
+        intit(phone, password);
     }
 
-    private void intit(String phone,String password) {
+    private void intit(String phone, String password) {
         List<String> photos = new ArrayList<>();
         List<MultipartBody.Part> parts = null;
         Map<String, RequestBody> params = new HashMap<>();
@@ -93,25 +93,19 @@ public class AddLock extends BaseActivity {
         LockController.ReadAllLock(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
-
                 Log.e("1234123: ", String.valueOf(success));
-
                 JsonParser parser = new JsonParser();
                 //将JSON的String 转成一个JsonArray对象
                 JsonArray jsonArray = parser.parse(String.valueOf(success)).getAsJsonArray();
-
                 Gson gson = new Gson();
-
                 //加强for循环遍历JsonArray
                 for (JsonElement user : jsonArray) {
                     //使用GSON，直接转成Bean对象
                     ReadAllLock userBean = gson.fromJson(user, ReadAllLock.class);
                     lists.add(userBean);
                 }
-
                 adapter = new MyLockAdapter(AddLock.this, lists);
                 lockList.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
             }
 
             @Override

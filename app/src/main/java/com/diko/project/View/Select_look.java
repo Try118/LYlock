@@ -119,6 +119,8 @@ public class Select_look extends BaseActivity {
         Intent intent = new Intent(this, LockSentAuthorityOne.class);
         intent.putExtra("lockKey", lockKey);
         intent.putExtra("power",power);
+        intent.putExtra("starttime", starttime);
+        intent.putExtra("endtime", endtime);
         startActivity(intent);
     }
 

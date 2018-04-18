@@ -5,6 +5,8 @@ import android.util.Log;
 import com.diko.project.Manager.InterfaceManger;
 import com.diko.project.Utils.RetrofitUtils;
 
+import org.json.JSONObject;
+
 import java.util.List;
 import java.util.Map;
 
@@ -21,10 +23,10 @@ import retrofit2.Response;
 
 public class SentAuthorityContorller {
     /**
-     * 门锁信息列表模块
+     * 授权门锁
      */
-    public static void ReadAllLock(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
-        Call<ResponseBody> call = RetrofitUtils.getInstance().ReadAllLock(map, parts);
+    public static void GiveLock(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().GiveLock(map, parts);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -37,11 +39,15 @@ public class SentAuthorityContorller {
                 }
                 try {
                     String body = response.body().string().toString();
-                    Object object = body;
-                    if (!body.contains("error")) {
-                        listener.onSuccess(object);
+                    JSONObject jsonObject = new JSONObject(body);
+                    Log.e("onResponse", body);
+
+                    int code = jsonObject.getInt("code");
+                    Log.e("onResponse", String.valueOf(code));
+                    if (code == 1) {
+                        listener.onSuccess(body);
                     } else {
-                        listener.onError("未知错误");
+                        listener.onError("授权失败");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

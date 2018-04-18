@@ -16,7 +16,7 @@
 
         <TextView
             style="@style/banerText"
-            android:text="@string/Sent_PW" />
+            android:text="发送权限" />
 
         <TextView style="@style/forward" />
     </RelativeLayout>
@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
-                android:text="@string/repeatedly" />
+                android:text="高级权限" />
 
         </LinearLayout>
 
@@ -72,7 +72,7 @@
                 style="@style/TextView_style1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/once" />
+                android:text="普通权限" />
 
         </LinearLayout>
 
@@ -82,7 +82,7 @@
     <TextView
         android:id="@+id/send"
         style="@style/TextView_style"
-        android:text="@string/sent_password" />
+        android:text="确定" />
 
     <TextView
         android:id="@+id/tip"
