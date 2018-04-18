@@ -118,22 +118,9 @@ public class LockSentPasswordOne extends BaseActivity {
 
     private void requirePeimission() {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS)!= PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_CONTACTS},1);
+            requestPermissions(Manifest.permission.READ_CONTACTS);
         }else {
             showContacts();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
-            case 1:
-                if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                    showContacts();
-                }else{
-                    showToast("拒绝给读取通讯录权限");
-                }
         }
     }
 
