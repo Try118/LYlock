@@ -104,6 +104,7 @@ public class Select_look extends BaseActivity {
                 i.putExtra("lockKey", lockKey);
                 i.putExtra("starttime", starttime);
                 i.putExtra("endtime", endtime);
+                i.putExtra("lock_name", lock_name);
 //                i.putExtra("order", 1);
                 startActivity(i);
                 break;

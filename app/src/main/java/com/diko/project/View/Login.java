@@ -14,7 +14,6 @@ import com.diko.basemodule.Essential.BaseTemplate.BaseActivity;
 import com.diko.project.Controller.LoginController;
 import com.diko.project.Manager.InterfaceManger;
 import com.diko.project.R;
-import com.diko.project.Utils.NetCallback;
 import com.diko.project.Utils.RetrofitUtils;
 
 import java.util.ArrayList;
