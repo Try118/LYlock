@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.diko.project">
 
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,22 +26,22 @@
         <activity android:name=".View.Setting" />
         <activity android:name=".View.GestureSetting" />
         <activity android:name=".View.VerifyRegistration" />
-        <activity android:name=".View.SetLock"/>
-        <activity android:name=".View.LockSentAuthorityOne"/>
-        <activity android:name=".View.LockSentPasswordOne"/>
-        <activity android:name=".View.LockSentPasswordTwo"/>
-        <activity android:name=".View.LockSentAuthorityTwo"/>
-        <activity android:name=".View.LockSentPasswordThree"/>
-        <activity android:name=".View.LockSentAuthorityThree"/>
-        <activity android:name=".View.SetLockName"/>
-        <activity android:name=".View.SetLockPassword"/>
-        <activity android:name=".View.SetLockAddress"/>
-        <activity android:name=".View.SetUpdateLockTime"/>
-        <activity android:name=".View.SetLockOpenLockRecord"/>
-        <activity android:name=".View.SetLockAuthorizationRecord"/>
-        <activity android:name=".View.SetLockDeleteAllPassword"/>
-        <activity android:name=".View.SetLockDeletePage"/>
-        <activity android:name=".View.LoginInputPassword"/>
+        <activity android:name=".View.SetLock" />
+        <activity android:name=".View.LockSentAuthorityOne" />
+        <activity android:name=".View.LockSentPasswordOne" />
+        <activity android:name=".View.LockSentPasswordTwo" />
+        <activity android:name=".View.LockSentAuthorityTwo" />
+        <activity android:name=".View.LockSentPasswordThree" />
+        <activity android:name=".View.LockSentAuthorityThree" />
+        <activity android:name=".View.SetLockName" />
+        <activity android:name=".View.SetLockPassword" />
+        <activity android:name=".View.SetLockAddress" />
+        <activity android:name=".View.SetUpdateLockTime" />
+        <activity android:name=".View.SetLockOpenLockRecord" />
+        <activity android:name=".View.SetLockAuthorizationRecord" />
+        <activity android:name=".View.SetLockDeleteAllPassword" />
+        <activity android:name=".View.SetLockDeletePage" />
+        <activity android:name=".View.LoginInputPassword" />
     </application>
 
 </manifest>

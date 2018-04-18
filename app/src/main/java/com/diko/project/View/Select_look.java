@@ -99,7 +99,13 @@ public class Select_look extends BaseActivity {
                 //  startActivity();
                 break;
             case R.id.send_password:
-                startActivity(LockSentPasswordOne.class);
+                Intent i = new Intent(this,LockSentPasswordOne.class);
+                i.putExtra("power",power);
+                i.putExtra("lockKey", lockKey);
+                i.putExtra("starttime", starttime);
+                i.putExtra("endtime", endtime);
+//                i.putExtra("order", 1);
+                startActivity(i);
                 break;
             case R.id.giver:
                 startActivity(LockSentAuthorityOne.class);
