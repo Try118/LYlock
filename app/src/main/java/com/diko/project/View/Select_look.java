@@ -108,11 +108,18 @@ public class Select_look extends BaseActivity {
                 startActivity(i);
                 break;
             case R.id.giver:
-                startActivity(LockSentAuthorityOne.class);
+                giver_click();
                 break;
             default:
                 break;
         }
+    }
+
+    private void giver_click() {
+        Intent intent = new Intent(this, LockSentAuthorityOne.class);
+        intent.putExtra("lockKey", lockKey);
+        intent.putExtra("power",power);
+        startActivity(intent);
     }
 
     private void lock_setting_click() {
