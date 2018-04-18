@@ -47,6 +47,7 @@ public class LockSentPasswordOne extends BaseActivity {
     private String lockKey;
     private String starttime;
     private String endtime;
+    private String lock_name;
     private Integer order;
     private LinearLayout nameLine;
     List<phoneInfo> list = new ArrayList<phoneInfo>();
@@ -107,7 +108,7 @@ public class LockSentPasswordOne extends BaseActivity {
                 requirePeimission();
                 break;
             case R.id.next:
-                nextOne();
+                nextStep();
                 break;
             case R.id.WeChat:
                 break;
@@ -187,6 +188,7 @@ public class LockSentPasswordOne extends BaseActivity {
         lockKey = i.getStringExtra("lockKey");
         starttime = i.getStringExtra("starttime");
         endtime = i.getStringExtra("endtime");
+        lock_name=i.getStringExtra("lock_name");
 //        order = i.getIntExtra("order", 0);
         if (TextUtils.isEmpty(lockKey) || TextUtils.isEmpty(endtime) || TextUtils.isEmpty(starttime)) {
             showToast(getString(R.string.lock_info_error));
@@ -194,13 +196,15 @@ public class LockSentPasswordOne extends BaseActivity {
         }
     }
 
-    private void nextOne() {
+    private void nextStep() {
         String account = phone.getText().toString();
         if (!TextUtils.isEmpty(account)) {
             Intent i = new Intent(this, LockSentPasswordTwo.class);
-            i.putExtra("account", account);
-            i.putExtra("name", name.getText().toString());
-            i.putExtra("type", 2);
+            i.putExtra("account", account);//账号
+            i.putExtra("name", name.getText().toString());//备注名
+            i.putExtra("lockKey",lockKey);//密钥
+            i.putExtra("lock_name",lock_name);//门锁名
+            i.putExtra("endtime",endtime);//结束时间
             startActivity(i);
         } else {
             showToast(getString(R.string.no_write_phone));

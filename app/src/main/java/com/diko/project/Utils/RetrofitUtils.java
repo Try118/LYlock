@@ -86,6 +86,12 @@ public class RetrofitUtils {
         @POST("lock/changeLockName")
         Call<ResponseBody> changeLockName(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
 
+        //发送密码
+        @Multipart
+        @POST("Lock/GetLockPassword")
+        Call<ResponseBody> GetLockPassword(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
+
 //        //新建入库
 //        @Multipart
 //        @POST("goods/createGoods")

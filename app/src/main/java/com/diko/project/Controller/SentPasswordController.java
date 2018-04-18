@@ -3,6 +3,7 @@ package com.diko.project.Controller;
 import android.util.Log;
 
 import com.diko.project.Manager.InterfaceManger;
+import com.diko.project.Module.GetLockPassword;
 import com.diko.project.Module.Login;
 import com.diko.project.Utils.RetrofitUtils;
 import com.google.gson.Gson;
@@ -24,5 +25,46 @@ import retrofit2.Response;
  */
 
 public class SentPasswordController {
+    /**
+     * 发送密码
+     */
+    public static void GetLockPassword(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().GetLockPassword(map, parts);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (listener == null) {
+                    return;
+                }
+                if (!response.isSuccessful() || response == null) {
+                    listener.onError("服务器错误，error code:" + response.code());
+                    return;
+                }
+                try {
+                    String body = response.body().string();
+                    JSONObject jsonObject = new JSONObject(body);
+                    Log.e("body：", body);
 
+                    int code = jsonObject.getInt("code");
+                    Log.e("onResponse", String.valueOf(code));
+                    if (code == 1) {
+                        listener.onSuccess(new Gson().fromJson(body, GetLockPassword.class));
+                    } else {
+                        listener.onError("");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (listener == null) {
+                    return;
+                }
+                Log.e("onFailure", t.toString());
+                listener.onError(t.toString());
+            }
+        });
+    }
 }
