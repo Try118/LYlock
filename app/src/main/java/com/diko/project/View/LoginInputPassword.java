@@ -66,6 +66,7 @@ public class LoginInputPassword extends BaseActivity {
     public void processClick(View v) {
         switch (v.getId()){
             case R.id.input_forget_password:
+                startActivity(VerifyRegistration.class);
                 break;
             case R.id.login:
                 String account = input_account.getText().toString().trim();

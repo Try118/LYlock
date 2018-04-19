@@ -1,14 +1,17 @@
 package com.diko.project.View;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.diko.basemodule.Essential.BaseTemplate.BaseActivity;
 import com.diko.project.Controller.LoginController;
@@ -34,7 +37,7 @@ public class Login extends BaseActivity {
     private TextView nation;//国家+86
     private Button next;//下一步
     private String account;//账户
-    private String language;//语言
+    private static String temp;//为了解决内部类必须使用final类型的问题
 
     @Override
     public int getLayoutId() {
@@ -43,9 +46,9 @@ public class Login extends BaseActivity {
 
     @Override
     public void initViews() {
-        nation = (TextView) findView(R.id.nation);
-        phone = (EditText) findView(R.id.login_phone);
-        next = (Button) findView(R.id.login_next);
+        nation = findView(R.id.nation);
+        phone = findView(R.id.login_phone);
+        next = findView(R.id.login_next);
     }
 
     @Override
@@ -55,42 +58,18 @@ public class Login extends BaseActivity {
 
     @Override
     public void initData() {
-        language="zh";
-        if (language.equals("zh")) {
-            nation.setText("CN > +86");
-            phone.setInputType(InputType.TYPE_CLASS_PHONE);
-            phone.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    if (phone.length() == 11) {
-                        account = phone.getText().toString();
-                    }
-                    if (phone.length() > 11) {
-                        phone.setText(account);
-                    }
-                }
-            });
-        }
     }
 
     @Override
     public void processClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.login_next:
-                account=phone.getText().toString();
-                if(!TextUtils.isEmpty(account)){
+                account = phone.getText().toString().trim();
+                temp = account;
+                if (!TextUtils.isEmpty(account)) {
                     vefiyAccount(account);
-                }else{
+                } else {
                     showToast(getResources().getString(R.string.no_write_phone));
                 }
                 break;
@@ -100,27 +79,24 @@ public class Login extends BaseActivity {
     }
 
     private void vefiyAccount(String account) {
+        final List<String> photos = new ArrayList<>();
+
         List<MultipartBody.Part> parts = null;
+//        parts = RetrofitUtils.filesToMultipartBodyParts("photo", photos);
         Map<String, RequestBody> params = new HashMap<>();
+//        params.put("token", RetrofitUtils.convertToRequestBody(PrefManager.getToken()));
         params.put("account", RetrofitUtils.convertToRequestBody(account));
         LoginController.isexist(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
-                Intent i = new Intent(Login.this, LoginInputPassword.class);
-                startActivity(i);
-                finish();
+                startActivity(LoginInputPassword.class);
             }
 
             @Override
             public void onError(String error) {
-                if(error.equals("账号不存在")){
-                    Intent i = new Intent(Login.this, VerifyRegistration.class);
-                    startActivity(i);
-                    finish();
-                }else{
-                    showToast(error);
-                }
-
+                Intent intent = new Intent(Login.this, Registration.class);
+                intent.putExtra("account",temp);
+                startActivity(intent);
             }
 
             @Override

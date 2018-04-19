@@ -110,6 +110,11 @@ public class RetrofitUtils {
         @Multipart
         @POST("Lock/GetOpenLog")
         Call<ResponseBody> GetOpenLog(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
+        //获取验证码
+        @Multipart
+        @POST("user/GetVerifyCode")
+        Call<ResponseBody> GetVerifyCode(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
 //        //新建入库
 //        @Multipart
 //        @POST("goods/createGoods")

@@ -90,12 +90,55 @@ public class LoginController {
                     String body = response.body().string();
                     JSONObject jsonObject = new JSONObject(body);
                     int code = jsonObject.getInt("code");
+                    Log.e("onResponse:1111",body );
                     if (code == 1) {
                         listener.onSuccess(new Gson().fromJson(body, isexist.class));
-                    }
-                    if (code == 0) {
+                    }else {
                         listener.onError("账号不存在");
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                listener.onComplete();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (listener == null) {
+                    return;
+                }
+            }
+        });
+    }
+
+    /**
+     * 获取验证码
+     */
+    public static void GetVerifyCode(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().GetVerifyCode(map, parts);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (listener == null) {
+                    return;
+                }
+                if (!response.isSuccessful() || response == null) {
+                    listener.onError("服务器错误，error code:" + response.code());
+                    return;
+                }
+                try {
+                    String body = response.body().string();
+                    JSONObject jsonObject = new JSONObject(body);
+                    int code = jsonObject.getInt("code");
+                    Log.e("onResponse:11111111",body );
+//                    listener.onSuccess("123");
+                    listener.onError("未知错误");
+//                    if (body.contains("-1")||body.contains("1")) {
+//                        Log.e("onResponse:122323232","123412341234123413" );
+//                            listener.onSuccess("");
+//                    }else {
+//                        listener.onError("未知错误");
+//                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

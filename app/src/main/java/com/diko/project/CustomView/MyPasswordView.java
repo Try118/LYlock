@@ -154,14 +154,14 @@ public class MyPasswordView extends LinearLayout implements View.OnClickListener
 
                 case R.id.E3:
                     e3.clearFocus();
-                    e2.requestFocus();
                     e2.setText("");
+                    e2.requestFocus();
                     break;
 
                 case R.id.E4:
                     e4.clearFocus();
-                    e3.requestFocus();
                     e3.setText("");
+                    e3.requestFocus();
                     break;
             }
 
