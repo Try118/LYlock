@@ -199,4 +199,49 @@ public class LockSetController {
             }
         });
     }
+    /**
+     * 查看开锁记录
+     */
+    public static void GetOpenLog(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().GetOpenLog(map, parts);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (listener == null) {
+                    return;
+                }
+                if (!response.isSuccessful() || response == null) {
+                    Log.e("responseabc", String.valueOf(response));
+                    listener.onError("服务器错误，error code:" + response.code());
+                    return;
+                }
+                try {
+                    String body = response.body().string();
+//                    JSONObject jsonObject = new JSONObject(body);
+                    Log.e("onResponsettta", body);
+                    listener.onSuccess(body);
+//                    int code = jsonObject.getInt("code");
+//                    Log.e("onResponsettt", String.valueOf(code));
+//                    if (code == 1) {
+//                        listener.onSuccess(body);
+//                    } else {
+//                        listener.onError("修改名称失败");
+//                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                listener.onComplete();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (listener == null) {
+                    return;
+                }
+                Log.e("onFailureabc", t.toString());
+                listener.onError(t.toString());
+                listener.onComplete();
+            }
+        });
+    }
 }

@@ -73,6 +73,7 @@ public class MyLockAdapter extends BaseAdapter {
                 i.putExtra("lockKey",lists.get(p).getKey());
                 i.putExtra("address",lists.get(p).getAddress());
                 i.putExtra("power",lists.get(p).getPower());
+                i.putExtra("lockId",lists.get(p).getId());
                 i.putExtra("age","18");
                 Log.e("onClick:----- ",lists.get(p).getAddress()+lists.get(p).getKey()+"  "+lists.get(p).getEndtime()+"  "+lists.get(p).getStarttime()+"  "+lists.get(p).getLockname());
                 context.startActivity(i);

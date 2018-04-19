@@ -30,6 +30,7 @@ public class Select_look extends BaseActivity {
     private String lockKey;//相对应门锁的密钥
     private String address;//相对应的门锁地址
     private String power;//权限
+    private String lockId;
 
 
     @Override
@@ -68,6 +69,7 @@ public class Select_look extends BaseActivity {
         lockKey = i.getStringExtra("lockKey");
         address = i.getStringExtra("address");
         power=i.getStringExtra("power");
+        lockId=i.getStringExtra("lockId");
         Log.e("initData:---- ", lock_name + "00 " + starttime + " 00" + endtime + "00 " + lockKey + "00 " + address + "00");
         if(power.equals("3")){
             send_password.setVisibility(View.INVISIBLE);
@@ -133,6 +135,7 @@ public class Select_look extends BaseActivity {
         intent.putExtra("lockKey", lockKey);
         intent.putExtra("address", address);
         intent.putExtra("power",power);
+        intent.putExtra("lockId",lockId);
         startActivity(intent);
     }
 }

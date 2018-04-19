@@ -29,6 +29,7 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
     private String endtime;//相对应的门锁结束时间
     private String lockKey;//相对应门锁的密钥
     private String address;//相对应的门锁地址
+    private String lockId;//相对应的门锁ID
 
     @Override
     public int getLayoutId() {
@@ -69,6 +70,7 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
         endtime = i.getStringExtra("endtime");
         lockKey = i.getStringExtra("lockKey");
         address = i.getStringExtra("address");
+        lockId=i.getStringExtra("lockId");
     }
 
     @Override
@@ -102,7 +104,9 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
                 startActivity(SetUpdateLockTime.class);
                 break;
             case R.id.open_record:
-                startActivity(SetLockOpenLockRecord.class);
+                Intent i2 = new Intent(this, SetLockOpenLockRecord.class);
+                i2.putExtra("lockId",lockId);
+                startActivity(i2);
                 break;
             case R.id.giver_record:
                 Intent intent1 = new Intent(SetLock.this, SetLockAuthorizationRecord.class);

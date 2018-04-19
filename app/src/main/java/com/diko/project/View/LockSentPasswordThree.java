@@ -329,7 +329,6 @@ public class LockSentPasswordThree extends BaseActivity {
         return times;
     }
 
-
     public static String times(String time) {
         SimpleDateFormat sdr;
         sdr = new SimpleDateFormat("yyMMddHHmm");
@@ -337,5 +336,4 @@ public class LockSentPasswordThree extends BaseActivity {
         String times = sdr.format(new Date(lcc));
         return times;
     }
-
 }

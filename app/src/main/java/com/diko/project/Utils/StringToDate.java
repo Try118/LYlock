@@ -19,8 +19,7 @@ public class StringToDate {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = format.parse(time);
             return date.getTime();
-        }
-        catch (ParseException pe){
+        } catch (ParseException pe) {
             return 0;
         }
     }
@@ -28,22 +27,17 @@ public class StringToDate {
     public static String times(String time) {
         SimpleDateFormat sdr;
         sdr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        Log.e("-----------",BaseApplication.language);
-//        if(BaseApplication.language.equals("zh")){
-//            sdr = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        }
-//        else{
-//            sdr = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-//        }
         @SuppressWarnings("unused")
         long lcc = Long.valueOf(time);
-     //   int i = Integer.parseInt(time);
+        //   int i = Integer.parseInt(time);
         String times = sdr.format(new Date(lcc));
         return times;
     }
-    public static long StringToLong(String time){
+
+    public static long StringToLong(String time) {
         return TransferDate(times(time));
     }
+
     public static String times(String time, String form) {
         SimpleDateFormat sdr = new SimpleDateFormat(form);
         @SuppressWarnings("unused")

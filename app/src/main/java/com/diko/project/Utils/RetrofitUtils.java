@@ -106,6 +106,10 @@ public class RetrofitUtils {
         @POST("lock/cancelGive")
         Call<ResponseBody> cancelGive(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
 
+        //查看开锁记录
+        @Multipart
+        @POST("Lock/GetOpenLog")
+        Call<ResponseBody> GetOpenLog(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
 //        //新建入库
 //        @Multipart
 //        @POST("goods/createGoods")
