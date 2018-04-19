@@ -95,6 +95,17 @@ public class RetrofitUtils {
         @Multipart
         @POST("lock/GiveLock")
         Call<ResponseBody> GiveLock(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
+        //获得授权信息的接口
+        @Multipart
+        @POST("lock/ReadGive")
+        Call<ResponseBody> ReadGive(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
+        //删除授权的接口
+        @Multipart
+        @POST("lock/cancelGive")
+        Call<ResponseBody> cancelGive(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
 //        //新建入库
 //        @Multipart
 //        @POST("goods/createGoods")

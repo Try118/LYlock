@@ -105,7 +105,9 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
                 startActivity(SetLockOpenLockRecord.class);
                 break;
             case R.id.giver_record:
-                startActivity(SetLockAuthorizationRecord.class);
+                Intent intent1 = new Intent(SetLock.this, SetLockAuthorizationRecord.class);
+                intent1.putExtra("lockKey",lockKey);
+                startActivity(intent1);
                 break;
             case R.id.delete_all_password:
                 startActivity(SetLockDeleteAllPassword.class);

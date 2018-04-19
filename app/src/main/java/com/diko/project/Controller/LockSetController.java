@@ -114,4 +114,89 @@ public class LockSetController {
             }
         });
     }
+    /**
+     * 获取授权内容
+     */
+    public static void ReadGive(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().ReadGive(map, parts);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (listener == null) {
+                    return;
+                }
+                if (!response.isSuccessful() || response == null) {
+                    Log.e("response", String.valueOf(response));
+                    listener.onError("服务器错误，error code:" + response.code());
+                    return;
+                }
+                try {
+                    String body = response.body().string();
+                    Log.e("onResponse: ",body);
+                    Object object = body;
+                    if (!body.contains("error")) {
+                        listener.onSuccess(object);
+                    } else {
+                        listener.onError("未知错误");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                listener.onComplete();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (listener == null) {
+                    return;
+                }
+                Log.e("onFailure", t.toString());
+                listener.onError(t.toString());
+                listener.onComplete();
+            }
+        });
+    }
+
+    /**
+     * 删除授权门锁
+     */
+    public static void cancelGive (Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().cancelGive (map, parts);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (listener == null) {
+                    return;
+                }
+                if (!response.isSuccessful() || response == null) {
+                    Log.e("response", String.valueOf(response));
+                    listener.onError("服务器错误，error code:" + response.code());
+                    return;
+                }
+                try {
+                    String body = response.body().string();
+                    Log.e("onResponse: ",body);
+                    Object object = body;
+                    if (!body.contains("error")) {
+                        listener.onSuccess("删除成功");
+                    } else {
+                        listener.onError("未知错误");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                listener.onComplete();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (listener == null) {
+                    return;
+                }
+                Log.e("onFailure", t.toString());
+                listener.onError(t.toString());
+                listener.onComplete();
+            }
+        });
+    }
 }
