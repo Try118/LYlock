@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+import java.net.ConnectException;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +62,6 @@ public class LockSetController {
                         listener.onError(context.getString(R.string.correct_fault));
                     }
                 } catch (Exception e) {
-                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
                 listener.onComplete();
@@ -73,7 +73,11 @@ public class LockSetController {
                     return;
                 }
                 Log.e("onFailure", t.toString());
-                listener.onError(t.toString());
+                if (t.toString().contains("ConnectException")) {
+                    listener.onError(context.getString(R.string.no_internet));
+                } else {
+                    listener.onError(t.toString());
+                }
                 listener.onComplete();
             }
         });
@@ -108,7 +112,6 @@ public class LockSetController {
                         listener.onError(context.getString(R.string.correct_fault));
                     }
                 } catch (Exception e) {
-                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
                 listener.onComplete();
@@ -119,8 +122,12 @@ public class LockSetController {
                 if (listener == null) {
                     return;
                 }
+                if (t.toString().contains("ConnectException")) {
+                    listener.onError(context.getString(R.string.no_internet));
+                } else {
+                    listener.onError(t.toString());
+                }
                 Log.e("onFailure", t.toString());
-                listener.onError(t.toString());
                 listener.onComplete();
             }
         });
@@ -152,7 +159,6 @@ public class LockSetController {
                         listener.onError(context.getString(R.string.unknow_error));
                     }
                 } catch (Exception e) {
-                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
                 listener.onComplete();
@@ -164,7 +170,11 @@ public class LockSetController {
                     return;
                 }
                 Log.e("onFailure", t.toString());
-                listener.onError(t.toString());
+                if (t.toString().contains("ConnectException")) {
+                    listener.onError(context.getString(R.string.no_internet));
+                } else {
+                    listener.onError(t.toString());
+                }
                 listener.onComplete();
             }
         });
@@ -183,7 +193,7 @@ public class LockSetController {
                 }
                 if (!response.isSuccessful() || response == null) {
                     Log.e("response", String.valueOf(response));
-                    listener.onError( context.getString(R.string.server_error)+ response.code());
+                    listener.onError(context.getString(R.string.server_error) + response.code());
                     return;
                 }
                 try {
@@ -196,7 +206,6 @@ public class LockSetController {
                         listener.onError(context.getString(R.string.unknow_error));
                     }
                 } catch (Exception e) {
-                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
                 listener.onComplete();
@@ -208,7 +217,11 @@ public class LockSetController {
                     return;
                 }
                 Log.e("onFailure", t.toString());
-                listener.onError(t.toString());
+                if (t.toString().contains("ConnectException")) {
+                    listener.onError(context.getString(R.string.no_internet));
+                } else {
+                    listener.onError(t.toString());
+                }
                 listener.onComplete();
             }
         });
@@ -235,7 +248,6 @@ public class LockSetController {
                     Log.e("onResponsettta", body);
                     listener.onSuccess(body);
                 } catch (Exception e) {
-                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
                 listener.onComplete();
@@ -247,7 +259,11 @@ public class LockSetController {
                     return;
                 }
                 Log.e("onFailureabc", t.toString());
-                listener.onError(t.toString());
+                if (t.toString().contains("ConnectException")) {
+                    listener.onError(context.getString(R.string.no_internet));
+                } else {
+                    listener.onError(t.toString());
+                }
                 listener.onComplete();
             }
         });

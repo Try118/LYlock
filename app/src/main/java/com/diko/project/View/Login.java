@@ -73,6 +73,7 @@ public class Login extends BaseActivity {
     }
 
     private void vefiyAccount(String account) {
+        LoginController loginController = new LoginController(this);
         final List<String> photos = new ArrayList<>();
 
         List<MultipartBody.Part> parts = null;
@@ -80,7 +81,7 @@ public class Login extends BaseActivity {
         Map<String, RequestBody> params = new HashMap<>();
 //        params.put("token", RetrofitUtils.convertToRequestBody(PrefManager.getToken()));
         params.put("account", RetrofitUtils.convertToRequestBody(account));
-        LoginController.isexist(params, parts, new InterfaceManger.OnRequestListener() {
+        loginController.isexist(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
                 startActivity(LoginInputPassword.class);

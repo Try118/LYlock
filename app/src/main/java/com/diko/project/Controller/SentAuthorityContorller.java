@@ -70,7 +70,11 @@ public class SentAuthorityContorller {
                     return;
                 }
                 Log.e("onFailure", t.toString());
-                listener.onError(t.toString());
+                if (t.toString().contains("ConnectException")) {
+                    listener.onError(context.getString(R.string.no_internet));
+                } else {
+                    listener.onError(t.toString());
+                }
                 listener.onComplete();
             }
         });
