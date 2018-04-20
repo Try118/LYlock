@@ -128,17 +128,7 @@ public class LoginController {
                 }
                 try {
                     String body = response.body().string();
-                    JSONObject jsonObject = new JSONObject(body);
-                    int code = jsonObject.getInt("code");
-                    Log.e("onResponse:11111111",body );
-//                    listener.onSuccess("123");
-                    listener.onError("未知错误");
-//                    if (body.contains("-1")||body.contains("1")) {
-//                        Log.e("onResponse:122323232","123412341234123413" );
-//                            listener.onSuccess("");
-//                    }else {
-//                        listener.onError("未知错误");
-//                    }
+                    listener.onSuccess("");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

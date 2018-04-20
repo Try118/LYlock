@@ -43,6 +43,7 @@ public class Registration extends BaseActivity {
             if(second==0){
                 resend.setText(getResources().getString(R.string.click_send));
                 resend.setEnabled(true);
+                send_state.setText("点击获取验证码");
             }
             else{
                 handler.postDelayed(this,1000);
@@ -97,7 +98,11 @@ public class Registration extends BaseActivity {
         LoginController.GetVerifyCode(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
-
+                send_state.setText("验证码已经发送到"+" "+account);
+                resend.setEnabled(false);
+                second=60;
+                handler.postDelayed(r,1000);
+                verifyCode.reInput();
             }
 
             @Override
@@ -107,12 +112,7 @@ public class Registration extends BaseActivity {
 
             @Override
             public void onComplete() {
-                send_state.setText("验证码已经发送到"+" "+account);
-                resend.setEnabled(false);
-                second=60;
-                handler.postDelayed(r,1000);
-                verifyCode.reInput();
-                send_state.setText("点击获取验证码");
+
             }
         });
     }
