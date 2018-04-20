@@ -42,7 +42,8 @@
         <activity android:name=".View.SetLockDeleteAllPassword" />
         <activity android:name=".View.SetLockDeletePage" />
         <activity android:name=".View.LoginInputPassword" />
-        <activity android:name=".View.Registration"/>
+        <activity android:name=".View.RegistrationCode"/>
+        <activity android:name=".View.Register"/>
     </application>
 
 </manifest>

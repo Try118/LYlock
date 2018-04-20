@@ -143,4 +143,89 @@ public class LoginController {
             }
         });
     }
+
+    /**
+     * 验证验证码
+     */
+    public static void VerifyCode(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().VerifyCode(map, parts);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (listener == null) {
+                    return;
+                }
+                if (!response.isSuccessful() || response == null) {
+                    listener.onError("服务器错误，error code:" + response.code());
+                    return;
+                }
+                try {
+                    String body = response.body().string();
+                    JSONObject jsonObject = new JSONObject(body);
+                    int code = jsonObject.getInt("code");
+                    if (code == 1){
+                        listener.onSuccess("检验正确");
+                    }
+                    if (code == 31){
+                        listener.onError("验证码错误");
+                    }
+                    if(code == 33){
+                        listener.onError("验证码超过时间");
+                    }
+                    if (code == 2){
+                        listener.onError("账号格式错误");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                listener.onComplete();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (listener == null) {
+                    return;
+                }
+            }
+        });
+    }
+
+    /**
+     * 注册接口
+     */
+    public static void signUp(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().signUp(map, parts);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (listener == null) {
+                    return;
+                }
+                if (!response.isSuccessful() || response == null) {
+                    listener.onError("服务器错误，error code:" + response.code());
+                    return;
+                }
+                try {
+                    String body = response.body().string();
+                    JSONObject jsonObject = new JSONObject(body);
+                    int code = jsonObject.getInt("code");
+                    if (code == 1){
+                        listener.onSuccess("检验正确");
+                    }else{
+                        listener.onError("未知错误");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                listener.onComplete();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (listener == null) {
+                    return;
+                }
+            }
+        });
+    }
 }

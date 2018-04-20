@@ -115,6 +115,16 @@ public class RetrofitUtils {
         @Multipart
         @POST("user/GetVerifyCode")
         Call<ResponseBody> GetVerifyCode(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
+        //验证验证码
+        @Multipart
+        @POST("user/VerifyCode")
+        Call<ResponseBody> VerifyCode(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
+        //注册账号接口
+        @Multipart
+        @POST("User/signUp")
+        Call<ResponseBody> signUp(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
 //        //新建入库
 //        @Multipart
 //        @POST("goods/createGoods")

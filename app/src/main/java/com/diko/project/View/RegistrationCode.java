@@ -11,6 +11,7 @@ import com.diko.project.Controller.LoginController;
 import com.diko.project.CustomView.MyPasswordView;
 import com.diko.project.Manager.InterfaceManger;
 import com.diko.project.R;
+import com.diko.project.Utils.Callback;
 import com.diko.project.Utils.RetrofitUtils;
 
 import java.util.ArrayList;
@@ -26,13 +27,13 @@ import okhttp3.RequestBody;
  * 修改密码里的输入验证码
  */
 
-public class Registration extends BaseActivity {
+public class RegistrationCode extends BaseActivity {
     private MyPasswordView verifyCode;
     private TextView correct_back;//返回键
     private TextView resend;//发送验证码
     private TextView send_state;//验证码发送状态
 
-    private String account = "17875305747";//待注册账号
+    private String account;//待注册账号
     Handler handler=new Handler();
     private int second=60;
     Runnable r=new Runnable() {
@@ -44,6 +45,7 @@ public class Registration extends BaseActivity {
                 resend.setText(getResources().getString(R.string.click_send));
                 resend.setEnabled(true);
                 send_state.setText("点击获取验证码");
+                verifyCode.reInput();
             }
             else{
                 handler.postDelayed(this,1000);
@@ -68,12 +70,44 @@ public class Registration extends BaseActivity {
     public void initListener() {
         correct_back.setOnClickListener(this);
         resend.setOnClickListener(this);
+        Callback mycallback = new Callback() {
+            @Override
+            public void excute() {
+                String text = verifyCode.getText();
+                final List<String> photos = new ArrayList<>();
+                List<MultipartBody.Part> parts = null;
+                Map<String, RequestBody> params = new HashMap<>();
+                params.put("account", RetrofitUtils.convertToRequestBody(account));
+                params.put("code", RetrofitUtils.convertToRequestBody(text));
+                LoginController.VerifyCode(params, parts, new InterfaceManger.OnRequestListener() {
+                    @Override
+                    public void onSuccess(Object success) {
+                        showToast(String.valueOf(success));
+                        Intent intent = new Intent(RegistrationCode.this, Register.class);
+                        intent.putExtra("account",account);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        showToast(error);
+                        verifyCode.reInput();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+            }
+        };
+        verifyCode.setCallback(mycallback);
     }
 
     @Override
     public void initData() {
-//        Intent intent = getIntent();
-//        account = intent.getStringExtra("account");
+        Intent intent = getIntent();
+        account = intent.getStringExtra("account");
     }
 
     @Override

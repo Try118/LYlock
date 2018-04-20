@@ -15,6 +15,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.diko.project.R;
+import com.diko.project.Utils.Callback;
 
 
 /**
@@ -27,9 +28,9 @@ public class MyPasswordView extends LinearLayout implements View.OnClickListener
     EditText e3;
     EditText e4;
     Context c;
-    myCallback callback=new myCallback() {
+    Callback mycallback = new Callback() {
         @Override
-        public void execute() {
+        public void excute() {
 
         }
     };
@@ -66,8 +67,8 @@ public class MyPasswordView extends LinearLayout implements View.OnClickListener
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
     }
-    public void setCallback(myCallback callback){
-        this.callback=callback;
+    public void setCallback(Callback callback){
+        this.mycallback=callback;
     }
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -94,7 +95,7 @@ public class MyPasswordView extends LinearLayout implements View.OnClickListener
 //                e4.clearFocus();
   //              e1.setSelection(e1.getText().length());//将光标移至文字末尾
                 noInput();
-                callback.execute();
+                mycallback.excute();
             }
 
         }
@@ -107,9 +108,7 @@ public class MyPasswordView extends LinearLayout implements View.OnClickListener
     @Override
     public void afterTextChanged(Editable s) {
     }
-    public interface myCallback{
-        void execute();
-    }
+
     public void reInput(){
         e1.setEnabled(true);
         e2.setEnabled(true);
