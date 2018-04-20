@@ -89,14 +89,14 @@ public class Login extends BaseActivity {
 
             @Override
             public void onError(String error) {
-                Intent intent = new Intent(Login.this, RegistrationCode.class);
-                intent.putExtra("account",temp);
-                startActivity(intent);
+                showToast(error);
             }
 
             @Override
             public void onComplete() {
-
+                Intent intent = new Intent(Login.this, RegistrationCode.class);
+                intent.putExtra("account",temp);
+                startActivity(intent);
             }
         });
     }

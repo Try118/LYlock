@@ -106,13 +106,12 @@ public class LoginController {
                     if (code == 1) {
                         listener.onSuccess(new Gson().fromJson(body, isexist.class));
                     }else {
-                        listener.onError(context.getString(R.string.account_not_exist));
+                        listener.onComplete();
                     }
                 } catch (Exception e) {
                     listener.onError(e.toString());
                     e.printStackTrace();
                 }
-                listener.onComplete();
             }
 
             @Override
