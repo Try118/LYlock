@@ -16,7 +16,7 @@
             android:paddingLeft="12dp"
             android:paddingRight="36dp"></ListView>
 
-        <com.diko.project.CustomView.LetterIndexView
+        <com.LY.project.CustomView.LetterIndexView
             android:id="@+id/letter_index_view"
             android:layout_width="36dp"
             android:layout_height="match_parent"

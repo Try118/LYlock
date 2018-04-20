@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.diko.project">
+    package="com.LY.project">
 
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -11,40 +11,40 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".View.MainPage">
+        <activity android:name="com.LY.project.View.MainPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.Login" />
-        <activity android:name=".View.LegalProvisions" />
-        <activity android:name=".View.AddLock" />
-        <activity android:name=".View.SearchDoorLock2" />
-        <activity android:name=".View.Select_look" />
-        <activity android:name=".View.Setting" />
-        <activity android:name=".View.GestureSetting" />
-        <activity android:name=".View.VerifyRegistration" />
-        <activity android:name=".View.SetLock" />
-        <activity android:name=".View.LockSentAuthorityOne" />
-        <activity android:name=".View.LockSentPasswordOne" />
-        <activity android:name=".View.LockSentPasswordTwo" />
-        <activity android:name=".View.LockSentAuthorityTwo" />
-        <activity android:name=".View.LockSentPasswordThree" />
-        <activity android:name=".View.LockSentAuthorityThree" />
-        <activity android:name=".View.SetLockName" />
-        <activity android:name=".View.SetLockPassword" />
-        <activity android:name=".View.SetLockAddress" />
-        <activity android:name=".View.SetUpdateLockTime" />
-        <activity android:name=".View.SetLockOpenLockRecord" />
-        <activity android:name=".View.SetLockAuthorizationRecord" />
-        <activity android:name=".View.SetLockDeleteAllPassword" />
-        <activity android:name=".View.SetLockDeletePage" />
-        <activity android:name=".View.LoginInputPassword" />
-        <activity android:name=".View.RegistrationCode"/>
-        <activity android:name=".View.Register"/>
-        <activity android:name=".View.RevisePassword"/>
+        <activity android:name="com.LY.project.View.Login" />
+        <activity android:name="com.LY.project.View.LegalProvisions" />
+        <activity android:name="com.LY.project.View.AddLock" />
+        <activity android:name="com.LY.project.View.SearchDoorLock2" />
+        <activity android:name="com.LY.project.View.Select_look" />
+        <activity android:name="com.LY.project.View.Setting" />
+        <activity android:name="com.LY.project.View.GestureSetting" />
+        <activity android:name="com.LY.project.View.VerifyRegistration" />
+        <activity android:name="com.LY.project.View.SetLock" />
+        <activity android:name="com.LY.project.View.LockSentAuthorityOne" />
+        <activity android:name="com.LY.project.View.LockSentPasswordOne" />
+        <activity android:name="com.LY.project.View.LockSentPasswordTwo" />
+        <activity android:name="com.LY.project.View.LockSentAuthorityTwo" />
+        <activity android:name="com.LY.project.View.LockSentPasswordThree" />
+        <activity android:name="com.LY.project.View.LockSentAuthorityThree" />
+        <activity android:name="com.LY.project.View.SetLockName" />
+        <activity android:name="com.LY.project.View.SetLockPassword" />
+        <activity android:name="com.LY.project.View.SetLockAddress" />
+        <activity android:name="com.LY.project.View.SetUpdateLockTime" />
+        <activity android:name="com.LY.project.View.SetLockOpenLockRecord" />
+        <activity android:name="com.LY.project.View.SetLockAuthorizationRecord" />
+        <activity android:name="com.LY.project.View.SetLockDeleteAllPassword" />
+        <activity android:name="com.LY.project.View.SetLockDeletePage" />
+        <activity android:name="com.LY.project.View.LoginInputPassword" />
+        <activity android:name="com.LY.project.View.RegistrationCode"/>
+        <activity android:name="com.LY.project.View.Register"/>
+        <activity android:name="com.LY.project.View.RevisePassword"/>
     </application>
 
 </manifest>

@@ -23,7 +23,7 @@
         <TextView
             style="@style/forward"/>
     </RelativeLayout>
-    <com.diko.project.CustomView.MyFastMenuBar
+    <com.LY.project.CustomView.MyFastMenuBar
         android:id="@+id/correct_lock_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
         app:fmb_icon="@drawable/modify"
         app:fmb_title="@string/Correct_Lock_name"
         />
-    <com.diko.project.CustomView.MyFastMenuBar
+    <com.LY.project.CustomView.MyFastMenuBar
         android:id="@+id/correct_lock_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         app:fmb_icon="@drawable/modify"
         app:fmb_title="@string/Correct_Lock_address"
         />
-    <com.diko.project.CustomView.MyFastMenuBar
+    <com.LY.project.CustomView.MyFastMenuBar
         android:id="@+id/set_open_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
         app:fmb_icon="@drawable/password"
         app:fmb_title="@string/Setting_Lock_Pw"
         />
-    <com.diko.project.CustomView.MyFastMenuBar
+    <com.LY.project.CustomView.MyFastMenuBar
         android:id="@+id/updated_lock_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
         app:fmb_icon="@drawable/update_lock_time"
         app:fmb_title="@string/update_lock_time"
         />
-    <com.diko.project.CustomView.MyFastMenuBar
+    <com.LY.project.CustomView.MyFastMenuBar
         android:id="@+id/open_record"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
         app:fmb_icon="@drawable/record"
         app:fmb_title="@string/Open_Lock_records"
         />
-    <com.diko.project.CustomView.MyFastMenuBar
+    <com.LY.project.CustomView.MyFastMenuBar
         android:id="@+id/giver_record"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
         app:fmb_icon="@drawable/record"
         app:fmb_title="@string/Authorization_Records"
         />
-    <com.diko.project.CustomView.MyFastMenuBar
+    <com.LY.project.CustomView.MyFastMenuBar
         android:id="@+id/delete_all_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
         app:fmb_icon="@drawable/delete"
         app:fmb_title="@string/delete_all_password"
         />
-    <com.diko.project.CustomView.MyFastMenuBar
+    <com.LY.project.CustomView.MyFastMenuBar
         android:id="@+id/delete_lock"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
