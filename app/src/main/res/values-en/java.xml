@@ -154,4 +154,5 @@
     <string name="account_format_error">Account format error</string>
     <string name="correct_success">correct success</string>
     <string name="account_not_exist">account not exist</string>
+
 </resources>
