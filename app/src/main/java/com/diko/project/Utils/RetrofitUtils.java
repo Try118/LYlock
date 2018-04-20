@@ -125,6 +125,11 @@ public class RetrofitUtils {
         @Multipart
         @POST("User/signUp")
         Call<ResponseBody> signUp(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
+        //修改密码接口
+        @Multipart
+        @POST("user/forgetPassword")
+        Call<ResponseBody> forgetPassword(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
 //        //新建入库
 //        @Multipart
 //        @POST("goods/createGoods")

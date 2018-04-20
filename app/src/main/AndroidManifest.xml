@@ -44,6 +44,7 @@
         <activity android:name=".View.LoginInputPassword" />
         <activity android:name=".View.RegistrationCode"/>
         <activity android:name=".View.Register"/>
+        <activity android:name=".View.RevisePassword"/>
     </application>
 
 </manifest>

@@ -37,7 +37,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="@string/send_code"
+            android:text="点击获取验证码"
             android:textSize="@dimen/text_normal" />
 
         <TextView
@@ -47,7 +47,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:background="@drawable/rectangle"
-            android:text="@string/compare_resend"
+            android:text="获取验证码"
             android:textSize="@dimen/text_emphasize" />
         <!--<LinearLayout
             android:layout_marginTop="30dp"

@@ -33,7 +33,8 @@ public class RegistrationCode extends BaseActivity {
     private TextView resend;//发送验证码
     private TextView send_state;//验证码发送状态
 
-    private String account;//待注册账号
+    private String account
+            ;//待注册账号
     Handler handler=new Handler();
     private int second=60;
     Runnable r=new Runnable() {
