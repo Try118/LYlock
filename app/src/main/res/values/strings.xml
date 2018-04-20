@@ -62,7 +62,7 @@
     <string name="sending_password">发送密码</string>
     <string name="next">下一步</string>
     <string name="sent_password_news">点击即可马上发送密码</string>
-    <string name="no_internet">没有网络！请打开网络</string>
+    <string name="no_internet">网络连接失败 请稍后再试</string>
     <string name="JumpAfter2s">2s后跳转</string>
     <string name="unknown_error">unknown error</string>
     <string name="no_write_phone">未填写手机号码</string>
@@ -87,4 +87,5 @@
     <string name="input_name">输入备注名</string>
     <string name="set_the_reset_password">设置恢复出厂密码</string>
     <string name="delete_all_password">删除所有密码</string>
+    <string name="network_anomaly">网络异常</string>
 </resources>

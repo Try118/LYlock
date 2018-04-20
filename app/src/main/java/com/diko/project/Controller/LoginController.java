@@ -33,6 +33,7 @@ public class LoginController {
     public LoginController(Context context) {
         this.context = context;
     }
+
     /**
      * 登录模块
      */
@@ -45,7 +46,7 @@ public class LoginController {
                     return;
                 }
                 if (!response.isSuccessful() || response == null) {
-                    listener.onError(context.getString(R.string.server_error)+ response.code());
+                    listener.onError(context.getString(R.string.server_error) + response.code());
                     return;
                 }
                 try {
@@ -76,7 +77,7 @@ public class LoginController {
                 if (t.toString().contains("ConnectException")) {
                     listener.onError(context.getString(R.string.no_internet));
                 } else {
-                    listener.onError(t.toString());
+                    listener.onError(context.getString(R.string.network_anomaly));
                 }
                 listener.onComplete();
             }
@@ -102,10 +103,10 @@ public class LoginController {
                     String body = response.body().string();
                     JSONObject jsonObject = new JSONObject(body);
                     int code = jsonObject.getInt("code");
-                    Log.e("onResponse:1111",body );
+                    Log.e("onResponse:1111", body);
                     if (code == 1) {
                         listener.onSuccess(new Gson().fromJson(body, isexist.class));
-                    }else {
+                    } else {
                         listener.onComplete();
                     }
                 } catch (Exception e) {
@@ -122,7 +123,7 @@ public class LoginController {
                 if (t.toString().contains("ConnectException")) {
                     listener.onError(context.getString(R.string.no_internet));
                 } else {
-                    listener.onError(t.toString());
+                    listener.onError(context.getString(R.string.network_anomaly));
                 }
             }
         });
@@ -161,7 +162,7 @@ public class LoginController {
                 if (t.toString().contains("ConnectException")) {
                     listener.onError(context.getString(R.string.no_internet));
                 } else {
-                    listener.onError(t.toString());
+                    listener.onError(context.getString(R.string.network_anomaly));
                 }
             }
         });
@@ -186,16 +187,16 @@ public class LoginController {
                     String body = response.body().string();
                     JSONObject jsonObject = new JSONObject(body);
                     int code = jsonObject.getInt("code");
-                    if (code == 1){
+                    if (code == 1) {
                         listener.onSuccess(context.getString(R.string.success));
                     }
-                    if (code == 31){
+                    if (code == 31) {
                         listener.onError(context.getString(R.string.rewrite_code));
                     }
-                    if(code == 33){
+                    if (code == 33) {
                         listener.onError(context.getString(R.string.verification_code_over_time));
                     }
-                    if (code == 2){
+                    if (code == 2) {
                         listener.onError(context.getString(R.string.account_format_error));
                     }
                 } catch (Exception e) {
@@ -213,7 +214,7 @@ public class LoginController {
                 if (t.toString().contains("ConnectException")) {
                     listener.onError(context.getString(R.string.no_internet));
                 } else {
-                    listener.onError(t.toString());
+                    listener.onError(context.getString(R.string.network_anomaly));
                 }
             }
         });
@@ -238,9 +239,9 @@ public class LoginController {
                     String body = response.body().string();
                     JSONObject jsonObject = new JSONObject(body);
                     int code = jsonObject.getInt("code");
-                    if (code == 1){
+                    if (code == 1) {
                         listener.onSuccess(context.getString(R.string.register_success));
-                    }else{
+                    } else {
                         listener.onError(context.getString(R.string.unknow_error));
                     }
                 } catch (Exception e) {
@@ -258,7 +259,7 @@ public class LoginController {
                 if (t.toString().contains("ConnectException")) {
                     listener.onError(context.getString(R.string.no_internet));
                 } else {
-                    listener.onError(t.toString());
+                    listener.onError(context.getString(R.string.network_anomaly));
                 }
             }
         });
@@ -283,9 +284,9 @@ public class LoginController {
                     String body = response.body().string();
                     JSONObject jsonObject = new JSONObject(body);
                     int code = jsonObject.getInt("code");
-                    if (code == 1){
+                    if (code == 1) {
                         listener.onSuccess(context.getString(R.string.correct_success));
-                    }else{
+                    } else {
                         listener.onError(context.getString(R.string.unknow_error));
                     }
                 } catch (Exception e) {
@@ -302,7 +303,7 @@ public class LoginController {
                 if (t.toString().contains("ConnectException")) {
                     listener.onError(context.getString(R.string.no_internet));
                 } else {
-                    listener.onError(t.toString());
+                    listener.onError(context.getString(R.string.network_anomaly));
                 }
             }
         });

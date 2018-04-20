@@ -77,7 +77,7 @@ public class LockController{
                 if (t.toString().contains("ConnectException")) {
                     listener.onError(context.getString(R.string.no_internet));
                 } else {
-                    listener.onError(t.toString());
+                    listener.onError(context.getString(R.string.network_anomaly));
                 }
                 listener.onComplete();
             }

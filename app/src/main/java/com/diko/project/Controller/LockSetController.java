@@ -76,7 +76,7 @@ public class LockSetController {
                 if (t.toString().contains("ConnectException")) {
                     listener.onError(context.getString(R.string.no_internet));
                 } else {
-                    listener.onError(t.toString());
+                    listener.onError(context.getString(R.string.network_anomaly));
                 }
                 listener.onComplete();
             }
@@ -125,7 +125,7 @@ public class LockSetController {
                 if (t.toString().contains("ConnectException")) {
                     listener.onError(context.getString(R.string.no_internet));
                 } else {
-                    listener.onError(t.toString());
+                    listener.onError(context.getString(R.string.network_anomaly));
                 }
                 Log.e("onFailure", t.toString());
                 listener.onComplete();
@@ -173,7 +173,7 @@ public class LockSetController {
                 if (t.toString().contains("ConnectException")) {
                     listener.onError(context.getString(R.string.no_internet));
                 } else {
-                    listener.onError(t.toString());
+                    listener.onError(context.getString(R.string.network_anomaly));
                 }
                 listener.onComplete();
             }
@@ -220,7 +220,7 @@ public class LockSetController {
                 if (t.toString().contains("ConnectException")) {
                     listener.onError(context.getString(R.string.no_internet));
                 } else {
-                    listener.onError(t.toString());
+                    listener.onError(context.getString(R.string.network_anomaly));
                 }
                 listener.onComplete();
             }
@@ -262,7 +262,7 @@ public class LockSetController {
                 if (t.toString().contains("ConnectException")) {
                     listener.onError(context.getString(R.string.no_internet));
                 } else {
-                    listener.onError(t.toString());
+                    listener.onError(context.getString(R.string.network_anomaly));
                 }
                 listener.onComplete();
             }

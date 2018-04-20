@@ -150,5 +150,5 @@
 
     <string name="Phone_number_login">Log In Via Mobile Number</string>
     <string name="delete_all_password">Clear all passwords</string>
-
+    <string name="network_anomaly">network anomaly</string>
 </resources>
