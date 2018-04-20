@@ -197,6 +197,7 @@ public class LockSentAuthorityThree extends BaseActivity {
 
     // Log.e("initData:----", phone + " " + password + " " + lockKey + " " + customer + " " + customerName + " " + customerPower);
     private void deliver(long starttime, long endtime) {
+        SentAuthorityContorller sentAuthorityContorller = new SentAuthorityContorller(this);
         customer = customer.replace(" ","");
         Log.e("initData:----", phone + " " + password + " " + lockKey + " " + customer + " " + customerName + " " + customerPower + " " + starttime + " " + endtime);
         List<MultipartBody.Part> parts = null;
@@ -209,7 +210,7 @@ public class LockSentAuthorityThree extends BaseActivity {
         params.put("customer", RetrofitUtils.convertToRequestBody(customer));
         params.put("customerName", RetrofitUtils.convertToRequestBody(customerName));
         params.put("customerPower", RetrofitUtils.convertToRequestBody(String.valueOf(customerPower)));
-        SentAuthorityContorller.GiveLock(params, parts, new InterfaceManger.OnRequestListener() {
+        sentAuthorityContorller.GiveLock(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
                 showToast("授权成功");

@@ -174,6 +174,7 @@ public class LockSentPasswordThree extends BaseActivity {
 
 
     private void nextOne() {
+        SentPasswordController sentPasswordController = new SentPasswordController(this);
         String starttime = String.valueOf(StringToDate.TransferDate(start_time.getText().toString()) / 1000);
         String endtime = String.valueOf(StringToDate.TransferDate(end_time.getText().toString()) / 1000);
         List<MultipartBody.Part> parts = null;
@@ -185,7 +186,7 @@ public class LockSentPasswordThree extends BaseActivity {
                 params.put("endTime", RetrofitUtils.convertToRequestBody("0"));
                 params.put("key", RetrofitUtils.convertToRequestBody(lockKey));
                 params.put("type", RetrofitUtils.convertToRequestBody("0"));
-                SentPasswordController.GetLockPassword(params, parts, new InterfaceManger.OnRequestListener() {
+                sentPasswordController.GetLockPassword(params, parts, new InterfaceManger.OnRequestListener() {
                     @Override
                     public void onSuccess(Object success) {
                         GetLockPassword data = (GetLockPassword) success;
@@ -214,7 +215,7 @@ public class LockSentPasswordThree extends BaseActivity {
                 params.put("endTime", RetrofitUtils.convertToRequestBody(times(String.valueOf(Long.valueOf(endtime) * 10001))));
                 params.put("key", RetrofitUtils.convertToRequestBody(lockKey));
                 params.put("type", RetrofitUtils.convertToRequestBody("0"));
-                SentPasswordController.GetLockPassword(params, parts, new InterfaceManger.OnRequestListener() {
+                sentPasswordController.GetLockPassword(params, parts, new InterfaceManger.OnRequestListener() {
                     @Override
                     public void onSuccess(Object success) {
                         GetLockPassword data = (GetLockPassword) success;

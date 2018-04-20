@@ -1,8 +1,10 @@
 package com.diko.project.Controller;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.diko.project.Manager.InterfaceManger;
+import com.diko.project.R;
 import com.diko.project.Utils.RetrofitUtils;
 
 import org.json.JSONObject;
@@ -22,6 +24,12 @@ import retrofit2.Response;
  */
 
 public class SentAuthorityContorller {
+
+    private static Context context;
+
+    public SentAuthorityContorller(Context context) {
+        this.context = context;
+    }
     /**
      * 授权门锁
      */
@@ -34,11 +42,11 @@ public class SentAuthorityContorller {
                     return;
                 }
                 if (!response.isSuccessful() || response == null) {
-                    listener.onError("服务器错误，error code:" + response.code());
+                    listener.onError(context.getString(R.string.server_error) + response.code());
                     return;
                 }
                 try {
-                    String body = response.body().string().toString();
+                    String body = response.body().string();
                     JSONObject jsonObject = new JSONObject(body);
                     Log.e("onResponse", body);
 
@@ -47,9 +55,10 @@ public class SentAuthorityContorller {
                     if (code == 1) {
                         listener.onSuccess(body);
                     } else {
-                        listener.onError("授权失败");
+                        listener.onError(context.getString(R.string.impower_failed));
                     }
                 } catch (Exception e) {
+                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
                 listener.onComplete();

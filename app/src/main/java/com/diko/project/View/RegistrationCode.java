@@ -69,6 +69,7 @@ public class RegistrationCode extends BaseActivity {
 
     @Override
     public void initListener() {
+        final LoginController loginController = new LoginController(this);
         correct_back.setOnClickListener(this);
         resend.setOnClickListener(this);
         Callback mycallback = new Callback() {
@@ -80,7 +81,7 @@ public class RegistrationCode extends BaseActivity {
                 Map<String, RequestBody> params = new HashMap<>();
                 params.put("account", RetrofitUtils.convertToRequestBody(account));
                 params.put("code", RetrofitUtils.convertToRequestBody(text));
-                LoginController.VerifyCode(params, parts, new InterfaceManger.OnRequestListener() {
+                loginController.VerifyCode(params, parts, new InterfaceManger.OnRequestListener() {
                     @Override
                     public void onSuccess(Object success) {
                         showToast(String.valueOf(success));

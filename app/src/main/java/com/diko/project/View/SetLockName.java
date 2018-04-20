@@ -89,16 +89,17 @@ public class SetLockName extends BaseActivity {
     }
 
     private void revise_name() {
+        LockSetController lockSetController = new LockSetController(this);
         List<MultipartBody.Part> parts = null;
         Map<String, RequestBody> params = new HashMap<>();
         params.put("phone", RetrofitUtils.convertToRequestBody(account));
         params.put("password", RetrofitUtils.convertToRequestBody(password));
         params.put("lockKey", RetrofitUtils.convertToRequestBody(lockKey));
         params.put("name", RetrofitUtils.convertToRequestBody(lockName));
-        LockSetController.changeLockName(params, parts, new InterfaceManger.OnRequestListener() {
+        lockSetController.changeLockName(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
-                showToast("修改成功");
+                showToast(getResources().getString(R.string.correct_success));
                 finish();
             }
 

@@ -1,12 +1,16 @@
 package com.diko.project.Controller;
 
+import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.diko.project.Manager.InterfaceManger;
 import com.diko.project.Module.Login;
 import com.diko.project.Module.ReadAllLock;
+import com.diko.project.R;
 import com.diko.project.Utils.RetrofitUtils;
+import com.diko.project.View.AddLock;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -25,10 +29,18 @@ import retrofit2.Response;
  * Created by jie on 2018/4/14.
  */
 
-public class LockController {
+public class LockController{
+
+    private static Context context;
+
+    public LockController(Context context) {
+        this.context=context;
+    }
+
     /**
      * 门锁信息列表模块
      */
+
     public static void ReadAllLock(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
         Call<ResponseBody> call = RetrofitUtils.getInstance().ReadAllLock(map, parts);
         call.enqueue(new Callback<ResponseBody>() {
@@ -38,7 +50,7 @@ public class LockController {
                     return;
                 }
                 if (!response.isSuccessful() || response == null) {
-                    listener.onError("服务器错误，error code:" + response.code());
+                    listener.onError(context.getString(R.string.server_error)+ response.code());
                     return;
                 }
                 try {
@@ -47,9 +59,10 @@ public class LockController {
                     if (!body.contains("error")) {
                         listener.onSuccess(object);
                     } else {
-                        listener.onError("未知错误");
+                        listener.onError(context.getString(R.string.unknow_error));
                     }
                 } catch (Exception e) {
+                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
                 listener.onComplete();

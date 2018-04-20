@@ -78,4 +78,15 @@
     <string name="Invited_users"> 点击即可邀请用户 </string>
     <string name="login_way">手机登陆</string>
     <string name="contract">联系人</string>
+
+    <string name="server_error">服务器错误,error code:</string>
+    <string name="impower_failed">授权失败</string>
+    <string name="sendPassword_failed">发送密码失败</string>
+    <string name="register_success">注册成功</string>
+    <string name="unknow_error">未知错误</string>
+    <string name="success">成功</string>
+    <string name="verification_code_over_time">验证码超过时间</string>
+    <string name="account_format_error">验证码超过时间</string>
+    <string name="correct_success">修改成功</string>
+    <string name="account_not_exist">账号不存在</string>
 </resources>

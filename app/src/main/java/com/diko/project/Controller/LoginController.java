@@ -1,10 +1,12 @@
 package com.diko.project.Controller;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.diko.project.Manager.InterfaceManger;
 import com.diko.project.Module.Login;
 import com.diko.project.Module.isexist;
+import com.diko.project.R;
 import com.diko.project.Utils.RetrofitUtils;
 import com.google.gson.Gson;
 
@@ -25,6 +27,12 @@ import retrofit2.Response;
  */
 
 public class LoginController {
+
+    private static Context context;
+
+    public LoginController(Context context) {
+        this.context = context;
+    }
     /**
      * 登录模块
      */
@@ -37,7 +45,7 @@ public class LoginController {
                     return;
                 }
                 if (!response.isSuccessful() || response == null) {
-                    listener.onError("服务器错误，error code:" + response.code());
+                    listener.onError(context.getString(R.string.server_error)+ response.code());
                     return;
                 }
                 try {
@@ -50,10 +58,10 @@ public class LoginController {
                     if (code == 1) {
                         listener.onSuccess(new Gson().fromJson(body, Login.class));
                     } else {
-//                        listener.onError("获取失败:" + jsonObject.getString("content"));
-                        listener.onError("账号密码错误");
+                        listener.onError(context.getString(R.string.user_or_password_error));
                     }
                 } catch (Exception e) {
+                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
                 listener.onComplete();
@@ -83,7 +91,7 @@ public class LoginController {
                     return;
                 }
                 if (!response.isSuccessful() || response == null) {
-                    listener.onError("服务器错误，error code:" + response.code());
+                    listener.onError(context.getString(R.string.server_error) + response.code());
                     return;
                 }
                 try {
@@ -94,9 +102,10 @@ public class LoginController {
                     if (code == 1) {
                         listener.onSuccess(new Gson().fromJson(body, isexist.class));
                     }else {
-                        listener.onError("账号不存在");
+                        listener.onError(context.getString(R.string.account_not_exist));
                     }
                 } catch (Exception e) {
+                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
                 listener.onComplete();
@@ -123,13 +132,14 @@ public class LoginController {
                     return;
                 }
                 if (!response.isSuccessful() || response == null) {
-                    listener.onError("服务器错误，error code:" + response.code());
+                    listener.onError(context.getString(R.string.server_error) + response.code());
                     return;
                 }
                 try {
                     String body = response.body().string();
                     listener.onSuccess("");
                 } catch (Exception e) {
+                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
                 listener.onComplete();
@@ -156,7 +166,7 @@ public class LoginController {
                     return;
                 }
                 if (!response.isSuccessful() || response == null) {
-                    listener.onError("服务器错误，error code:" + response.code());
+                    listener.onError(context.getString(R.string.server_error) + response.code());
                     return;
                 }
                 try {
@@ -164,18 +174,19 @@ public class LoginController {
                     JSONObject jsonObject = new JSONObject(body);
                     int code = jsonObject.getInt("code");
                     if (code == 1){
-                        listener.onSuccess("检验正确");
+                        listener.onSuccess(context.getString(R.string.success));
                     }
                     if (code == 31){
-                        listener.onError("验证码错误");
+                        listener.onError(context.getString(R.string.rewrite_code));
                     }
                     if(code == 33){
-                        listener.onError("验证码超过时间");
+                        listener.onError(context.getString(R.string.verification_code_over_time));
                     }
                     if (code == 2){
-                        listener.onError("账号格式错误");
+                        listener.onError(context.getString(R.string.account_format_error));
                     }
                 } catch (Exception e) {
+                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
                 listener.onComplete();
@@ -202,7 +213,7 @@ public class LoginController {
                     return;
                 }
                 if (!response.isSuccessful() || response == null) {
-                    listener.onError("服务器错误，error code:" + response.code());
+                    listener.onError(context.getString(R.string.server_error) + response.code());
                     return;
                 }
                 try {
@@ -210,11 +221,12 @@ public class LoginController {
                     JSONObject jsonObject = new JSONObject(body);
                     int code = jsonObject.getInt("code");
                     if (code == 1){
-                        listener.onSuccess("检验正确");
+                        listener.onSuccess(context.getString(R.string.register_success));
                     }else{
-                        listener.onError("未知错误");
+                        listener.onError(context.getString(R.string.unknow_error));
                     }
                 } catch (Exception e) {
+                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
                 listener.onComplete();
@@ -241,7 +253,7 @@ public class LoginController {
                     return;
                 }
                 if (!response.isSuccessful() || response == null) {
-                    listener.onError("服务器错误，error code:" + response.code());
+                    listener.onError(context.getString(R.string.server_error) + response.code());
                     return;
                 }
                 try {
@@ -249,9 +261,9 @@ public class LoginController {
                     JSONObject jsonObject = new JSONObject(body);
                     int code = jsonObject.getInt("code");
                     if (code == 1){
-                        listener.onSuccess("修改成功");
+                        listener.onSuccess(context.getString(R.string.correct_success));
                     }else{
-                        listener.onError("未知错误");
+                        listener.onError(context.getString(R.string.unknow_error));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

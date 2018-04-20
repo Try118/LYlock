@@ -86,6 +86,7 @@ public class LoginInputPassword extends BaseActivity {
     }
 
     private void verify(final String account, final String password) {
+        LoginController loginController = new LoginController(this);
         final List<String> photos = new ArrayList<>();
 
         List<MultipartBody.Part> parts = null;
@@ -94,7 +95,7 @@ public class LoginInputPassword extends BaseActivity {
 //        params.put("token", RetrofitUtils.convertToRequestBody(PrefManager.getToken()));
         params.put("account", RetrofitUtils.convertToRequestBody(account));
         params.put("password", RetrofitUtils.convertToRequestBody(password));
-        LoginController.login(params, parts, new InterfaceManger.OnRequestListener() {
+        loginController.login(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
 //                Announcements announcements = (Announcements) success;
@@ -117,7 +118,7 @@ public class LoginInputPassword extends BaseActivity {
 
             @Override
             public void onError(String error) {
-                Toast.makeText(LoginInputPassword.this, error, Toast.LENGTH_SHORT).show();
+                showToast(error);
             }
 
             @Override

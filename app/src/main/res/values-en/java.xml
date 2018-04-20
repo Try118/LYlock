@@ -144,4 +144,14 @@
     <string name="a_year">A year</string>
 
     <string name="contract">Contract</string>
+    <string name="server_error">server error,error code:</string>
+    <string name="impower_failed">impower failed</string>
+    <string name="sendPassword_failed">send password failed</string>
+    <string name="register_success">register success</string>
+    <string name="unknow_error">unknow error</string>
+    <string name="success">success</string>
+    <string name="verification_code_over_time">verification code over time</string>
+    <string name="account_format_error">Account format error</string>
+    <string name="correct_success">correct success</string>
+    <string name="account_not_exist">account not exist</string>
 </resources>

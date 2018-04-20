@@ -82,13 +82,14 @@ public class Register extends BaseActivity {
     }
 
     private void login_click() {
+        LoginController loginController = new LoginController(this);
         final List<String> photos = new ArrayList<>();
         List<MultipartBody.Part> parts = null;
         Map<String, RequestBody> params = new HashMap<>();
         params.put("account", RetrofitUtils.convertToRequestBody(account));
         params.put("password", RetrofitUtils.convertToRequestBody(input_password.getText().toString().trim()));
         params.put("name", RetrofitUtils.convertToRequestBody("<NULL>"));
-        LoginController.signUp(params, parts, new InterfaceManger.OnRequestListener() {
+        loginController.signUp(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
                 showToast(String.valueOf(success));
@@ -97,7 +98,7 @@ public class Register extends BaseActivity {
 
             @Override
             public void onError(String error) {
-                Toast.makeText(Register.this, error, Toast.LENGTH_SHORT).show();
+                showToast(error);
             }
 
             @Override

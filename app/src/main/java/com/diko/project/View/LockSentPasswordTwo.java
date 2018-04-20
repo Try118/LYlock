@@ -125,6 +125,7 @@ public class LockSentPasswordTwo extends BaseActivity {
             i.putExtra("endtime",endtime);
             startActivity(i);
         } else {
+            SentPasswordController sentPasswordController = new SentPasswordController(this);
             String startTime = String.valueOf(new Date().getTime() / 1000);
 //            Log.e( "nextStep: ", times(String.valueOf(Long.valueOf(startTime)*10001)));
             //一次性密码
@@ -134,7 +135,7 @@ public class LockSentPasswordTwo extends BaseActivity {
             params.put("endTime", RetrofitUtils.convertToRequestBody("0"));
             params.put("key", RetrofitUtils.convertToRequestBody(lockKey));
             params.put("type", RetrofitUtils.convertToRequestBody("1"));
-            SentPasswordController.GetLockPassword(params, parts, new InterfaceManger.OnRequestListener() {
+            sentPasswordController.GetLockPassword(params, parts, new InterfaceManger.OnRequestListener() {
                 @Override
                 public void onSuccess(Object success) {
                     GetLockPassword data =(GetLockPassword) success;
@@ -148,7 +149,7 @@ public class LockSentPasswordTwo extends BaseActivity {
 
                 @Override
                 public void onError(String error) {
-                    showToast("从服务器获取密码失败，请重新尝试！");
+                    showToast(error);
                 }
 
                 @Override

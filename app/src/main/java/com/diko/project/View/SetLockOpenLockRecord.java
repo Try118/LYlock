@@ -122,13 +122,14 @@ public class SetLockOpenLockRecord extends BaseActivity {
     }
 
     private void initlistviwe() {
+        LockSetController lockSetController = new LockSetController(this);
         List<MultipartBody.Part> parts = null;
         Map<String, RequestBody> params = new HashMap<>();
         params.put("account", RetrofitUtils.convertToRequestBody(account));
         params.put("lockId", RetrofitUtils.convertToRequestBody(lockId));
         Log.e("abcd: ", account + " " + lockId);
         final Vector<SetLockOpenLockRecordModule> v = new Vector<>();
-        LockSetController.GetOpenLog(params, parts, new InterfaceManger.OnRequestListener() {
+        lockSetController.GetOpenLog(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
                 Log.e("Objectsuccess: ", String.valueOf(success));

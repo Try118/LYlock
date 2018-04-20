@@ -81,6 +81,7 @@ public class SetLockAuthorizationRecord extends BaseActivity {
     }
 
     private void initAuthorization() {
+        LockSetController lockSetController = new LockSetController(this);
         List<String> photos = new ArrayList<>();
 
         List<MultipartBody.Part> parts = null;
@@ -90,7 +91,7 @@ public class SetLockAuthorizationRecord extends BaseActivity {
         params.put("phone", RetrofitUtils.convertToRequestBody(phone));
         params.put("password", RetrofitUtils.convertToRequestBody(password));
         params.put("lockKey", RetrofitUtils.convertToRequestBody(lockKey));
-        LockSetController.ReadGive(params, parts, new InterfaceManger.OnRequestListener() {
+        lockSetController.ReadGive(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
                 JsonParser parser = new JsonParser();
@@ -160,7 +161,7 @@ public class SetLockAuthorizationRecord extends BaseActivity {
 
             @Override
             public void onError(String error) {
-                Toast.makeText(SetLockAuthorizationRecord.this, error.toString(), Toast.LENGTH_SHORT).show();
+                showToast(error);
             }
 
             @Override

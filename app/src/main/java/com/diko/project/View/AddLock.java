@@ -85,12 +85,13 @@ public class AddLock extends BaseActivity {
     }
 
     private void intit(String phone, String password) {
+        LockController lockController = new LockController(AddLock.this);
         List<String> photos = new ArrayList<>();
         List<MultipartBody.Part> parts = null;
         Map<String, RequestBody> params = new HashMap<>();
         params.put("phone", RetrofitUtils.convertToRequestBody(phone));
         params.put("password", RetrofitUtils.convertToRequestBody(password));
-        LockController.ReadAllLock(params, parts, new InterfaceManger.OnRequestListener() {
+        lockController.ReadAllLock(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
                 Log.e("1234123: ", String.valueOf(success));
@@ -110,7 +111,7 @@ public class AddLock extends BaseActivity {
 
             @Override
             public void onError(String error) {
-                Toast.makeText(AddLock.this, error, Toast.LENGTH_SHORT).show();
+                showToast(error);
             }
 
             @Override

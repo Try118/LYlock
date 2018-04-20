@@ -76,6 +76,7 @@ public class RevisePassword extends BaseActivity {
     }
 
     private void login_click() {
+        LoginController loginController = new LoginController(this);
         String newPassword = input_password.getText().toString().trim();
         final List<String> photos = new ArrayList<>();
         List<MultipartBody.Part> parts = null;
@@ -83,7 +84,7 @@ public class RevisePassword extends BaseActivity {
         params.put("phone", RetrofitUtils.convertToRequestBody(phone));
         params.put("code", RetrofitUtils.convertToRequestBody(code));
         params.put("newPassword", RetrofitUtils.convertToRequestBody(newPassword));
-        LoginController.forgetPassword(params, parts, new InterfaceManger.OnRequestListener() {
+        loginController.forgetPassword(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
                 showToast(String.valueOf(success));
@@ -92,7 +93,7 @@ public class RevisePassword extends BaseActivity {
 
             @Override
             public void onError(String error) {
-                Toast.makeText(RevisePassword.this, error, Toast.LENGTH_SHORT).show();
+                showToast(error);
             }
 
             @Override

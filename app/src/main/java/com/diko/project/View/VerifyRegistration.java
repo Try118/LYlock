@@ -104,11 +104,12 @@ public class VerifyRegistration extends BaseActivity {
     }
 
     private void resend_click() {
+        LoginController loginController = new LoginController(this);
         final List<String> photos = new ArrayList<>();
         List<MultipartBody.Part> parts = null;
         Map<String, RequestBody> params = new HashMap<>();
         params.put("account", RetrofitUtils.convertToRequestBody(account));
-        LoginController.GetVerifyCode(params, parts, new InterfaceManger.OnRequestListener() {
+        loginController.GetVerifyCode(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
                 send_state.setText("验证码已经发送到"+" "+account);

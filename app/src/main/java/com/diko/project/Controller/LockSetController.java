@@ -1,9 +1,11 @@
 package com.diko.project.Controller;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.diko.project.Manager.InterfaceManger;
 import com.diko.project.Module.Login;
+import com.diko.project.R;
 import com.diko.project.Utils.RetrofitUtils;
 import com.google.gson.Gson;
 
@@ -24,6 +26,13 @@ import retrofit2.Response;
  */
 
 public class LockSetController {
+
+    private static Context context;
+
+    public LockSetController(Context context) {
+        this.context = context;
+    }
+
     /**
      * 修改门锁地址
      */
@@ -36,7 +45,7 @@ public class LockSetController {
                     return;
                 }
                 if (!response.isSuccessful() || response == null) {
-                    listener.onError("服务器错误，error code:" + response.code());
+                    listener.onError(context.getString(R.string.server_error) + response.code());
                     return;
                 }
                 try {
@@ -49,9 +58,10 @@ public class LockSetController {
                     if (code == 1) {
                         listener.onSuccess(body);
                     } else {
-                        listener.onError("修改地址失败");
+                        listener.onError(context.getString(R.string.correct_fault));
                     }
                 } catch (Exception e) {
+                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
                 listener.onComplete();
@@ -82,7 +92,7 @@ public class LockSetController {
                 }
                 if (!response.isSuccessful() || response == null) {
                     Log.e("response", String.valueOf(response));
-                    listener.onError("服务器错误，error code:" + response.code());
+                    listener.onError(context.getString(R.string.server_error) + response.code());
                     return;
                 }
                 try {
@@ -95,9 +105,10 @@ public class LockSetController {
                     if (code == 1) {
                         listener.onSuccess(body);
                     } else {
-                        listener.onError("修改名称失败");
+                        listener.onError(context.getString(R.string.correct_fault));
                     }
                 } catch (Exception e) {
+                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
                 listener.onComplete();
@@ -114,6 +125,7 @@ public class LockSetController {
             }
         });
     }
+
     /**
      * 获取授权内容
      */
@@ -127,19 +139,20 @@ public class LockSetController {
                 }
                 if (!response.isSuccessful() || response == null) {
                     Log.e("response", String.valueOf(response));
-                    listener.onError("服务器错误，error code:" + response.code());
+                    listener.onError(context.getString(R.string.server_error) + response.code());
                     return;
                 }
                 try {
                     String body = response.body().string();
-                    Log.e("onResponse: ",body);
+                    Log.e("onResponse: ", body);
                     Object object = body;
                     if (!body.contains("error")) {
                         listener.onSuccess(object);
                     } else {
-                        listener.onError("未知错误");
+                        listener.onError(context.getString(R.string.unknow_error));
                     }
                 } catch (Exception e) {
+                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
                 listener.onComplete();
@@ -160,8 +173,8 @@ public class LockSetController {
     /**
      * 删除授权门锁
      */
-    public static void cancelGive (Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
-        Call<ResponseBody> call = RetrofitUtils.getInstance().cancelGive (map, parts);
+    public static void cancelGive(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().cancelGive(map, parts);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -170,19 +183,20 @@ public class LockSetController {
                 }
                 if (!response.isSuccessful() || response == null) {
                     Log.e("response", String.valueOf(response));
-                    listener.onError("服务器错误，error code:" + response.code());
+                    listener.onError( context.getString(R.string.server_error)+ response.code());
                     return;
                 }
                 try {
                     String body = response.body().string();
-                    Log.e("onResponse: ",body);
+                    Log.e("onResponse: ", body);
                     Object object = body;
                     if (!body.contains("error")) {
-                        listener.onSuccess("删除成功");
+                        listener.onSuccess(context.getString(R.string.delete_successful));
                     } else {
-                        listener.onError("未知错误");
+                        listener.onError(context.getString(R.string.unknow_error));
                     }
                 } catch (Exception e) {
+                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
                 listener.onComplete();
@@ -199,6 +213,7 @@ public class LockSetController {
             }
         });
     }
+
     /**
      * 查看开锁记录
      */
@@ -212,22 +227,15 @@ public class LockSetController {
                 }
                 if (!response.isSuccessful() || response == null) {
                     Log.e("responseabc", String.valueOf(response));
-                    listener.onError("服务器错误，error code:" + response.code());
+                    listener.onError(context.getString(R.string.server_error) + response.code());
                     return;
                 }
                 try {
                     String body = response.body().string();
-//                    JSONObject jsonObject = new JSONObject(body);
                     Log.e("onResponsettta", body);
                     listener.onSuccess(body);
-//                    int code = jsonObject.getInt("code");
-//                    Log.e("onResponsettt", String.valueOf(code));
-//                    if (code == 1) {
-//                        listener.onSuccess(body);
-//                    } else {
-//                        listener.onError("修改名称失败");
-//                    }
                 } catch (Exception e) {
+                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
                 listener.onComplete();

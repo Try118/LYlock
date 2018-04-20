@@ -1,10 +1,12 @@
 package com.diko.project.Controller;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.diko.project.Manager.InterfaceManger;
 import com.diko.project.Module.GetLockPassword;
 import com.diko.project.Module.Login;
+import com.diko.project.R;
 import com.diko.project.Utils.RetrofitUtils;
 import com.google.gson.Gson;
 
@@ -25,6 +27,12 @@ import retrofit2.Response;
  */
 
 public class SentPasswordController {
+
+    private static Context context;
+
+    public SentPasswordController(Context context) {
+        this.context = context;
+    }
     /**
      * 发送密码
      */
@@ -37,7 +45,7 @@ public class SentPasswordController {
                     return;
                 }
                 if (!response.isSuccessful() || response == null) {
-                    listener.onError("服务器错误，error code:" + response.code());
+                    listener.onError(context.getString(R.string.server_error) + response.code());
                     return;
                 }
                 try {
@@ -50,9 +58,10 @@ public class SentPasswordController {
                     if (code == 1) {
                         listener.onSuccess(new Gson().fromJson(body, GetLockPassword.class));
                     } else {
-                        listener.onError("");
+                        listener.onError(context.getString(R.string.sendPassword_failed));
                     }
                 } catch (Exception e) {
+                    listener.onError(e.toString());
                     e.printStackTrace();
                 }
             }
