@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "26.0.2"
     defaultConfig {
-        applicationId "com.diko.project"
+        applicationId "com.LY.project"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1

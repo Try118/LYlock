@@ -72,11 +72,11 @@
                 style="@style/verification_code_frame"/>
 
         </LinearLayout>-->
-        <com.diko.project.CustomView.MyPasswordView
+        <com.LY.project.CustomView.MyPasswordView
             android:id="@+id/verify_code"
             android:layout_width="match_parent"
             android:layout_height="80dp">
 
-        </com.diko.project.CustomView.MyPasswordView>
+        </com.LY.project.CustomView.MyPasswordView>
     </LinearLayout>
 </LinearLayout>

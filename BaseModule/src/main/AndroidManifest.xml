@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 
-    package="com.diko.basemodule">
+    package="com.LY.basemodule">
     <!-- 访问网络权限 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- 读内存权限 -->
