@@ -35,6 +35,7 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
     //final UUID NOTIFY=UUID.fromString("0783b03e-8535-b5a0-7140-a304d2495cb8");
     //final UUID WRITE=UUID.fromString("0783b03e-8535-b5a0-7140-a304d2495cba");
 
+
     //final UUID SERVER=UUID.fromString("00001000-0000-1000-8000-00805f9b34fb");
     // final UUID NOTIFY=UUID.fromString("00001002-0000-1000-8000-00805f9b34fb");
     //  final UUID WRITE=UUID.fromString("00001001-0000-1000-8000-00805f9b34fb");

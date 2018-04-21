@@ -10,7 +10,7 @@ import com.diko.basemodule.Utils.BluetoothGattCallBackUtils;
 
 /**
  * ====== 作者 ======
- * Diko（柯东煜）
+ * lcj yx
  * ====== 时间 ======
  * 2018-03-09.
  */

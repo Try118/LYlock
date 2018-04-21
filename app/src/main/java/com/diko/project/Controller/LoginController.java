@@ -119,7 +119,7 @@ public class LoginController {
                 if (listener == null) {
                     return;
                 }
-                if (t.toString().contains("ConnectException")) {
+                if (t.toString().contains("java")) {
                     listener.onError(context.getString(R.string.no_internet));
                 } else {
                     listener.onError(t.toString());
