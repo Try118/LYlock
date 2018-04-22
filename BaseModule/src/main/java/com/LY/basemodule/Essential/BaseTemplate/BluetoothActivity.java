@@ -19,7 +19,7 @@ public abstract class BluetoothActivity extends BaseActivity {
     //获取远程蓝牙设备
     private BluetoothDevice device;
     private BluetoothGattCallBackUtils bluetoothGattCallback;
-    private BluetoothGatt gatt;
+    public BluetoothGatt gatt;
     public void getBluetooth(String bluetoothAddress, BluetoothCallbackManager manager)
     {
         //检查蓝牙地址

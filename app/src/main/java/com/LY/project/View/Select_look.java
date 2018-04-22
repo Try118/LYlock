@@ -1,20 +1,49 @@
 package com.LY.project.View;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.LY.basemodule.Essential.BaseTemplate.BaseActivity;
+import com.LY.basemodule.Essential.BaseTemplate.BluetoothActivity;
+import com.LY.basemodule.Manager.BluetoothCallbackManager;
+import com.LY.basemodule.Utils.BluetoothGattCallBackUtils;
+import com.LY.project.Controller.LockController;
+import com.LY.project.Controller.LoginController;
+import com.LY.project.CustomView.MyProgressDialog;
+import com.LY.project.Manager.InterfaceManger;
 import com.LY.project.R;
+import com.LY.project.Utils.BluetoothReceiver;
+import com.LY.project.Utils.RetrofitUtils;
 import com.LY.project.Utils.StringToDate;
+import com.hp.hpl.sparta.Text;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * Created by jie on 2018/4/10.
  */
 
-public class Select_look extends BaseActivity {
+public class Select_look extends BluetoothActivity {
     private TextView back;//返回
     private TextView lockname;//锁的名字
     private TextView lock_setting;//设置门锁信息
@@ -23,6 +52,8 @@ public class Select_look extends BaseActivity {
     private LinearLayout open_lock;//开锁
     private LinearLayout send_password;//发送密码
     private LinearLayout giver;//用户授权
+    private TextView powernumber;//电量
+    private TextView power_photo;//电量图片
 
     private String lock_name;//相对应的门锁名字
     private String starttime;//相对应的开始时间
@@ -30,8 +61,32 @@ public class Select_look extends BaseActivity {
     private String lockKey;//相对应门锁的密钥
     private String address;//相对应的门锁地址
     private String power;//权限
-    private String lockId;
-
+    static int time = 3;//缓冲时间
+    private boolean state = false;//链接状态
+    private String lockId;//锁的id
+    private String bluetoothaddress;//相对应的蓝牙地址
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 0x123) {
+                open_lock.setBackgroundResource(R.color.Text_color);
+                open_lock.setClickable(false);
+            } else if (msg.what == 0x124) {
+                open_lock.setBackgroundResource(R.color.line);
+                open_lock.setClickable(true);
+                if (gatt != null) {
+                    gatt.disconnect();
+                    gatt.close();
+                    gatt = null;
+                }
+            } else if (msg.what == 0x125) {
+                MyProgressDialog.remove();
+            }
+            super.handleMessage(msg);
+        }
+    };
+    private BluetoothGattCallBackUtils callback;
+    private String account; //账号
 
     @Override
     public int getLayoutId() {
@@ -48,7 +103,7 @@ public class Select_look extends BaseActivity {
         open_lock = findView(R.id.open_lock);
         send_password = findView(R.id.send_password);
         giver = findView(R.id.giver);
-
+        powernumber = findView(R.id.powernumber);
     }
 
     @Override
@@ -62,16 +117,19 @@ public class Select_look extends BaseActivity {
 
     @Override
     public void initData() {
+        SharedPreferences userInformation = getSharedPreferences("UserInformation", MODE_PRIVATE);
+        account = userInformation.getString("account", null);
         Intent i = getIntent();
         lock_name = i.getStringExtra("lock_name");
         starttime = i.getStringExtra("starttime");
         endtime = i.getStringExtra("endtime");
         lockKey = i.getStringExtra("lockKey");
         address = i.getStringExtra("address");
-        power=i.getStringExtra("power");
-        lockId=i.getStringExtra("lockId");
+        power = i.getStringExtra("power");
+        lockId = i.getStringExtra("lockId");
+        bluetoothaddress = i.getStringExtra("bluetoothaddress");
         Log.e("initData:---- ", lock_name + "00 " + starttime + " 00" + endtime + "00 " + lockKey + "00 " + address + "00");
-        if(power.equals("3")){
+        if (power.equals("3")) {
             send_password.setVisibility(View.INVISIBLE);
             giver.setVisibility(View.INVISIBLE);
         }
@@ -98,11 +156,100 @@ public class Select_look extends BaseActivity {
                 lock_setting_click();
                 break;
             case R.id.open_lock:
-                //  startActivity();
+                BluetoothCallbackManager manager = new BluetoothCallbackManager() {
+                    @Override
+                    public void readCallback(String result) {
+                        state = true;
+                        Log.e("read", result);
+                        final Intent i = new Intent(Select_look.this, BluetoothReceiver.class);
+                        i.setAction("woolock.bluetooth.result");
+                        if (result.contains("1111")) {
+
+                        }
+                        if (result.contains("POWER")) {
+                            //上传操作记录
+                            record();
+                            String num = "POWER[0-9]{1,3}";
+                            Pattern pattern = Pattern.compile(num);
+                            Matcher matcher = pattern.matcher(result);
+                            if (matcher.find()) {
+                                String re = matcher.group(0).substring(5, matcher.group(0).length()) + "%";
+                                powernumber.setText(re);
+                                int s = Integer.valueOf(matcher.group(0).substring(5, matcher.group(0).length()));
+                                if (s >= 90) {
+                                    power_photo.setBackgroundResource(R.drawable.battery);
+                                } else if (s >= 75) {
+
+                                    power_photo.setBackgroundResource(R.drawable.battery1);
+                                } else if (s >= 60) {
+                                    power_photo.setBackgroundResource(R.drawable.battery2);
+                                } else if (s >= 40) {
+                                    power_photo.setBackgroundResource(R.drawable.battery3);
+                                } else if (s >= 20) {
+                                    power_photo.setBackgroundResource(R.drawable.battery4);
+                                } else {
+                                    power_photo.setBackgroundResource(R.drawable.battery5);
+                                }
+                                //电量更改
+                                up_power(re);
+                            }
+                        }
+                        if (result.contains("3333")) {
+                            i.putExtra("result", 0x124);
+                            sendBroadcast(i);
+                        }
+                    }
+
+
+                    @Override
+                    public void writeCallback(String result) {
+
+                    }
+
+                    @Override
+                    public void connectCallback() {
+                        MyProgressDialog.remove();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                handler.sendEmptyMessageDelayed(0x123, 0);
+                                while (time != 0) {
+                                    time--;
+                                    Log.e("time", String.valueOf(time));
+                                    try {
+                                        Thread.sleep(1000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                time = 3;
+                                handler.sendEmptyMessageDelayed(0x124, 0);
+                            }
+                        }).start();
+                        //发送请求门锁电量
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.setMessage("(!" + lockKey + ".O*)");
+                                gatt.discoverServices();
+                            }
+                        }).start();
+                        showNotification(1);
+                    }
+
+                    @Override
+                    public void unConnectCallback() {
+                        showNotification(2);
+                    }
+                };
+                getBluetooth(bluetoothaddress, manager);
+                state = false;
+                MyProgressDialog.show(this, "Opening...", false, null);
+                handler.sendEmptyMessageDelayed(0x125, 4000);
                 break;
             case R.id.send_password:
-                Intent i = new Intent(this,LockSentPasswordOne.class);
-                i.putExtra("power",power);
+                Intent i = new Intent(this, LockSentPasswordOne.class);
+                i.putExtra("power", power);
                 i.putExtra("lockKey", lockKey);
                 i.putExtra("starttime", starttime);
                 i.putExtra("endtime", endtime);
@@ -121,7 +268,7 @@ public class Select_look extends BaseActivity {
     private void giver_click() {
         Intent intent = new Intent(this, LockSentAuthorityOne.class);
         intent.putExtra("lockKey", lockKey);
-        intent.putExtra("power",power);
+        intent.putExtra("power", power);
         intent.putExtra("starttime", starttime);
         intent.putExtra("endtime", endtime);
         startActivity(intent);
@@ -134,8 +281,88 @@ public class Select_look extends BaseActivity {
         intent.putExtra("endtime", endtime);
         intent.putExtra("lockKey", lockKey);
         intent.putExtra("address", address);
-        intent.putExtra("power",power);
-        intent.putExtra("lockId",lockId);
+        intent.putExtra("power", power);
+        intent.putExtra("lockId", lockId);
         startActivity(intent);
+    }
+    public void showNotification(int i) {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE);
+        Notification.Builder builder = new Notification.Builder(this);
+        if (i == 1) {
+            builder.setContentText(lock_name + "智能门锁已连上!");
+            builder.setTicker("Woolock智能门锁已连接上门锁" + lock_name);
+        } else if (i == 2) {
+            builder.setContentText(lock_name + "智能门锁已断开!");
+            builder.setTicker("触摸可重新连接门锁");
+        } else {
+            builder.setContentText("门锁未连接");
+            builder.setTicker("触摸进行连接");
+        }
+        builder.setContentTitle("WooLock智能门锁");
+        builder.setLargeIcon(((BitmapDrawable) getResources().getDrawable(R.drawable.icon)).getBitmap());
+
+        builder.setSmallIcon(R.drawable.icon);
+        builder.setWhen(System.currentTimeMillis());
+        //    builder.setDefaults(Notification.DEFAULT_ALL);
+        Intent intent = new Intent(this, Select_look.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        builder.setContentIntent(pendingIntent);
+        builder.setPriority(Notification.PRIORITY_DEFAULT);
+        //    builder.setLights(Color.RED,500,500);
+        Notification notification = builder.build();
+        notificationManager.notify(1, notification);
+    }
+    private void record() {
+        LockController lockController = new LockController(Select_look.this);
+        final List<String> photos = new ArrayList<>();
+
+        List<MultipartBody.Part> parts = null;
+        Map<String, RequestBody> params = new HashMap<>();
+        params.put("account", RetrofitUtils.convertToRequestBody(account));
+        params.put("lockKey", RetrofitUtils.convertToRequestBody(lockId));
+        params.put("type", RetrofitUtils.convertToRequestBody("1"));
+        params.put("name", RetrofitUtils.convertToRequestBody(account));
+        params.put("detial", RetrofitUtils.convertToRequestBody("<null>"));
+        params.put("time", RetrofitUtils.convertToRequestBody(String.valueOf(new Date().getTime())));
+        LockController.OpenLock(params, parts, new InterfaceManger.OnRequestListener() {
+            @Override
+            public void onSuccess(Object success) {
+//
+            }
+
+            @Override
+            public void onError(String error) {
+                showToast(error);
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
+    private void up_power(String battery) {
+        LockController lockController = new LockController(Select_look.this);
+        final List<String> photos = new ArrayList<>();
+        List<MultipartBody.Part> parts = null;
+        Map<String, RequestBody> params = new HashMap<>();
+        params.put("battery", RetrofitUtils.convertToRequestBody(battery));
+        params.put("lockKey", RetrofitUtils.convertToRequestBody(lockKey));
+        LockController.UpdateLockPower(params, parts, new InterfaceManger.OnRequestListener() {
+            @Override
+            public void onSuccess(Object success) {
+//
+            }
+
+            @Override
+            public void onError(String error) {
+                showToast(error);
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 }

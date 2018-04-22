@@ -130,6 +130,16 @@ public class RetrofitUtils {
         @Multipart
         @POST("user/forgetPassword")
         Call<ResponseBody> forgetPassword(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
+        //上传开锁记录
+        @Multipart
+        @POST("lock/OpenLock")
+        Call<ResponseBody> OpenLock(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
+        //上传电量
+        @Multipart
+        @POST("lock/UpdateLockPower")
+        Call<ResponseBody> UpdateLockPower(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
 //        //新建入库
 //        @Multipart
 //        @POST("goods/createGoods")

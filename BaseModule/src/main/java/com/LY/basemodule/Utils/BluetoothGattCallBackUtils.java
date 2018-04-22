@@ -91,7 +91,7 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
 
     public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
         try {
-            gatt.readCharacteristic(characteristic);
+//            gatt.readCharacteristic(characteristic);
             final String result = new String(characteristic.getValue(), "GB2312");
             handler.post(new Runnable() {
                 @Override

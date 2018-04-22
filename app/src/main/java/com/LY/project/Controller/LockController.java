@@ -75,4 +75,88 @@ public class LockController{
             }
         });
     }
+
+    /**
+     * 上传开锁记录
+     */
+
+    public static void OpenLock(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().OpenLock(map, parts);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (listener == null) {
+                    return;
+                }
+                if (!response.isSuccessful() || response == null) {
+                    listener.onError(context.getString(R.string.server_error)+ response.code());
+                    return;
+                }
+                try {
+                    String body = response.body().string();
+                        listener.onSuccess("");
+                } catch (Exception e) {
+                    listener.onError(e.toString());
+                    e.printStackTrace();
+                }
+                listener.onComplete();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (listener == null) {
+                    return;
+                }
+                Log.e("onFailure", t.toString());
+                if (t.toString().contains("ConnectException")) {
+                    listener.onError(context.getString(R.string.no_internet));
+                } else {
+                    listener.onError(context.getString(R.string.network_anomaly));
+                }
+                listener.onComplete();
+            }
+        });
+    }
+
+    /**
+     * 上传开锁记录
+     */
+
+    public static void UpdateLockPower(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().UpdateLockPower(map, parts);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (listener == null) {
+                    return;
+                }
+                if (!response.isSuccessful() || response == null) {
+                    listener.onError(context.getString(R.string.server_error)+ response.code());
+                    return;
+                }
+                try {
+                    String body = response.body().string();
+                    listener.onSuccess("");
+                } catch (Exception e) {
+                    listener.onError(e.toString());
+                    e.printStackTrace();
+                }
+                listener.onComplete();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (listener == null) {
+                    return;
+                }
+                Log.e("onFailure", t.toString());
+                if (t.toString().contains("ConnectException")) {
+                    listener.onError(context.getString(R.string.no_internet));
+                } else {
+                    listener.onError(context.getString(R.string.network_anomaly));
+                }
+                listener.onComplete();
+            }
+        });
+    }
 }

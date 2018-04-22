@@ -42,7 +42,7 @@
 
         <TextView
 
-            android:id="@+id/power"
+            android:id="@+id/powernumber"
             style="@style/TextView_style7"
             android:layout_weight="1"
             android:lines="1"

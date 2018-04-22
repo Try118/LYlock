@@ -47,7 +47,7 @@ public class MyLockAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final int p=position;
         holder = new ViewHolder();
         if (convertView == null) {
@@ -68,12 +68,13 @@ public class MyLockAdapter extends BaseAdapter {
                 i.putExtra("lock_name",lists.get(p).getLockname());
                 i.putExtra("starttime",lists.get(p).getStarttime());
                 i.putExtra("endtime",lists.get(p).getEndtime());
+                i.putExtra("bluetoothaddress",lists.get(p).getBluetooth());
                 i.putExtra("lockKey",lists.get(p).getKey());
                 i.putExtra("address",lists.get(p).getAddress());
                 i.putExtra("power",lists.get(p).getPower());
                 i.putExtra("lockId",lists.get(p).getId());
                 i.putExtra("age","18");
-                Log.e("onClick:----- ",lists.get(p).getAddress()+lists.get(p).getKey()+"  "+lists.get(p).getEndtime()+"  "+lists.get(p).getStarttime()+"  "+lists.get(p).getLockname());
+                Log.e("onClick:----- ",lists.get(p).getBluetooth()+"000000000000 "+lists.get(p).getAddress()+lists.get(p).getKey()+"  "+lists.get(p).getEndtime()+"  "+lists.get(p).getStarttime()+"  "+lists.get(p).getLockname());
                 context.startActivity(i);
             }
         });
