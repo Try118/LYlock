@@ -85,7 +85,7 @@ public class Select_look extends BluetoothActivity {
             super.handleMessage(msg);
         }
     };
-    private BluetoothGattCallBackUtils callback;
+
     private String account; //账号
 
     @Override
@@ -104,6 +104,7 @@ public class Select_look extends BluetoothActivity {
         send_password = findView(R.id.send_password);
         giver = findView(R.id.giver);
         powernumber = findView(R.id.powernumber);
+        power_photo = findView(R.id.power_photo);
     }
 
     @Override
@@ -159,8 +160,9 @@ public class Select_look extends BluetoothActivity {
                 BluetoothCallbackManager manager = new BluetoothCallbackManager() {
                     @Override
                     public void readCallback(String result) {
+                        Log.e("processClick:123123","124123412341" );
                         state = true;
-                        Log.e("read", result);
+                        Log.e("read-----", result);
                         final Intent i = new Intent(Select_look.this, BluetoothReceiver.class);
                         i.setAction("woolock.bluetooth.result");
                         if (result.contains("1111")) {
@@ -208,7 +210,37 @@ public class Select_look extends BluetoothActivity {
 
                     @Override
                     public void connectCallback() {
+                        Log.e("processClick:123123","出来吧" );
                         MyProgressDialog.remove();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Thread.sleep(2000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                if (!state && gatt != null) {
+                                    state = false;
+                                    gatt.disconnect();
+                                    gatt.close();
+                                    gatt = null;
+                                    Log.e("bluetoothGatt:","disconnect");
+                                }
+                            }
+                        }).start();
+
+                        //发送请求门锁电量
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                bluetoothGattCallback.setMessage("(!" + lockKey + ".O*)");
+                                boolean b = gatt.discoverServices();
+                                Log.e("bluetoothGatt",String.valueOf(b));
+                            }
+                        }).start();
+
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -226,27 +258,24 @@ public class Select_look extends BluetoothActivity {
                                 handler.sendEmptyMessageDelayed(0x124, 0);
                             }
                         }).start();
-                        //发送请求门锁电量
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                callback.setMessage("(!" + lockKey + ".O*)");
-                                gatt.discoverServices();
-                            }
-                        }).start();
                         showNotification(1);
                     }
 
                     @Override
                     public void unConnectCallback() {
+//                        gatt.close();
+//                        gatt = null;
                         showNotification(2);
                     }
                 };
+                Log.e("processClick:123123",bluetoothaddress );
                 getBluetooth(bluetoothaddress, manager);
                 state = false;
                 MyProgressDialog.show(this, "Opening...", false, null);
-                handler.sendEmptyMessageDelayed(0x125, 4000);
+                handler.sendEmptyMessageDelayed(0x125, 8000);
+
                 break;
+
             case R.id.send_password:
                 Intent i = new Intent(this, LockSentPasswordOne.class);
                 i.putExtra("power", power);
@@ -298,7 +327,7 @@ public class Select_look extends BluetoothActivity {
             builder.setContentText("门锁未连接");
             builder.setTicker("触摸进行连接");
         }
-        builder.setContentTitle("WooLock智能门锁");
+        builder.setContentTitle("Woolock智能门锁已连接上门锁门锁");
         builder.setLargeIcon(((BitmapDrawable) getResources().getDrawable(R.drawable.icon)).getBitmap());
 
         builder.setSmallIcon(R.drawable.icon);

@@ -2,6 +2,7 @@ package com.LY.project.View;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,6 +70,7 @@ public class LoginInputPassword extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.login:
+                Log.e("processClick:123","123123123");
                 String account = input_account.getText().toString().trim();
                 String password = input_password.getText().toString().trim();
                 verify(account,password);

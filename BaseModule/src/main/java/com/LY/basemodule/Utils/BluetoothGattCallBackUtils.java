@@ -17,7 +17,7 @@ import java.util.UUID;
 
 /**
  * ====== 作者 ======
- * Diko（柯东煜）
+ *yx lcj
  * ====== 时间 ======
  * 2018-03-09.
  */
@@ -41,7 +41,7 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
     //  final UUID WRITE=UUID.fromString("00001001-0000-1000-8000-00805f9b34fb");
 
     //发送默认值
-    private String message = "<null>";
+    private String message = "!S*";
     //回调
     private BluetoothCallbackManager callback;
 
@@ -58,26 +58,36 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
     //设置发送值
     public void setMessage(String message) {
         this.message = message;
+        Log.e("bluetoothGatt:",message);
     }
 
     @Override
     public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-        if (newState == BluetoothProfile.STATE_CONNECTED) {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Log.e("bluetoothGatt", "connection");
-                    callback.connectCallback();
-                }
-            });
-        } else {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Log.e("bluetoothGatt", "disconnection");
-                    callback.unConnectCallback();
-                }
-            });
+        if (newState==0){
+            Log.e("onConnechange: ","23342433454");
+//            gatt.disconnect();
+//            gatt.close();？、
+            gatt = null;
+            gatt.connect();
+        }else{
+            Log.e("onConnechange:",String.valueOf(newState) );
+            if (newState == BluetoothProfile.STATE_CONNECTED) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("bluetoothGatt", "connection");
+                        callback.connectCallback();
+                    }
+                });
+            } else {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("bluetoothGatt", "disconnection");
+                        callback.unConnectCallback();
+                    }
+                });
+            }
         }
     }
 
@@ -90,19 +100,21 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
     }
 
     public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
+        gatt.readCharacteristic(characteristic);
+        String str = null;
         try {
-//            gatt.readCharacteristic(characteristic);
-            final String result = new String(characteristic.getValue(), "GB2312");
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Log.e("BluetoothGatt_gainData", result);
-                    callback.readCallback(result);
-                }
-            });
+            str = new String(characteristic.getValue(), "GB2312");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+       final String result = str;
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Log.e("BluetoothGatt_gainData", result);
+                callback.readCallback(result);
+            }
+        });
     }
 
     public void onDescriptorRead(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
@@ -123,7 +135,7 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
             final BluetoothGattCharacteristic ReadCharacteristic = Service.getCharacteristic(NOTIFY);
             if (WriteCharacteristic != null && ReadCharacteristic != null) {
                 gatt.setCharacteristicNotification(ReadCharacteristic, true);
-                //    boolean isEnableNotification = gatt.setCharacteristicNotification(ReadCharacteristic,true);
+                boolean isEnableNotification = gatt.setCharacteristicNotification(ReadCharacteristic,true);
                 WriteCharacteristic.setValue(message);
                 gatt.writeCharacteristic(WriteCharacteristic);
             }

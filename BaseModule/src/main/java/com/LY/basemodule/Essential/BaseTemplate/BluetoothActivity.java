@@ -3,6 +3,7 @@ package com.LY.basemodule.Essential.BaseTemplate;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.LY.basemodule.Manager.BluetoothCallbackManager;
@@ -18,8 +19,8 @@ import com.LY.basemodule.Utils.BluetoothGattCallBackUtils;
 public abstract class BluetoothActivity extends BaseActivity {
     //获取远程蓝牙设备
     private BluetoothDevice device;
-    private BluetoothGattCallBackUtils bluetoothGattCallback;
-    public BluetoothGatt gatt;
+    public BluetoothGattCallBackUtils bluetoothGattCallback;
+    public  BluetoothGatt gatt;
     public void getBluetooth(String bluetoothAddress, BluetoothCallbackManager manager)
     {
         //检查蓝牙地址
@@ -39,7 +40,11 @@ public abstract class BluetoothActivity extends BaseActivity {
                     Toast.makeText(this, "bluetoothGatt is null", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    gatt.connect();
+                    Log.e("processClick:123123","他娘的" );
+
+                    boolean a = gatt.connect();
+
+                    Log.e("processClick:123123:",String.valueOf(a));
                 }          
             }
         }
