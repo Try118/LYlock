@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.LY.basemodule.Essential.BaseTemplate.BaseActivity;
 import com.LY.basemodule.Essential.BaseTemplate.BluetoothActivity;
@@ -160,7 +161,7 @@ public class Select_look extends BluetoothActivity {
                 BluetoothCallbackManager manager = new BluetoothCallbackManager() {
                     @Override
                     public void readCallback(String result) {
-                        Log.e("processClick:123123","124123412341" );
+                        Log.e("processClick:123123", "124123412341");
                         state = true;
                         Log.e("read-----", result);
                         final Intent i = new Intent(Select_look.this, BluetoothReceiver.class);
@@ -181,7 +182,6 @@ public class Select_look extends BluetoothActivity {
                                 if (s >= 90) {
                                     power_photo.setBackgroundResource(R.drawable.battery);
                                 } else if (s >= 75) {
-
                                     power_photo.setBackgroundResource(R.drawable.battery1);
                                 } else if (s >= 60) {
                                     power_photo.setBackgroundResource(R.drawable.battery2);
@@ -210,7 +210,7 @@ public class Select_look extends BluetoothActivity {
 
                     @Override
                     public void connectCallback() {
-                        Log.e("processClick:123123","出来吧" );
+                        Log.e("processClick:123123", "出来吧");
                         MyProgressDialog.remove();
 
                         new Thread(new Runnable() {
@@ -244,7 +244,7 @@ public class Select_look extends BluetoothActivity {
                                     gatt.disconnect();
                                     gatt.close();
                                     gatt = null;
-                                    Log.e("bluetoothGatt:","disconnect");
+                                    Log.e("bluetoothGatt:", "disconnect");
                                 }
                             }
                         }).start();
@@ -255,25 +255,22 @@ public class Select_look extends BluetoothActivity {
                             public void run() {
                                 bluetoothGattCallback.setMessage("(!" + lockKey + ".O*)");
                                 boolean b = gatt.discoverServices();
-                                Log.e("bluetoothGatt",String.valueOf(b));
+//                                Log.e("bluetoothGatt", String.valueOf(b));
                             }
                         }).start();
-
 
                         showNotification(1);
                     }
 
                     @Override
                     public void unConnectCallback() {
-
-
-
 //                        gatt.close();
 //                        gatt = null;
+                        showToast("链接异常,请稍后重试");
                         showNotification(2);
                     }
                 };
-                Log.e("processClick:123123",bluetoothaddress );
+                Log.e("processClick:123123", bluetoothaddress);
                 getBluetooth(bluetoothaddress, manager);
                 state = false;
                 MyProgressDialog.show(this, "Opening...", false, null);
@@ -319,6 +316,7 @@ public class Select_look extends BluetoothActivity {
         intent.putExtra("lockId", lockId);
         startActivity(intent);
     }
+
     public void showNotification(int i) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE);
         Notification.Builder builder = new Notification.Builder(this);
@@ -346,6 +344,7 @@ public class Select_look extends BluetoothActivity {
         Notification notification = builder.build();
         notificationManager.notify(1, notification);
     }
+
     private void record() {
         LockController lockController = new LockController(Select_look.this);
         final List<String> photos = new ArrayList<>();
@@ -375,6 +374,7 @@ public class Select_look extends BluetoothActivity {
             }
         });
     }
+
     private void up_power(String battery) {
         LockController lockController = new LockController(Select_look.this);
         final List<String> photos = new ArrayList<>();

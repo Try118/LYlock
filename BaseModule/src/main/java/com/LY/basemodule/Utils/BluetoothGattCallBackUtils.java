@@ -9,6 +9,7 @@ import android.bluetooth.BluetoothProfile;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.LY.basemodule.Manager.BluetoothCallbackManager;
 
@@ -58,7 +59,7 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
     //设置发送值
     public void setMessage(String message) {
         this.message = message;
-        Log.e("bluetoothGatt:",message);
+//        Log.e("bluetoothGatt:",message);
     }
 
     @Override
@@ -77,6 +78,8 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
                     @Override
                     public void run() {
                         Log.e("bluetoothGatt", "disconnection");
+
+
                         callback.unConnectCallback();
                     }
                 });

@@ -11,6 +11,7 @@ import com.LY.project.R;
 
 import com.LY.project.Module.LockList;
 
+import java.util.List;
 import java.util.Vector;
 
 
@@ -19,9 +20,9 @@ import java.util.Vector;
  */
 
 public class DeviceListAdapter extends BaseAdapter {
-    private Vector<LockList> lockLists;
+    private List<LockList> lockLists;
     private Context context;
-    public DeviceListAdapter(Context context, Vector<LockList> l){
+    public DeviceListAdapter(Context context, List<LockList> l){
         this.context=context;
         lockLists=l;
     }

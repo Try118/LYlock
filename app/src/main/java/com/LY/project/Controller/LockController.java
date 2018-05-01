@@ -119,7 +119,7 @@ public class LockController{
     }
 
     /**
-     * 上传开锁记录
+     * 更新门锁电量
      */
 
     public static void UpdateLockPower(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
