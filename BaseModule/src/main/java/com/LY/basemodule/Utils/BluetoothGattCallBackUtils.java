@@ -63,13 +63,6 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
 
     @Override
     public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-        if (newState==0){
-            Log.e("onConnechange: ","23342433454");
-//            gatt.disconnect();
-//            gatt.close();？、
-            gatt = null;
-            gatt.connect();
-        }else{
             Log.e("onConnechange:",String.valueOf(newState) );
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 handler.post(new Runnable() {
@@ -88,7 +81,7 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
                     }
                 });
             }
-        }
+
     }
 
     public void onCharacteristicRead(BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic, int status) {

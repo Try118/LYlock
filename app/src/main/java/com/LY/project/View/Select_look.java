@@ -216,8 +216,26 @@ public class Select_look extends BluetoothActivity {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
+                                handler.sendEmptyMessageDelayed(0x123, 0);
+                                while (time != 0) {
+                                    time--;
+                                    Log.e("time", String.valueOf(time));
+                                    try {
+                                        Thread.sleep(1000);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                                time = 3;
+                                handler.sendEmptyMessageDelayed(0x124, 0);
+                            }
+                        }).start();
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
                                 try {
-                                    Thread.sleep(2000);
+                                    Thread.sleep(1000);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
@@ -241,28 +259,15 @@ public class Select_look extends BluetoothActivity {
                             }
                         }).start();
 
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                handler.sendEmptyMessageDelayed(0x123, 0);
-                                while (time != 0) {
-                                    time--;
-                                    Log.e("time", String.valueOf(time));
-                                    try {
-                                        Thread.sleep(1000);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                                time = 3;
-                                handler.sendEmptyMessageDelayed(0x124, 0);
-                            }
-                        }).start();
+
                         showNotification(1);
                     }
 
                     @Override
                     public void unConnectCallback() {
+
+
+
 //                        gatt.close();
 //                        gatt = null;
                         showNotification(2);
