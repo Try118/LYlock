@@ -4,8 +4,14 @@ import android.content.Context;
 import android.util.Log;
 
 import com.LY.project.Manager.InterfaceManger;
+import com.LY.project.Module.Login;
+import com.LY.project.Module.activeLock;
+import com.LY.project.Module.addLock;
 import com.LY.project.R;
 import com.LY.project.Utils.RetrofitUtils;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
@@ -21,12 +27,12 @@ import retrofit2.Response;
  * Created by jie on 2018/4/14.
  */
 
-public class LockController{
+public class LockController {
 
     private static Context context;
 
     public LockController(Context context) {
-        this.context=context;
+        this.context = context;
     }
 
     /**
@@ -42,7 +48,7 @@ public class LockController{
                     return;
                 }
                 if (!response.isSuccessful() || response == null) {
-                    listener.onError(context.getString(R.string.server_error)+ response.code());
+                    listener.onError(context.getString(R.string.server_error) + response.code());
                     return;
                 }
                 try {
@@ -89,12 +95,12 @@ public class LockController{
                     return;
                 }
                 if (!response.isSuccessful() || response == null) {
-                    listener.onError(context.getString(R.string.server_error)+ response.code());
+                    listener.onError(context.getString(R.string.server_error) + response.code());
                     return;
                 }
                 try {
                     String body = response.body().string();
-                        listener.onSuccess("");
+                    listener.onSuccess("");
                 } catch (Exception e) {
                     listener.onError(e.toString());
                     e.printStackTrace();
@@ -131,7 +137,7 @@ public class LockController{
                     return;
                 }
                 if (!response.isSuccessful() || response == null) {
-                    listener.onError(context.getString(R.string.server_error)+ response.code());
+                    listener.onError(context.getString(R.string.server_error) + response.code());
                     return;
                 }
                 try {
@@ -159,4 +165,160 @@ public class LockController{
             }
         });
     }
+
+    /**
+     * 激活门锁
+     */
+
+    public static void activeLock(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().activeLock(map, parts);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (listener == null) {
+                    return;
+                }
+                if (!response.isSuccessful() || response == null) {
+                    listener.onError(context.getString(R.string.server_error) + response.code());
+                    return;
+                }
+                try {
+                    String body = response.body().string();
+                    JSONObject jsonObject = new JSONObject(body);
+                    Log.e("YXonResponse", body);
+
+                    int code = jsonObject.getInt("code");
+                    Log.e("activeLockonResponse", String.valueOf(code));
+                    if (code == 1) {
+                        listener.onSuccess(new Gson().fromJson(body, activeLock.class));
+                    } else {
+                        listener.onError("激活失败");
+                    }
+                } catch (Exception e) {
+                    listener.onError(e.toString());
+                    e.printStackTrace();
+                }
+                listener.onComplete();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (listener == null) {
+                    return;
+                }
+                Log.e("onFailure", t.toString());
+                if (t.toString().contains("ConnectException")) {
+                    listener.onError(context.getString(R.string.no_internet));
+                } else {
+                    listener.onError(context.getString(R.string.network_anomaly));
+                }
+                listener.onComplete();
+            }
+        });
+    }
+
+
+    /**
+     * 添加门锁
+     */
+
+    public static void addLock(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().addLock(map, parts);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (listener == null) {
+                    return;
+                }
+                if (!response.isSuccessful() || response == null) {
+                    listener.onError(context.getString(R.string.server_error) + response.code());
+                    return;
+                }
+                try {
+                    String body = response.body().string();
+                    JSONObject jsonObject = new JSONObject(body);
+                    Log.e("YXonResponseaddLock", body);
+
+                    int code = jsonObject.getInt("code");
+                    Log.e("onResponse", String.valueOf(code));
+                    if (code == 1) {
+                        listener.onSuccess(new Gson().fromJson(body, addLock.class));
+                    } else {
+                        listener.onError("添加失败");
+                    }
+                } catch (Exception e) {
+                    listener.onError(e.toString());
+                    e.printStackTrace();
+                }
+                listener.onComplete();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (listener == null) {
+                    return;
+                }
+                Log.e("onFailure", t.toString());
+                if (t.toString().contains("ConnectException")) {
+                    listener.onError(context.getString(R.string.no_internet));
+                } else {
+                    listener.onError(context.getString(R.string.network_anomaly));
+                }
+                listener.onComplete();
+            }
+        });
+    }
+
+    /**
+     * 上传恢复出厂密码
+     */
+
+    public static void SetRestore(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().SetRestore(map, parts);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (listener == null) {
+                    return;
+                }
+                if (!response.isSuccessful() || response == null) {
+                    listener.onError(context.getString(R.string.server_error) + response.code());
+                    return;
+                }
+                try {
+                    String body = response.body().string();
+                    JSONObject jsonObject = new JSONObject(body);
+                    Log.e("YXonResponseSetRestore", body);
+
+                    int code = jsonObject.getInt("code");
+                    Log.e("onResponse", String.valueOf(code));
+                    if (code == 1) {
+                        listener.onSuccess("");
+                    } else {
+                        listener.onError("失败");
+                    }
+                } catch (Exception e) {
+                    listener.onError(e.toString());
+                    e.printStackTrace();
+                }
+                listener.onComplete();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (listener == null) {
+                    return;
+                }
+                Log.e("onFailure", t.toString());
+                if (t.toString().contains("ConnectException")) {
+                    listener.onError(context.getString(R.string.no_internet));
+                } else {
+                    listener.onError(context.getString(R.string.network_anomaly));
+                }
+                listener.onComplete();
+            }
+        });
+    }
+
+
 }

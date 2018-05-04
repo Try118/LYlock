@@ -50,7 +50,7 @@ public class LoginController {
                     return;
                 }
                 try {
-                    String body = response.body().string().toString();
+                    String body = response.body().string();
                     JSONObject jsonObject = new JSONObject(body);
                     Log.e("onResponse", body);
 

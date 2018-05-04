@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Handler;
@@ -23,16 +24,33 @@ import android.widget.Toast;
 
 import com.LY.basemodule.Essential.BaseTemplate.BaseActivity;
 import com.LY.basemodule.Essential.BaseTemplate.BluetoothActivity;
+import com.LY.basemodule.Manager.BluetoothCallbackManager;
+import com.LY.basemodule.Utils.BluetoothGattCallBackUtils;
 import com.LY.project.Adapter.DeviceListAdapter;
+import com.LY.project.Controller.LockController;
+import com.LY.project.Controller.LoginController;
 import com.LY.project.CustomView.MyProgressDialog;
+import com.LY.project.Manager.InterfaceManger;
 import com.LY.project.Module.LockList;
+import com.LY.project.Module.activeLock;
+import com.LY.project.Module.addLock;
 import com.LY.project.R;
 import com.LY.project.Utils.GattAppService;
+import com.LY.project.Utils.GetDate;
+import com.LY.project.Utils.RetrofitUtils;
+import com.LY.project.Utils.isEmpty;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 import java.util.jar.Manifest;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * Created by YX_PC on 2018/4/10.
@@ -47,15 +65,14 @@ public class SearchDoorLock2 extends BluetoothActivity implements BluetoothAdapt
     BluetoothAdapter mBluetoothAdapter;
     private boolean mScanning = false;
     private List<LockList> lockLists = new ArrayList<LockList>();
-    BluetoothGatt bluetoothGatt;
-    private String account;
-    private String name;
-    private String address;
+    private String account;//账户
+    private String name;//蓝牙设备名称
+    private String address;//mac地址
     private boolean lockstate = false;
     private String lockKey = null;
     private boolean oneTime = false;
     private boolean twoTime = false;
-    private String password;
+    private String password;//密码
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message message) {
@@ -65,6 +82,7 @@ public class SearchDoorLock2 extends BluetoothActivity implements BluetoothAdapt
         }
     };
     private BluetoothAdapter MybluetoothAdapter;
+    private String lockid;//服务器传回的
 
     @Override
     public int getLayoutId() {
@@ -84,14 +102,15 @@ public class SearchDoorLock2 extends BluetoothActivity implements BluetoothAdapt
 
     @Override
     public void initData() {
-        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(android.Manifest.permission.ACCESS_COARSE_LOCATION);
         }
-        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION);
         }
+        getUserInfo();
         MybluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        Log.e("initData: ", String.valueOf(MybluetoothAdapter));
+
         if (MybluetoothAdapter == null) {
             showToast("当前设备不支持蓝牙");
         } else {
@@ -111,11 +130,136 @@ public class SearchDoorLock2 extends BluetoothActivity implements BluetoothAdapt
         mDeviceAdapter = new DeviceListAdapter(this, lockLists);
         myList.setAdapter(mDeviceAdapter);
 
+        final BluetoothCallbackManager manager = new BluetoothCallbackManager() {
+            @Override
+            public void readCallback(String result) {
+                Log.e("YXreadCallback: ",result );
+                //门锁无雇主
+                if (result.contains("Noneuser") && !lockstate) {
+                    showToast("门锁无雇主");
+                    lockstate = true;
+                    //激活门锁
+                    LockController lockController = new LockController(SearchDoorLock2.this);
+                    List<MultipartBody.Part> parts = null;
+                    Map<String, RequestBody> params = new HashMap<>();
+                    params.put("BTAdress", RetrofitUtils.convertToRequestBody(address));
+                    Log.e("YXBTAdress: ", address);
+                    lockController.activeLock(params, parts, new InterfaceManger.OnRequestListener() {
+                        @Override
+                        public void onSuccess(Object success) {
+                            activeLock ac = (activeLock) success;
+                            //传mac到服务器,取回秘钥
+                            lockKey = ac.getLockKey();
+                            Log.e("YXonSuccess: ", lockKey);
+                            bluetoothGattCallback.setMessage("(!Key" + lockKey + "*)");
+                            gatt.discoverServices();
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            showToast(error);
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+                }
+//                if(!lockstate){
+//                    showToast("门锁已有雇主");
+//                }
+                //激活门锁后,lockKey被赋值,lockstate被赋值true,这里进行添加门锁(物理地址暂时是mac地址,门锁名称暂时是蓝牙名称)
+                if (lockKey != null && result.contains(lockKey) && lockstate) {
+                    showToast("开始进行添加门锁");
+//                    handler.post(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            String message = GetDate.getDate();
+//                            bluetoothGattCallback.setMessage("(" + message + ")");
+//                            gatt.discoverServices();
+//                        }
+//                    });
+//                    try {
+//                        Thread.sleep(100);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+                    LockController lockController = new LockController(SearchDoorLock2.this);
+                    List<MultipartBody.Part> parts = null;
+                    Map<String, RequestBody> params = new HashMap<>();
+                    params.put("phone", RetrofitUtils.convertToRequestBody(account));//账户
+                    params.put("lockKey", RetrofitUtils.convertToRequestBody(lockKey));//秘钥
+                    params.put("name", RetrofitUtils.convertToRequestBody(name));//现在是蓝牙设备名称,后期会被修改
+                    params.put("BTAdress", RetrofitUtils.convertToRequestBody(address));//mac地址
+                    lockController.addLock(params, parts, new InterfaceManger.OnRequestListener() {
+                        @Override
+                        public void onSuccess(Object success) {
+                            //success:{"code":1,"lockid":"513"}
+                            addLock al = (addLock) success;
+                            lockid = al.getLockid();
+//                            showToast("123456");
+                            MyProgressDialog.remove();
+                            Intent i = new Intent(SearchDoorLock2.this, Reset.class);
+                            i.putExtra("lockKey", lockKey);//服务器取回的秘钥
+                            i.putExtra("address", address);//mac地址
+                            i.putExtra("lockid", lockid);//添加门锁时候,服务器传回来的lockid
+                            startActivity(i);
+                        }
+
+                        @Override
+                        public void onError(String error) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void writeCallback(String result) {
+
+            }
+
+            @Override
+            public void connectCallback() {
+                MyProgressDialog.remove();
+                MyProgressDialog.show(SearchDoorLock2.this, "adding...", false, null);
+                handler.sendEmptyMessageDelayed(0x123, 10000);
+                bluetoothGattCallback.setMessage("(!S*)");
+                boolean b = gatt.discoverServices();
+                //Log.e("gatt.discoverServices", String.valueOf(b));//true
+            }
+
+            @Override
+            public void unConnectCallback() {
+
+            }
+        };
+
+        myList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                final LockList lockList = lockLists.get(position);
+                address = lockList.device.getAddress();//mac
+                name = lockList.device.getName();//蓝牙设备名称
+                Log.e("YXdevice", lockList.device.getAddress());
+                Log.e("YXdevice", lockList.device.getName());
+                getBluetooth(lockList.device, manager);
+                MyProgressDialog.show(SearchDoorLock2.this, "connecting...", false, null);
+                handler.sendEmptyMessageDelayed(0x123, 10000);
+                Log.e("device", lockList.device.getAddress());
+            }
+        });
     }
 
     @Override
     public void processClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back:
                 finish();
                 break;
@@ -130,7 +274,7 @@ public class SearchDoorLock2 extends BluetoothActivity implements BluetoothAdapt
             String action = intent.getAction();
             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 final BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                final int rssi = intent.getParcelableExtra(BluetoothDevice.EXTRA_RSSI);
+                final int rssi = intent.getIntExtra(GattAppService.EXTRA_RSSI, 0);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -186,5 +330,31 @@ public class SearchDoorLock2 extends BluetoothActivity implements BluetoothAdapt
         MybluetoothAdapter.cancelDiscovery();
         MybluetoothAdapter.stopLeScan(this);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+//        if (gatt != null) {
+//            gatt.disconnect();
+//            gatt.close();
+//            gatt = null;
+//        }
+        super.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        lockLists.clear();
+        mDeviceAdapter.notifyDataSetChanged();
+        super.onPause();
+    }
+
+    public void getUserInfo() {
+        SharedPreferences info = getSharedPreferences("UserInformation", MODE_PRIVATE);
+        account = info.getString("account", null);
+        password = info.getString("password", null);
+        if (isEmpty.StringIsEmpty(account) || isEmpty.StringIsEmpty(password)) {
+            finish();
+        }
     }
 }

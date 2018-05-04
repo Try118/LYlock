@@ -49,10 +49,10 @@ public class LockSetController {
                 try {
                     String body = response.body().string().toString();
                     JSONObject jsonObject = new JSONObject(body);
-                    Log.e("onResponse", body);
+                    Log.e("YXonResponsebody", body);
 
                     int code = jsonObject.getInt("code");
-                    Log.e("onResponse", String.valueOf(code));
+                    Log.e("YXonResponseLockAddress", String.valueOf(code));
                     if (code == 1) {
                         listener.onSuccess(body);
                     } else {

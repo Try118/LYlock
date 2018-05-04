@@ -58,6 +58,9 @@
         <activity android:name="com.LY.project.View.RegistrationCode"/>
         <activity android:name="com.LY.project.View.Register"/>
         <activity android:name="com.LY.project.View.RevisePassword"/>
+        <activity android:name=".View.Reset"/>
+        <activity android:name=".View.ResetSetLockAddress"/>
+        <activity android:name=".View.ResetSetLockName"/>
     </application>
 
 </manifest>

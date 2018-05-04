@@ -59,7 +59,7 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
     //设置发送值
     public void setMessage(String message) {
         this.message = message;
-//        Log.e("bluetoothGatt:",message);
+        Log.e("YXbluetoothGattmessage:",message);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("bluetoothGatt", "connection");
+                        Log.e("YXbluetoothGatt", "connection");
                         callback.connectCallback();
                     }
                 });
@@ -77,18 +77,15 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        Log.e("bluetoothGatt", "disconnection");
-
-
+                        Log.e("YXbluetoothGatt", "disconnection");
                         callback.unConnectCallback();
                     }
                 });
             }
-
     }
 
     public void onCharacteristicRead(BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic, int status) {
-        Log.e("bluetoothGatt", "read");
+        Log.e("YXbluetoothGatt", "read");
     }
 
     public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {

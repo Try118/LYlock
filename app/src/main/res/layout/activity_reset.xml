@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="test.xk_ys_VOOLOC.Lock_Name">
+    android:orientation="vertical">
 
     <RelativeLayout
         style="@style/RelativeLayout_style"
@@ -13,14 +12,13 @@
         <TextView
             android:id="@+id/back"
             style="@style/correct_back"
-            android:background="@drawable/back"/>
+            android:background="@drawable/back" />
 
         <TextView
             style="@style/banerText"
             android:text="@string/Lock_of_address" />
 
-        <TextView
-            style="@style/forward"/>
+        <TextView style="@style/forward" />
     </RelativeLayout>
 
     <TextView
@@ -31,26 +29,26 @@
         android:gravity="center"
         android:text="@string/set_the_reset_password"
         android:textSize="@dimen/text_title" />
-    <test.xk_ys_VOOLOC.MyView.SetSecret
-        android:layout_width="match_parent"
+
+    <com.LY.project.CustomView.SetSecret
         android:id="@+id/password"
-        android:layout_height="100dp"/>
+        android:layout_width="match_parent"
+        android:layout_height="100dp" />
 
     <TextView
         android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:paddingBottom="10dp"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"
         android:text="该密码仅在门锁\n无法工作时，或者紧急状况下使用"
-        android:gravity="center"
-        android:textColor="#fa0000"
-        android:layout_height="60dp" />
+        android:textColor="#fa0000" />
 
     <TextView
-        android:layout_marginTop="60dp"
-        android:text="@string/finish"
         android:id="@+id/finish"
         style="@style/TextView_style"
-        />
+        android:layout_marginTop="60dp"
+        android:text="@string/finish" />
 </LinearLayout>

@@ -140,6 +140,21 @@ public class RetrofitUtils {
         @Multipart
         @POST("lock/UpdateLockPower")
         Call<ResponseBody> UpdateLockPower(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
+        //激活门锁
+        @Multipart
+        @POST("Lock/activeLock")
+        Call<ResponseBody> activeLock(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
+        //添加门锁
+        @Multipart
+        @POST("Lock/addLock")
+        Call<ResponseBody> addLock(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
+        //上传恢复出厂密码成功
+        @Multipart
+        @POST("Lock/SetRestore")
+        Call<ResponseBody> SetRestore(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
 //        //新建入库
 //        @Multipart
 //        @POST("goods/createGoods")

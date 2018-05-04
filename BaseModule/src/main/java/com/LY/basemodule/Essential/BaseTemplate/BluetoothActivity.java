@@ -20,37 +20,45 @@ public abstract class BluetoothActivity extends BaseActivity {
     //获取远程蓝牙设备
     private BluetoothDevice device;
     public BluetoothGattCallBackUtils bluetoothGattCallback;
-    public  BluetoothGatt gatt;
-    public void getBluetooth(String bluetoothAddress, BluetoothCallbackManager manager)
-    {
+    public BluetoothGatt gatt;
+
+    public void getBluetooth(String bluetoothAddress, BluetoothCallbackManager manager) {
         //检查蓝牙地址
-        if (BluetoothAdapter.getDefaultAdapter().checkBluetoothAddress(bluetoothAddress))
-        {
-            device=BluetoothAdapter.getDefaultAdapter().getRemoteDevice(bluetoothAddress);
-            if(device==null)
-            {
+        if (BluetoothAdapter.getDefaultAdapter().checkBluetoothAddress(bluetoothAddress)) {
+            device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice(bluetoothAddress);
+            if (device == null) {
                 showToast("Can not find this Bluetooth");
                 finish();
-            }
-            else{
-                bluetoothGattCallback=new BluetoothGattCallBackUtils(this,manager);
-                gatt = device.connectGatt(this,false,bluetoothGattCallback);
-                if(gatt==null)
-                {
+            } else {
+                bluetoothGattCallback = new BluetoothGattCallBackUtils(this, manager);
+                gatt = device.connectGatt(this, false, bluetoothGattCallback);
+                if (gatt == null) {
                     Toast.makeText(this, "bluetoothGatt is null", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Log.e("processClick:123123","他娘的" );
+                } else {
+                    Log.e("processClick:123123", "他娘的");
 
                     boolean a = gatt.connect();
 
-                    Log.e("processClick:123123:",String.valueOf(a));
-                }          
+                    Log.e("processClick:123123:", String.valueOf(a));
+                }
             }
-        }
-        else{
+        } else {
             showToast("The bluetooth address was illegal");
             finish();
+        }
+    }
+
+    public void getBluetooth(BluetoothDevice device, BluetoothCallbackManager manager) {
+        bluetoothGattCallback = new BluetoothGattCallBackUtils(this, manager);
+        gatt = device.connectGatt(this, false, bluetoothGattCallback);
+        if (gatt == null) {
+            Toast.makeText(this, "bluetoothGatt is null", Toast.LENGTH_SHORT).show();
+        } else {
+            Log.e("YXgetBluetooth", "gatt不为空");
+
+            boolean a = gatt.connect();
+
+            Log.e("YXgetBluetooth", String.valueOf(a));
         }
     }
 }
