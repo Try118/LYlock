@@ -102,24 +102,9 @@ public class SearchDoorLock2 extends BluetoothActivity implements BluetoothAdapt
 
     @Override
     public void initData() {
-//        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            requestPermissions(android.Manifest.permission.ACCESS_COARSE_LOCATION);
-//        }
-//        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            requestPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION);
-//        }
         Toast.makeText(this, getString(R.string.trying_to_search), Toast.LENGTH_LONG).show();
         getUserInfo();
         MybluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-//        if (MybluetoothAdapter == null) {
-//            showToast("当前设备不支持蓝牙");
-//        } else {
-//            if (!MybluetoothAdapter.isEnabled()) {
-//                Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-//                startActivity(intent);
-//            }
-//        }
         if (MybluetoothAdapter.isEnabled()) {
             //开始搜索
             MybluetoothAdapter.startDiscovery();
@@ -134,16 +119,15 @@ public class SearchDoorLock2 extends BluetoothActivity implements BluetoothAdapt
         final BluetoothCallbackManager manager = new BluetoothCallbackManager() {
             @Override
             public void readCallback(String result) {
-                Log.e("YXreadCallback: ",result );
+                Log.e("YXreadCallback: ", result);
                 //门锁无雇主
                 if (result.contains("Noneuser") && !lockstate) {
-                    showToast("门锁无雇主");
                     lockstate = true;
                     //激活门锁
                     LockController lockController = new LockController(SearchDoorLock2.this);
                     List<MultipartBody.Part> parts = null;
                     Map<String, RequestBody> params = new HashMap<>();
-                    params.put("BTAdress", RetrofitUtils.convertToRequestBody(address));
+                    params.put("BTAdress", RetrofitUtils.convertToRequestBody(address));//mac地址
                     Log.e("YXBTAdress: ", address);
                     lockController.activeLock(params, parts, new InterfaceManger.OnRequestListener() {
                         @Override
@@ -166,10 +150,10 @@ public class SearchDoorLock2 extends BluetoothActivity implements BluetoothAdapt
 
                         }
                     });
+                } else if (!lockstate) {
+                    showToast("门锁已有雇主");
                 }
-//                if(!lockstate){
-//                    showToast("门锁已有雇主");
-//                }
+
                 //激活门锁后,lockKey被赋值,lockstate被赋值true,这里进行添加门锁(物理地址暂时是mac地址,门锁名称暂时是蓝牙名称)
                 if (lockKey != null && result.contains(lockKey) && lockstate) {
                     showToast("开始进行添加门锁");
@@ -199,7 +183,6 @@ public class SearchDoorLock2 extends BluetoothActivity implements BluetoothAdapt
                             //success:{"code":1,"lockid":"513"}
                             addLock al = (addLock) success;
                             lockid = al.getLockid();
-//                            showToast("123456");
                             MyProgressDialog.remove();
                             Intent i = new Intent(SearchDoorLock2.this, Reset.class);
                             i.putExtra("lockKey", lockKey);//服务器取回的秘钥
@@ -210,7 +193,7 @@ public class SearchDoorLock2 extends BluetoothActivity implements BluetoothAdapt
 
                         @Override
                         public void onError(String error) {
-
+                            showToast(error);
                         }
 
                         @Override
@@ -333,15 +316,6 @@ public class SearchDoorLock2 extends BluetoothActivity implements BluetoothAdapt
         super.onDestroy();
     }
 
-    @Override
-    protected void onStop() {
-//        if (gatt != null) {
-//            gatt.disconnect();
-//            gatt.close();
-//            gatt = null;
-//        }
-        super.onStop();
-    }
 
     @Override
     protected void onPause() {
