@@ -92,7 +92,7 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
                 startActivity(i);
                 break;
             case R.id.set_open_password:
-                startActivity(SetLockPassword.class);
+                startActivity(SetLockPasswordPage.class);
                 break;
             case R.id.correct_lock_address:
                 Intent intent = new Intent(SetLock.this, SetLockAddress.class);

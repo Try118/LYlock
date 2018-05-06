@@ -61,6 +61,7 @@
         <activity android:name=".View.Reset"/>
         <activity android:name=".View.ResetSetLockAddress"/>
         <activity android:name=".View.ResetSetLockName"/>
+        <activity android:name=".View.SetLockPasswordPage"/>
     </application>
 
 </manifest>
