@@ -314,6 +314,7 @@ public class Select_look extends BluetoothActivity {
         intent.putExtra("address", address);
         intent.putExtra("power", power);
         intent.putExtra("lockId", lockId);
+        intent.putExtra("bluetoothaddress",bluetoothaddress);
         startActivity(intent);
     }
 

@@ -29,6 +29,7 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
     private String lockKey;//相对应门锁的密钥
     private String address;//相对应的门锁地址
     private String lockId;//相对应的门锁ID
+    private String bluetoothaddress;//门锁蓝牙地址
 
     @Override
     public int getLayoutId() {
@@ -70,6 +71,7 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
         lockKey = i.getStringExtra("lockKey");
         address = i.getStringExtra("address");
         lockId=i.getStringExtra("lockId");
+        bluetoothaddress=i.getStringExtra("bluetoothaddress");
     }
 
     @Override
@@ -92,7 +94,13 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
                 startActivity(i);
                 break;
             case R.id.set_open_password:
-                startActivity(SetLockPasswordPage.class);
+                Intent i3 = new Intent(SetLock.this, SetLockPasswordPage.class);
+                i3.putExtra("lockKey",lockKey);
+                i3.putExtra("starttime",starttime);
+                i3.putExtra("endtime",endtime);
+                i3.putExtra("address",address);
+                i3.putExtra("bluetoothaddress",bluetoothaddress);
+                startActivity(i3);
                 break;
             case R.id.correct_lock_address:
                 Intent intent = new Intent(SetLock.this, SetLockAddress.class);
