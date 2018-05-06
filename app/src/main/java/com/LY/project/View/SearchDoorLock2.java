@@ -102,23 +102,24 @@ public class SearchDoorLock2 extends BluetoothActivity implements BluetoothAdapt
 
     @Override
     public void initData() {
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(android.Manifest.permission.ACCESS_COARSE_LOCATION);
-        }
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION);
-        }
+//        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(android.Manifest.permission.ACCESS_COARSE_LOCATION);
+//        }
+//        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            requestPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION);
+//        }
+        Toast.makeText(this, getString(R.string.trying_to_search), Toast.LENGTH_LONG).show();
         getUserInfo();
         MybluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        if (MybluetoothAdapter == null) {
-            showToast("当前设备不支持蓝牙");
-        } else {
-            if (!MybluetoothAdapter.isEnabled()) {
-                Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivity(intent);
-            }
-        }
+//        if (MybluetoothAdapter == null) {
+//            showToast("当前设备不支持蓝牙");
+//        } else {
+//            if (!MybluetoothAdapter.isEnabled()) {
+//                Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+//                startActivity(intent);
+//            }
+//        }
         if (MybluetoothAdapter.isEnabled()) {
             //开始搜索
             MybluetoothAdapter.startDiscovery();

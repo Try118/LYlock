@@ -89,5 +89,5 @@
     <string name="account_format_error">验证码超过时间</string>
     <string name="correct_success">修改成功</string>
     <string name="account_not_exist">账号不存在</string>
-
+    <string name="trying_to_search">正在努力搜索中</string>
 </resources>

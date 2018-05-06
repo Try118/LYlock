@@ -1,6 +1,9 @@
 package com.LY.project.View;
 
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -41,6 +44,7 @@ public class AddLock extends BaseActivity {
 
     private String phone;//电话号码
     private String password;//用户账号
+    private BluetoothAdapter MybluetoothAdapter;
 
     @Override
     protected void onRestart() {
@@ -73,6 +77,23 @@ public class AddLock extends BaseActivity {
         phone = intent.getStringExtra("phone");
         password = intent.getStringExtra("password");
         intit(phone, password);
+
+        //申请蓝牙和地址权限
+        MybluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (MybluetoothAdapter == null) {
+            showToast("当前设备不支持蓝牙");
+        } else {
+            if (!MybluetoothAdapter.isEnabled()) {
+                Intent i = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivity(i);
+            }
+        }
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(android.Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(android.Manifest.permission.ACCESS_FINE_LOCATION);
+        }
     }
 
     private void intit(String phone, String password) {
