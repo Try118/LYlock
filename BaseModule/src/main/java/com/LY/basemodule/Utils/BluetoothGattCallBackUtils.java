@@ -93,10 +93,12 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
     }
 
     public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
+        Log.e("onCharacteristicChanged" ,"1" );
         gatt.readCharacteristic(characteristic);
         String str = null;
         try {
             str = new String(characteristic.getValue(), "GB2312");
+            Log.e("onCharacteristicChanged" ,"2" );
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -104,6 +106,7 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
         handler.post(new Runnable() {
             @Override
             public void run() {
+                Log.e("onCharacteristicChanged" ,"3" );
                 Log.e("BluetoothGatt_gainData", result);
                 callback.readCallback(result);
             }
@@ -127,8 +130,26 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
             final BluetoothGattCharacteristic WriteCharacteristic = Service.getCharacteristic(WRITE);
             final BluetoothGattCharacteristic ReadCharacteristic = Service.getCharacteristic(NOTIFY);
             if (WriteCharacteristic != null && ReadCharacteristic != null) {
+                //注册监听,成功后能接收到设备主动反馈的值
                 gatt.setCharacteristicNotification(ReadCharacteristic, true);
                 boolean isEnableNotification = gatt.setCharacteristicNotification(ReadCharacteristic,true);
+
+                for(BluetoothGattDescriptor dp: ReadCharacteristic.getDescriptors()){
+                    if (dp != null) {
+                        if ((ReadCharacteristic.getProperties() & BluetoothGattCharacteristic.PROPERTY_NOTIFY) != 0) {
+                            dp.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+                        } else if ((ReadCharacteristic.getProperties() & BluetoothGattCharacteristic.PROPERTY_INDICATE) != 0) {
+                            dp.setValue(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
+                        }
+                        gatt.writeDescriptor(dp);
+                    }
+                }
+
+//                for(BluetoothGattDescriptor dp:ReadCharacteristic.getDescriptors()){
+//                    dp.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+//                    gatt.writeDescriptor(dp);
+//                }
+
                 WriteCharacteristic.setValue(message);
                 gatt.writeCharacteristic(WriteCharacteristic);
             }

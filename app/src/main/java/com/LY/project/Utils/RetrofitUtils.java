@@ -155,6 +155,8 @@ public class RetrofitUtils {
         @Multipart
         @POST("Lock/SetRestore")
         Call<ResponseBody> SetRestore(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
+
 //        //新建入库
 //        @Multipart
 //        @POST("goods/createGoods")

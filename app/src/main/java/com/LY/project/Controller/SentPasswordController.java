@@ -34,7 +34,7 @@ public class SentPasswordController {
     }
 
     /**
-     * 发送密码
+     * 发送密码(设置开门密码也会用到)
      */
     public static void GetLockPassword(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
         Call<ResponseBody> call = RetrofitUtils.getInstance().GetLockPassword(map, parts);
@@ -51,10 +51,10 @@ public class SentPasswordController {
                 try {
                     String body = response.body().string();
                     JSONObject jsonObject = new JSONObject(body);
-                    Log.e("body：", body);
+                    Log.e("yyxxbody：", body);
 
                     int code = jsonObject.getInt("code");
-                    Log.e("onResponse", String.valueOf(code));
+                    Log.e("yyxxonResponse", String.valueOf(code));
                     if (code == 1) {
                         listener.onSuccess(new Gson().fromJson(body, GetLockPassword.class));
                     } else {
