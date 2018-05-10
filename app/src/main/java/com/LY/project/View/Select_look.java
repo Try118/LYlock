@@ -161,7 +161,7 @@ public class Select_look extends BluetoothActivity {
                 BluetoothCallbackManager manager = new BluetoothCallbackManager() {
                     @Override
                     public void readCallback(String result) {
-                        Log.e("processClick:123123", "124123412341");
+                        Log.e("YXbluetoothGatt", "aini");
                         state = true;
                         Log.e("read-----", result);
                         final Intent i = new Intent(Select_look.this, BluetoothReceiver.class);

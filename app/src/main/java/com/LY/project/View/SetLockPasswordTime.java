@@ -56,7 +56,7 @@ public class SetLockPasswordTime extends BluetoothActivity {
         @Override
         public void handleMessage(Message message) {
             if (message.what == 0x123) {
-                MyProgressDialog.remove();
+//                MyProgressDialog.remove();
             }
         }
     };
@@ -134,8 +134,8 @@ public class SetLockPasswordTime extends BluetoothActivity {
             case R.id.finish:
                 if (!endtime2.getText().toString().equals(getString(R.string.deadline))) {
                     getBluetooth(bluetoothaddress, manager);
-                    MyProgressDialog.show(SetLockPasswordTime.this, "setting...", true, null);
-                    handler.sendEmptyMessageDelayed(0x123, 10000);
+//                    MyProgressDialog.show(SetLockPasswordTime.this, "setting...", true, null);
+//                    handler.sendEmptyMessageDelayed(0x123, 10000);
                 } else {
                     showToast(getString(R.string.unset_time));
                 }
@@ -173,7 +173,6 @@ public class SetLockPasswordTime extends BluetoothActivity {
                 long powerStartTime = StringToDate.StringToLong(starttime);
                 if (endtime.equals("0")) {
                     if (setTime >= powerStartTime) {
-
                         textView.setTextColor(Color.parseColor("#000000"));
                         textView.setText(time);
                     } else {
@@ -228,13 +227,14 @@ public class SetLockPasswordTime extends BluetoothActivity {
         public void readCallback(String result) {
             Log.e("yyxxreadCallback: ", "3");
             Log.e("yyxxreadResult: ", result);
+//            MyProgressDialog.remove();
             if (result.contains("Changed")) {
                 Log.e("yyxxreadCallback: ", "3Y");
                 if (gatt != null) {
                     gatt.disconnect();
                     gatt.close();
                 }
-                MyProgressDialog.remove();
+
                 handler.removeMessages(0x123);
                 showToast(getString(R.string.setting_succssful));
                 Intent i = new Intent(SetLockPasswordTime.this, SetLock.class);
@@ -266,25 +266,31 @@ public class SetLockPasswordTime extends BluetoothActivity {
                     showToast("onSuccess");
                     GetLockPassword glp = (GetLockPassword) success;
                     serverPassword = glp.getPassword();//服务器返回的密码
+                    Log.e("serverPassword:",serverPassword);
+                    try {
+                        Thread.sleep(800);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     allWrite();
-//                    try {
-//                        Thread.sleep(800);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        Thread.sleep(800);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     //第二次写入
-//                    bluetoothGattCallback.setMessage("("+serverPassword+")");
-//                    Log.e("yyxxrun: ", "("+serverPassword+")");
-//                    gatt.discoverServices();
-//                    try {
-//                        Thread.sleep(800);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
+                    bluetoothGattCallback.setMessage("("+serverPassword+")");
+                    Log.e("yyxxrun: ", "("+serverPassword+")");
+                    gatt.discoverServices();
+                    try {
+                        Thread.sleep(800);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     //第三次写入
-//                    bluetoothGattCallback.setMessage("(L."+password+"Z*)");//用户填写的开门密码
-//                    Log.e("yyxxrun: ", "(L."+password+"Z*)");
-//                    gatt.discoverServices();
+                    bluetoothGattCallback.setMessage("(L."+password+"Z*)");//用户填写的开门密码
+                    Log.e("yyxxrun: ", "(L."+password+"Z*)");
+                    gatt.discoverServices();
                 }
 
                 @Override
