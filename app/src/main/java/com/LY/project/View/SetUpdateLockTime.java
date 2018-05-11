@@ -154,7 +154,12 @@ public class SetUpdateLockTime extends BluetoothActivity {
             if (result > -12 * 60 * 60 * 1000 && result < 12 * 60 * 60 * 1000) {
                 String message = GetDate.getDate();
                 sendMessage = "(" + message + ")";
-                getBluetooth(bluetoothaddress, manager);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        getBluetooth(bluetoothaddress, manager);
+                    }
+                });
             } else {
                 i.putExtra("result", 0x127);
                 sendBroadcast(i);
