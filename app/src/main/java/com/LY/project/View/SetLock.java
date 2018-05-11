@@ -1,6 +1,9 @@
 package com.LY.project.View;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,6 +33,7 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
     private String address;//相对应的门锁地址
     private String lockId;//相对应的门锁ID
     private String bluetoothaddress;//门锁蓝牙地址
+    private String power;//权限
 
     @Override
     public int getLayoutId() {
@@ -72,6 +76,18 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
         address = i.getStringExtra("address");
         lockId=i.getStringExtra("lockId");
         bluetoothaddress=i.getStringExtra("bluetoothaddress");
+        power=i.getStringExtra("power");
+
+        SharedPreferences.Editor editor = getSharedPreferences("UserInformation", MODE_PRIVATE).edit();
+        editor.putString("lock_name",lock_name);
+        editor.putString("starttime",starttime);
+        editor.putString("endtime",endtime);
+        editor.putString("lockKey",lockKey);
+        editor.putString("address",address);
+        editor.putString("lockId",lockId);
+        editor.putString("bluetoothaddress",bluetoothaddress);
+        editor.putString("power",power);
+        editor.apply();
     }
 
     @Override
@@ -101,6 +117,7 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
                 i3.putExtra("address",address);
                 i3.putExtra("bluetoothaddress",bluetoothaddress);
                 startActivity(i3);
+
                 break;
             case R.id.correct_lock_address:
                 Intent intent = new Intent(SetLock.this, SetLockAddress.class);
@@ -108,7 +125,10 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
                 startActivity(intent);
                 break;
             case R.id.updated_lock_time:
-                startActivity(SetUpdateLockTime.class);
+                Intent i4 = new Intent(SetLock.this, SetUpdateLockTime.class);
+                i4.putExtra("power",power);
+                i4.putExtra("bluetoothaddress",bluetoothaddress);
+                startActivity(i4);
                 break;
             case R.id.open_record:
                 Intent i2 = new Intent(this, SetLockOpenLockRecord.class);
@@ -129,5 +149,19 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onStart() {
+        SharedPreferences information = getSharedPreferences("UserInformation", MODE_PRIVATE);
+        lock_name = information.getString("lock_name",null);
+        starttime = information.getString("starttime",null);
+        endtime = information.getString("endtime",null);
+        lockKey = information.getString("lockKey",null);
+        address = information.getString("address",null);
+        lockId = information.getString("lockId",null);
+        bluetoothaddress = information.getString("bluetoothaddress",null);
+        Log.e("onResumeendtime: ",endtime );
+        super.onStart();
     }
 }

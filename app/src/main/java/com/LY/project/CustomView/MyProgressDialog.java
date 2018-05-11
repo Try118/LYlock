@@ -15,7 +15,7 @@ import com.LY.project.R;
  * Created by 柯东煜 on 2017/10/1.
  */
 
-public class MyProgressDialog extends Dialog {
+public class  MyProgressDialog extends Dialog {
     static private MyProgressDialog dialog;
     public MyProgressDialog(Context context) {
         super(context);
@@ -97,4 +97,10 @@ public class MyProgressDialog extends Dialog {
             dialog.dismiss();
         }
     }
+//
+//    @Override
+//    protected void onStop() {
+//        dialog.dismiss();
+//        super.onStop();
+//    }
 }

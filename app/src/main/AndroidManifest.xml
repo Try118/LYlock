@@ -63,6 +63,12 @@
         <activity android:name=".View.ResetSetLockName"/>
         <activity android:name=".View.SetLockPasswordPage"/>
         <activity android:name=".View.SetLockPasswordTime"/>
+
+        <receiver android:name=".Utils.BluetoothReceiver">
+            <intent-filter>
+                <action android:name="woolock.bluetooth.result"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

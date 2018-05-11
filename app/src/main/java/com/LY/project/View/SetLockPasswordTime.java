@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.bluetooth.BluetoothManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
@@ -22,7 +23,7 @@ import com.LY.basemodule.Manager.BluetoothCallbackManager;
 import com.LY.project.Controller.SentPasswordController;
 import com.LY.project.CustomView.MyProgressDialog;
 import com.LY.project.Manager.InterfaceManger;
-import com.LY.project.Module.GetLockPassword;
+import com.LY.project.Module.*;
 import com.LY.project.R;
 import com.LY.project.Utils.RetrofitUtils;
 import com.LY.project.Utils.StringToDate;
@@ -320,4 +321,5 @@ public class SetLockPasswordTime extends BluetoothActivity {
         boolean b=gatt.discoverServices();
         Log.e("yyxxrun", String.valueOf(b));
     }
+
 }
