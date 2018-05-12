@@ -144,7 +144,12 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
                 startActivity(SetLockDeleteAllPassword.class);
                 break;
             case R.id.delete_lock:
-                startActivity(SetLockDeletePage.class);
+                Intent i5 = new Intent(SetLock.this, SetLockDeletePage.class);
+                i5.putExtra("power",power);
+                i5.putExtra("bluetoothaddress",bluetoothaddress);
+                i5.putExtra("lockId",lockId);
+                i5.putExtra("lockKey",lockKey);
+                startActivity(i5);
                 break;
             default:
                 break;
