@@ -1,5 +1,6 @@
 package com.LY.project.View;
 
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
@@ -23,6 +24,9 @@ public class MainPage extends BaseActivity {
     private Handler handler = new Handler();
     final Timer timer = new Timer();
 
+    private int judge = 0;
+
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_main_page;
@@ -40,6 +44,8 @@ public class MainPage extends BaseActivity {
 
     @Override
     public void initData() {
+        SharedPreferences information = getSharedPreferences("UserInformation", MODE_PRIVATE);
+        judge = information.getInt("judge",0);
 
         //改变文字的
         tast = new TimerTask() {
@@ -58,13 +64,18 @@ public class MainPage extends BaseActivity {
         tast2 = new TimerTask() {
             @Override
             public void run() {
-                startActivity(LegalProvisions.class);
-                finish();
+                if (judge == 0){
+                    startActivity(LegalProvisions.class);
+                    finish();
+                }else{
+                    startActivity(Login.class);
+                    finish();
+                }
             }
         };
 
-        timer.schedule(tast, 1000);//2秒后跳转页面
-        timer.schedule(tast2, 2000);//1秒后改变文字
+        timer.schedule(tast, 1000);//1秒后改变文字
+        timer.schedule(tast2, 2000);//2秒后跳转页面
     }
 
     @Override

@@ -1,10 +1,13 @@
 package com.LY.project.View;
 
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -144,5 +147,37 @@ public class AddLock extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+        }
+        return false;
+    }
+
+    public void exit() {
+        // 创建退出对话框
+        AlertDialog isExit = new AlertDialog.Builder(this).create();
+        // 设置对话框标题
+        isExit.setTitle("系统提示");
+        // 设置对话框消息
+        isExit.setMessage("确定要退出吗");
+        // 添加选择按钮并注册监听
+        isExit.setButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        isExit.setButton2("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        // 显示对话框
+        isExit.show();
     }
 }

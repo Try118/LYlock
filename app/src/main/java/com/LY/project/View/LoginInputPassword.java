@@ -113,6 +113,7 @@ public class LoginInputPassword extends BaseActivity {
                 i.putExtra("password",password);
 
                 startActivity(i);
+                finish();
             }
 
             @Override

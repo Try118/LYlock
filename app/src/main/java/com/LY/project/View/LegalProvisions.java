@@ -1,5 +1,6 @@
 package com.LY.project.View;
 
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Button;
 
@@ -35,7 +36,9 @@ public class LegalProvisions extends BaseActivity {
 
     @Override
     public void initData() {
-
+        SharedPreferences.Editor edit = getSharedPreferences("UserInformation", MODE_PRIVATE).edit();
+        edit.putInt("judge",1);
+        edit.apply();
     }
 
     @Override
@@ -43,6 +46,7 @@ public class LegalProvisions extends BaseActivity {
         switch (v.getId()){
             case R.id.agress:
                 startActivity(Login.class);
+                finish();
                 break;
             case R.id.disagress:
                 showToast("点击不同意");

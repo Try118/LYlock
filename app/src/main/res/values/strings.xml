@@ -43,9 +43,11 @@
     <string name="input_picture_number">请输入图片中的数字</string>
     <string name="change_picture">看不清,换一张</string>
     <string name="test">
-        Android开发组成员：\n
-        林楚杰(17875305749)\n
-        姚喜(18320777728）\n
+        Android开发组成员：\n \n
+
+                     林楚杰 (17875305749)\n \n
+
+                     &#160; &#160;姚喜  &#160;(18320777728）\n
     </string>
     <string name="agress">同意</string>
     <string name="disagress">不同意</string>

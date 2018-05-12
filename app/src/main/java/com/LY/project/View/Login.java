@@ -85,6 +85,7 @@ public class Login extends BaseActivity {
             @Override
             public void onSuccess(Object success) {
                 startActivity(LoginInputPassword.class);
+                finish();
             }
 
             @Override
