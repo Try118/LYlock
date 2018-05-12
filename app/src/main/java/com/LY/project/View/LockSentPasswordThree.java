@@ -194,9 +194,16 @@ public class LockSentPasswordThree extends BaseActivity {
 
                         //生成消息
                         String str = "欢迎使用物勒智能门锁，您的开锁密码为：" + password.substring(0, 4) + "-" + password.substring(4, 8) + "-" + password.substring(8) + "门锁名称为:" + lock_name + ",有效时间至" + end_time.getText() + "。输入密码后按 # 号键即可开门";
-                        Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + account));
-                        sendIntent.putExtra("sms_body", str);
-                        startActivity(sendIntent);
+                        if (account.equals("wechat")){
+                            Intent intent = new Intent(Intent.ACTION_SEND);
+                            intent.setType("text/plain");//  intent.setPackage("com.tencent.mm");
+                            intent.putExtra(Intent.EXTRA_TEXT, str);
+                            startActivity(Intent.createChooser(intent, "请选择"));
+                        }else{
+                            Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + account));
+                            sendIntent.putExtra("sms_body", str);
+                            startActivity(sendIntent);
+                        }
                     }
 
                     @Override
@@ -223,10 +230,16 @@ public class LockSentPasswordThree extends BaseActivity {
 
                         //生成消息
                         String str = "欢迎使用物勒智能门锁，您的开锁密码为：" + password.substring(0, 4) + "-" + password.substring(4, 8) + "-" + password.substring(8) + "门锁名称为:" + lock_name + ",有效时间至" + end_time.getText() + "。输入密码后按 # 号键即可开门";
-                        Log.e("str: ",str );
-                        Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + account));
-                        sendIntent.putExtra("sms_body", str);
-                        startActivity(sendIntent);
+                        if (account.equals("wechat")){
+                            Intent intent = new Intent(Intent.ACTION_SEND);
+                            intent.setType("text/plain");//  intent.setPackage("com.tencent.mm");
+                            intent.putExtra(Intent.EXTRA_TEXT, str);
+                            startActivity(Intent.createChooser(intent, "请选择"));
+                        }else{
+                            Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + account));
+                            sendIntent.putExtra("sms_body", str);
+                            startActivity(sendIntent);
+                        }
                     }
 
                     @Override

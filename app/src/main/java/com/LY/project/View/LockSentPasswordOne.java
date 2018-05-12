@@ -109,6 +109,13 @@ public class LockSentPasswordOne extends BaseActivity {
                 nextStep();
                 break;
             case R.id.WeChat:
+                Intent i = new Intent(this, LockSentPasswordTwo.class);
+                i.putExtra("account", "wechat");//账号
+                i.putExtra("name", "wechat");//备注名
+                i.putExtra("lockKey",lockKey);//密钥
+                i.putExtra("lock_name",lock_name);//门锁名
+                i.putExtra("endtime",endtime);//结束时间
+                startActivity(i);
                 break;
             default:
                 break;

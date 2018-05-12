@@ -114,13 +114,23 @@ public class LockSentPasswordTwo extends BaseActivity {
     private void nextStep() {
         if (type == 1) {
             //多次性密码
-            Intent i = new Intent(this, LockSentPasswordThree.class);
-            i.putExtra("account", account);
-            i.putExtra("name", name);
-            i.putExtra("lock_name", lock_name);
-            i.putExtra("lockKey",lockKey);
-            i.putExtra("endtime",endtime);
-            startActivity(i);
+            if (account.equals("wechat")){
+                Intent i = new Intent(this, LockSentPasswordThree.class);
+                i.putExtra("account", account);
+                i.putExtra("name", name);
+                i.putExtra("lock_name", lock_name);
+                i.putExtra("lockKey",lockKey);
+                i.putExtra("endtime",endtime);
+                startActivity(i);
+            }else{
+                Intent i = new Intent(this, LockSentPasswordThree.class);
+                i.putExtra("account", account);
+                i.putExtra("name", name);
+                i.putExtra("lock_name", lock_name);
+                i.putExtra("lockKey",lockKey);
+                i.putExtra("endtime",endtime);
+                startActivity(i);
+            }
         } else {
             SentPasswordController sentPasswordController = new SentPasswordController(this);
             String startTime = String.valueOf(new Date().getTime() / 1000);
@@ -139,9 +149,17 @@ public class LockSentPasswordTwo extends BaseActivity {
                     String password = data.getPassword();
                     //生成消息
                     String str = "欢迎使用物勒智能门锁，您的开锁密码为：" + password.substring(0, 4) + "-" + password.substring(4, 8) + "-" + password.substring(8, 11) + password.substring(11) + "门锁名称为:" + lock_name + ",2小时后失效。输入密码后按 # 号键即可开门";
-                    Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + account));
-                    sendIntent.putExtra("sms_body", str);
-                    startActivity(sendIntent);
+                    if(account.equals("wechat")){
+                        Intent intent=new Intent(Intent.ACTION_SEND);
+                        intent.setType("text/plain");
+                        intent.setPackage("com.tencent.mm");//intent.setPackage("com.sina.weibo");
+                        intent.putExtra(Intent.EXTRA_TEXT, str);
+                        startActivity(Intent.createChooser(intent, "请选择"));
+                    }else{
+                        Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + account));
+                        sendIntent.putExtra("sms_body", str);
+                        startActivity(sendIntent);
+                    }
                 }
 
                 @Override
