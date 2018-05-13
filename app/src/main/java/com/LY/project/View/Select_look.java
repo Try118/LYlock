@@ -135,7 +135,7 @@ public class Select_look extends BluetoothActivity {
         power = i.getStringExtra("power");
         lockId = i.getStringExtra("lockId");
         bluetoothaddress = i.getStringExtra("bluetoothaddress");
-        Log.e("initData:---- ", lock_name + "00 " + starttime + " 00" + endtime + "00 " + lockKey + "00 " + address + "00");
+        Log.e("initData:--- ", lock_name + "00 " + starttime + " 00" + endtime + "00 " + lockKey + "00 " + address + "00");
         if (power.equals("3")) {
             send_password.setVisibility(View.INVISIBLE);
             giver.setVisibility(View.INVISIBLE);
