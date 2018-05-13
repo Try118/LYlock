@@ -238,9 +238,9 @@ public class SetLockPasswordTime extends BluetoothActivity {
 
                 handler.removeMessages(0x123);
                 showToast(getString(R.string.setting_succssful));
-                Intent i = new Intent(SetLockPasswordTime.this, SetLock.class);
-                startActivity(i);
-                finish();
+//                Intent i = new Intent(SetLockPasswordTime.this, SetLock.class);
+//                startActivity(i);
+//                finish();
             } else {
                 showToast(getString(R.string.have_a_error));
             }
