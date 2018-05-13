@@ -58,6 +58,7 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
     //设置发送值
     public void setMessage(String message) {
         this.message = message;
+        Log.e("bluetoothGatt:",message );
     }
 
     @Override

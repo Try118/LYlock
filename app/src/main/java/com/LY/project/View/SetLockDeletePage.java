@@ -141,17 +141,14 @@ public class SetLockDeletePage extends BluetoothActivity {
                             MyProgressDialog.remove();
                             Intent i = new Intent(SetLockDeletePage.this, AddLock.class);
                             handler.removeMessages(0x124);
+                            showToast("删除成功");
                             startActivity(i);
                             finish();
                         }
 
                         @Override
                         public void onError(String error) {
-                            MyProgressDialog.remove();
-                            Intent i = new Intent(SetLockDeletePage.this, AddLock.class);
-                            handler.removeMessages(0x124);
-                            startActivity(i);
-                            finish();
+                            showToast(error);
                         }
 
                         @Override
@@ -172,7 +169,11 @@ public class SetLockDeletePage extends BluetoothActivity {
             MyProgressDialog.remove();
             Log.e("deletereadCallback: ", result);
             if (result.contains("OK")) {
-                showToast("OK");
+                if (gatt!=null){
+                    gatt.disconnect();
+                    gatt.close();
+                    gatt = null;
+                }
                 LockController lockController = new LockController(SetLockDeletePage.this);
                 List<MultipartBody.Part> parts = null;
                 Map<String, RequestBody> params = new HashMap<>();
@@ -182,17 +183,17 @@ public class SetLockDeletePage extends BluetoothActivity {
                 lockController.deleteLock(params, parts, new InterfaceManger.OnRequestListener() {
                     @Override
                     public void onSuccess(Object success) {
-                        showToast("deleteLockonSuccess");
-//                        MyProgressDialog.remove();
-//                        Intent i = new Intent(SetLockDeletePage.this, AddLock.class);
-//                        handler.removeMessages(0x124);
-//                        startActivity(i);
-//                        finish();
+                        showToast("删除成功");
+                        MyProgressDialog.remove();
+                        Intent i = new Intent(SetLockDeletePage.this, AddLock.class);
+                        handler.removeMessages(0x124);
+                        startActivity(i);
+                        finish();
                     }
 
                     @Override
                     public void onError(String error) {
-                        showToast("deleteLockonError");
+                        showToast(error);
 //                        MyProgressDialog.remove();
 //                        Intent i = new Intent(SetLockDeletePage.this, AddLock.class);
 //                        handler.removeMessages(0x124);
@@ -208,6 +209,12 @@ public class SetLockDeletePage extends BluetoothActivity {
                 handler.removeMessages(0x124);
                 gatt.disconnect();
                 gatt.close();
+            }else{
+                if (gatt!=null){
+                    gatt.disconnect();
+                    gatt.close();
+                    gatt = null;
+                }
             }
         }
 
@@ -218,7 +225,7 @@ public class SetLockDeletePage extends BluetoothActivity {
 
         @Override
         public void connectCallback() {
-            showToast("链接上");
+//            showToast("链接上");
             handler.sendEmptyMessageDelayed(0x126, 500);
         }
 

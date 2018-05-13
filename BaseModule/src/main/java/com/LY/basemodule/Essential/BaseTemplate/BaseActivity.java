@@ -22,7 +22,7 @@ import java.util.List;
  */
 
 public abstract class BaseActivity extends AppCompatActivity implements View.OnClickListener{
-
+//"UserInformation", MODE_PRIVATE
     private SparseArray<View> mViews;
     private Intent intent;
 

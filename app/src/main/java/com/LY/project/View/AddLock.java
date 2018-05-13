@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -181,4 +182,11 @@ public class AddLock extends BaseActivity {
         isExit.show();
     }
 
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        SharedPreferences information = getSharedPreferences("UserInformation", MODE_PRIVATE);
+//        phone = information.getString("account",null);
+//        password = information.getString("password",null);
+//    }
 }

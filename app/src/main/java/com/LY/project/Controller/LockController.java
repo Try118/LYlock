@@ -100,6 +100,7 @@ public class LockController {
                 }
                 try {
                     String body = response.body().string();
+                    Log.e("onResponse: body",body );
                     listener.onSuccess("");
                 } catch (Exception e) {
                     listener.onError(e.toString());
@@ -142,6 +143,8 @@ public class LockController {
                 }
                 try {
                     String body = response.body().string();
+                    Log.e("onResponse:body","213123");
+                    Log.e("onResponse:body",body);
                     listener.onSuccess("");
                 } catch (Exception e) {
                     listener.onError(e.toString());
