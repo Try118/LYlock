@@ -1,5 +1,6 @@
 package com.LY.project.View;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.LY.basemodule.Essential.BaseTemplate.BaseActivity;
 import com.LY.project.Controller.LoginController;
+import com.LY.project.CustomView.Variate;
 import com.LY.project.Manager.InterfaceManger;
 import com.LY.project.R;
 import com.LY.project.Utils.RetrofitUtils;
@@ -33,6 +35,7 @@ public class Login extends BaseActivity {
     private Button next;//下一步
     private String account;//账户
     private static String temp;//为了解决内部类必须使用final类型的问题
+    static public Activity activity;
 
     @Override
     public int getLayoutId() {
@@ -56,6 +59,10 @@ public class Login extends BaseActivity {
         SharedPreferences information = getSharedPreferences("UserInformation", MODE_PRIVATE);
         String temp2 = information.getString("account", "");
         phone.setText(temp2);
+        if(getSharedPreferences("userInfo",MODE_PRIVATE).getBoolean("gesture",false)){
+            Intent i=new Intent(this,GestureDraw.class);
+            startActivity(i);
+        }
     }
 
     @Override
@@ -105,5 +112,13 @@ public class Login extends BaseActivity {
                 startActivity(intent);
             }
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Variate.setState) {
+            Variate.setState = false;
+            finish();
+        }
     }
 }
