@@ -182,11 +182,11 @@ public class AddLock extends BaseActivity {
         isExit.show();
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        SharedPreferences information = getSharedPreferences("UserInformation", MODE_PRIVATE);
-//        phone = information.getString("account",null);
-//        password = information.getString("password",null);
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences information = getSharedPreferences("UserInformation", MODE_PRIVATE);
+        phone = information.getString("account",null);
+        password = information.getString("password",null);
+    }
 }

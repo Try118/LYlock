@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -45,9 +46,16 @@ public class SetUpdateLockTime extends BluetoothActivity {
             } else if (message.what == 0x125) {
                 MyProgressDialog.remove();
                 showToast("更新失败，请重新更新");
-            } else if (message.what == 0x126) {
-                bluetoothGattCallback.setMessage(sendMessage);
-                gatt.discoverServices();
+            } else if (message.what == 0x226) {
+                if (gatt != null) {
+                    bluetoothGattCallback.setMessage(sendMessage);
+                    gatt.discoverServices();
+                }
+            } else if (message.what == 0x234) {
+                if (gatt != null) {
+                    gatt.disconnect();
+                    gatt = null;
+                }
             }
         }
     };
@@ -85,54 +93,92 @@ public class SetUpdateLockTime extends BluetoothActivity {
                 finish();
                 break;
             case R.id.update:
+
+//                refreshDeviceCache();
+
                 Update();
+
                 break;
             default:
                 break;
         }
     }
 
+    /**
+     * 校准时间
+     */
     private void Update() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                updateTheTime();
-            }
-        }).start();
+        String message = GetDate.getDate();
+        sendMessage = "(" + message + ")";
+        Log.e("sendMessage:", sendMessage);
         MyProgressDialog.show(SetUpdateLockTime.this, "Updating...", false, null);
+//        gatt.setCharacteristicNotification(characteristic, enable);
+
+//        getBluetooth(bluetoothaddress, manager);
+        con();
+        //发送消息延迟 20秒后移除弹框
         handler.sendEmptyMessageDelayed(0x125, 20000);
+    }
+
+    public synchronized void con() {
+        getBluetooth(bluetoothaddress, manager);
     }
 
     BluetoothCallbackManager manager = new BluetoothCallbackManager() {
         @Override
         public void readCallback(String result) {
             MyProgressDialog.remove();
-            Log.e("UpdateTimeread", result);
-            if(result.contains("33333")){
+            Log.e("result", result);
+            if (result.contains("333333") || result != null) {
                 showToast("校准成功");
-                gatt.disconnect();
-                gatt.close();
-                gatt=null;
+                handler.removeMessages(0x125);
+
+                handler.sendEmptyMessage(0x234);
+//                    gatt.disconnect();
+//                    refreshDeviceCache();
+//                    try {
+//                        Thread.sleep(400);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    gatt = null;
+
+//                refreshDeviceCache();
                 finish();
+
+//                gatt = null;
             }
-            handler.removeMessages(0x125);
+//            if (gatt != null) {
+//                gatt.disconnect();
+//                gatt.close();
+//            }
         }
 
         @Override
         public void writeCallback(String result) {
-
+            Log.e("writeCallback: ", result);
         }
 
         @Override
         public void connectCallback() {
-            handler.sendEmptyMessageDelayed(0x126, 800);
+            Log.e("bluetoothGatt:", "意外意外");
+//            handler.sendEmptyMessageDelayed(0x226, 100);
+            find();
+
         }
 
         @Override
         public void unConnectCallback() {
-
+            MyProgressDialog.remove();
         }
     };
+
+    public synchronized void find() {
+//        if (gatt != null) {
+            bluetoothGattCallback.setMessage(sendMessage);
+            gatt.discoverServices();
+//        }
+    }
 
     public void updateTheTime() {
         Intent i = new Intent(this, BluetoothReceiver.class);
@@ -173,6 +219,10 @@ public class SetUpdateLockTime extends BluetoothActivity {
     String webUrl5 = "http://www.360.cn";//360
     String webUrl6 = "http://www.beijing-time.org";//beijing-time
 
+    /**
+     * @param webUrl 获取网络时间
+     * @return
+     */
     private static long getWebsiteDatetime(String webUrl) {
         try {
             URL url = new URL(webUrl);// 取得资源对象
@@ -189,4 +239,12 @@ public class SetUpdateLockTime extends BluetoothActivity {
         return 0;
     }
 
+    /**
+     * 页面死亡去除弹框
+     */
+    @Override
+    protected void onDestroy() {
+        MyProgressDialog.remove();
+        super.onDestroy();
+    }
 }

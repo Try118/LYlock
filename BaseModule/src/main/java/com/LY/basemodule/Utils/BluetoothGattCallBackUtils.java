@@ -13,11 +13,12 @@ import android.util.Log;
 import com.LY.basemodule.Manager.BluetoothCallbackManager;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.UUID;
 
 /**
  * ====== 作者 ======
- * Diko（柯东煜）
+ * Diko（lcj）
  * ====== 时间 ======
  * 2018-03-09.
  */
@@ -84,10 +85,12 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
 
     public void onCharacteristicRead(BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic, int status) {
         Log.e("bluetoothGatt", "read");
+        Log.e("bluetoothGatt", String.valueOf(characteristic));
     }
 
     public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
         Log.e("bluetoothGatt", "write");
+        Log.e("bluetoothGatt", String.valueOf(characteristic) );
     }
 
     public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {
@@ -131,8 +134,6 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
         }
     }
 }
-
-
 /**
  * if(isEnableNotification) {
  * List<BluetoothGattDescriptor> descriptorList = ReadCharacteristic.getDescriptors();

@@ -8,7 +8,7 @@ import com.LY.project.R;
 
 
 /**
- * Created by 柯东煜 on 2017/11/22.
+ * Created by lcj on 2017/11/22.
  */
 
 public class BluetoothReceiver extends BroadcastReceiver {

@@ -1,5 +1,6 @@
 package com.LY.basemodule.Essential.BaseTemplate;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -115,5 +116,9 @@ public abstract class BaseActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-
+//    @Override
+//    protected void attachBaseContext(Context base) {
+//        super.attachBaseContext(base);
+////        MultiDex.install(this);
+//    }
 }

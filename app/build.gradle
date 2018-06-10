@@ -1,12 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+    sourceSets.main.jniLibs.srcDirs = ['src/main/libs']
     defaultConfig {
         applicationId "com.LY.project"
         minSdkVersion 18
         targetSdkVersion 26
+        multiDexEnabled true
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -28,5 +30,8 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     compile project(path: ':BaseModule')
+    compile project(path: ':blelibrary')
     compile files('libs/pinyin4j-2.5.0.jar')
+    compile 'com.android.support:multidex:1.0.1'
+//    compile 'com.vise.xiaoyaoyou:baseble:2.0.5'
 }

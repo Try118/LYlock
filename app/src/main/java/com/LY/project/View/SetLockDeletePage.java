@@ -185,7 +185,13 @@ public class SetLockDeletePage extends BluetoothActivity {
                     public void onSuccess(Object success) {
                         showToast("删除成功");
                         MyProgressDialog.remove();
+                        SharedPreferences information = getSharedPreferences("UserInformation", MODE_PRIVATE);
+                        String phone = information.getString("account", null);
+                        String password = information.getString("password", null);
+
                         Intent i = new Intent(SetLockDeletePage.this, AddLock.class);
+                        i.putExtra("phone",phone);
+                        i.putExtra("password",password);
                         handler.removeMessages(0x124);
                         startActivity(i);
                         finish();
@@ -207,8 +213,8 @@ public class SetLockDeletePage extends BluetoothActivity {
                     }
                 });
                 handler.removeMessages(0x124);
-                gatt.disconnect();
-                gatt.close();
+//                gatt.disconnect();
+//                gatt.close();
             }else{
                 if (gatt!=null){
                     gatt.disconnect();

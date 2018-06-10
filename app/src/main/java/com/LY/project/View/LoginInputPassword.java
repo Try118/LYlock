@@ -57,7 +57,12 @@ public class LoginInputPassword extends BaseActivity {
 
     @Override
     public void initData() {
-
+        String temp1 = getIntent().getStringExtra("account");
+        SharedPreferences.Editor edit = getSharedPreferences("UserInformation", MODE_PRIVATE).edit();
+        edit.putString("account",temp1);
+        edit.apply();
+        input_account.setText(temp1);
+        input_account.setEnabled(false);
     }
 
     @Override

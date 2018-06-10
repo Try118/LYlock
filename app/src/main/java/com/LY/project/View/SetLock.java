@@ -88,6 +88,13 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
         editor.putString("bluetoothaddress",bluetoothaddress);
         editor.putString("power",power);
         editor.apply();
+
+        if (power.contains("3")){
+            set_open_password.setVisibility(View.GONE);
+            open_record.setVisibility(View.GONE);
+            giver_record.setVisibility(View.GONE);
+//            set_open_password.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

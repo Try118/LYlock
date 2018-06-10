@@ -25,6 +25,7 @@ import com.LY.project.CustomView.MyProgressDialog;
 import com.LY.project.Manager.InterfaceManger;
 import com.LY.project.R;
 import com.LY.project.Utils.BluetoothReceiver;
+import com.LY.project.Utils.GetDate;
 import com.LY.project.Utils.RetrofitUtils;
 import com.LY.project.Utils.StringToDate;
 import com.hp.hpl.sparta.Text;
@@ -72,15 +73,28 @@ public class Select_look extends BluetoothActivity {
             if (msg.what == 0x123) {
                 open_lock.setBackgroundResource(R.color.Text_color);
                 open_lock.setClickable(false);
-            } else if (msg.what == 0x124) {
-                    open_lock.setBackgroundResource(R.color.line);
+            }
+            else if (msg.what == 0x124) {
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                open_lock.setBackgroundResource(R.color.line);
                     open_lock.setClickable(true);
                     if (gatt != null) {
                         gatt.disconnect();
                         gatt.close();
                         gatt = null;
+                        Log.e("bluetoothGatt:","disconnect--open—success");
                     }
-            } else if (msg.what == 0x127) {
+            }
+            else if (msg.what == 0x127) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 open_lock.setBackgroundResource(R.color.line);
                 open_lock.setClickable(true);
                 showToast("连接异常，请重新连接");
@@ -88,6 +102,9 @@ public class Select_look extends BluetoothActivity {
                 else if (msg.what == 0x125) {
                 MyProgressDialog.remove();
             }
+//            else if (msg.what == 0x128) {
+//                gatt.discoverServices();
+//            }
             super.handleMessage(msg);
         }
     };
@@ -164,23 +181,28 @@ public class Select_look extends BluetoothActivity {
                 break;
             case R.id.open_lock:
                 BluetoothCallbackManager manager = new BluetoothCallbackManager() {
+                    /**
+                     * @param result
+                     */
                     @Override
                     public void readCallback(String result) {
                         Log.e("YXbluetoothGatt", "aini");
                         state = true;
-                        Log.e("read-----", result);
+                        Log.e("bluetoothGatt:", result);
                         final Intent i = new Intent(Select_look.this, BluetoothReceiver.class);
                         i.setAction("woolock.bluetooth.result");
                         if (result.contains("1111")) {
                             if(gatt!=null){
-                                gatt.disconnect();
+//                                gatt.disconnect();
                                 gatt.close();
                                 gatt = null;
+                                Log.e("bluetoothGatt:","disconnect");
                             }
                         }
                         if (result.contains("POWER")) {
                             //上传操作记录
                             record();
+
                             String num = "POWER[0-9]{1,3}";
                             Pattern pattern = Pattern.compile(num);
                             Matcher matcher = pattern.matcher(result);
@@ -208,19 +230,30 @@ public class Select_look extends BluetoothActivity {
                             handler.removeMessages(0x127);
                             if(gatt!=null){
                                 gatt.disconnect();
+                                gatt.disconnect();
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                                 gatt.close();
                                 gatt = null;
+                                Log.e("bluetoothGatt:","disconnect");
                             }
                             handler.sendEmptyMessage(0x124);
+
                         }
                         if (result.contains("3333")) {
+                            handler.removeMessages(0x127);
                             i.putExtra("result", 0x124);
                             sendBroadcast(i);
                             if(gatt!=null){
                                 gatt.disconnect();
                                 gatt.close();
                                 gatt = null;
+                                Log.e("bluetoothGatt:","disconnect");
                             }
+                            handler.sendEmptyMessage(0x124);
                         }
                     }
 
@@ -230,76 +263,53 @@ public class Select_look extends BluetoothActivity {
 
                     }
 
+                    /**
+                     *
+                     */
                     @Override
                     public void connectCallback() {
                         Log.e("processClick:123123", "出来吧");
-//                        handler.sendEmptyMessageDelayed(0x126, 800);
+                        handler.sendEmptyMessageDelayed(0x126, 800);
                         handler.sendEmptyMessage(0x123);
-                        bluetoothGattCallback.setMessage("(!" + lockKey + ".O*)");
-                        gatt.discoverServices();
+//                        String message = GetDate.getDate();
+//                        String sendMessage = "(" + message + ")";
+//                        bluetoothGattCallback.setMessage(sendMessage);
+//
+//                        String message = GetDate.getDate();
+//                        String sendMessage = "(" + message + ")";
+//                        bluetoothGattCallback.setMessage(sendMessage);
+                        String message = GetDate.getDate();
+                        String sendMessage = "(" + message + ")";
+                        bluetoothGattCallback.setMessage(sendMessage);
+//                        bluetoothGattCallback.setMessage("(!" + lockKey + ".O*)");
+
+//                        bluetoothGattCallback.setMessage("(!T1806021204056*)");
+
+////                        handler.sendEmptyMessageDelayed(0x128,100);
+                        try {
+                            gatt.discoverServices();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         MyProgressDialog.remove();
-                        handler.sendEmptyMessageDelayed(0x127,5000);
-
-//                        new Thread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                handler.sendEmptyMessageDelayed(0x123, 0);
-//                                while (time != 0) {
-//                                    time--;
-//                                    Log.e("time", String.valueOf(time));
-//                                    try {
-//                                        Thread.sleep(1000);
-//                                    } catch (InterruptedException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                                time = 3;
-//                                handler.sendEmptyMessageDelayed(0x124, 0);
-//                            }
-//                        }).start();
-//
-//                        new Thread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                try {
-//                                    Thread.sleep(1000);
-//                                } catch (InterruptedException e) {
-//                                    e.printStackTrace();
-//                                }
-//                                if (!state && gatt != null) {
-//                                    state = false;
-//                                    gatt.disconnect();
-//                                    gatt.close();
-//                                    gatt = null;
-//                                    Log.e("bluetoothGatt:", "disconnect");
-//                                }
-//                            }
-//                        }).start();
-//
-//                        //发送请求门锁电量
-//                        new Thread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                bluetoothGattCallback.setMessage("(!" + lockKey + ".O*)");
-//                                boolean b = gatt.discoverServices();
-////                                Log.e("bluetoothGatt", String.valueOf(b));
-//                            }
-//                        }).start();
-
+                        //  8 秒后颜色变回原来的样子
+                        handler.sendEmptyMessageDelayed(0x127,8000);
                         showNotification(1);
                     }
 
                     @Override
                     public void unConnectCallback() {
+
                         if (gatt!=null){
-                            gatt.disconnect();
-                            gatt.close();
-                            gatt = null;
+                            gatt.connect();
+//                            gatt.disconnect();
+//                            gatt.close();
+//                            gatt = null;
+                            Log.e("bluetoothGatt:","disconnect--unConnectCallback");
+
                         }
-//                        gatt.close();
-//                        gatt = null;
                         showToast("链接异常,请稍后重试");
-                        MyProgressDialog.remove();
+//                        MyProgressDialog.remove();
                         showNotification(2);
                     }
                 };
