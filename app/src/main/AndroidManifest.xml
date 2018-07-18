@@ -64,6 +64,7 @@
         <activity android:name=".View.ResetSetLockName"/>
         <activity android:name=".View.SetLockPasswordPage"/>
         <activity android:name=".View.SetLockPasswordTime"/>
+        <activity android:name=".View.GestureDraw"/>
 
         <receiver android:name=".Utils.BluetoothReceiver">
             <intent-filter>
