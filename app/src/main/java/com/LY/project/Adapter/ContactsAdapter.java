@@ -19,6 +19,7 @@ import com.LY.project.R;
  */
 public class ContactsAdapter extends BaseAdapter implements SectionIndexer {
     private List<phoneInfo> list;
+
     private Context context;
     private LayoutInflater inflater;
 
