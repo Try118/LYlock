@@ -235,6 +235,7 @@ public class LockController {
                 }
                 if (!response.isSuccessful() || response == null) {
                     listener.onError(context.getString(R.string.server_error) + response.code());
+//                    listener.onError("服务器异常不是我");
                     return;
                 }
                 try {

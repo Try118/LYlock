@@ -1,1 +1,1 @@
-include ':app', 'BaseModule'
+include ':app','BaseModule',':blelibrary'
