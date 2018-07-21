@@ -26,12 +26,14 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
 import cn.com.heaton.blelibrary.ble.Ble;
 import cn.com.heaton.blelibrary.ble.BleDevice;
 import cn.com.heaton.blelibrary.ble.callback.BleConnCallback;
+import cn.com.heaton.blelibrary.ble.callback.BleNotiftCallback;
 import cn.com.heaton.blelibrary.ble.callback.BleWriteCallback;
 
 /**
@@ -39,6 +41,8 @@ import cn.com.heaton.blelibrary.ble.callback.BleWriteCallback;
  */
 
 public class SetUpdateLockTime extends BluetoothActivity {
+    private long time = 0;//记录点击时间
+
     private TextView back;//返回控件
     private Button update;//更新时间
     private Ble<BleDevice> mBle;
@@ -83,6 +87,14 @@ public class SetUpdateLockTime extends BluetoothActivity {
     public void initViews() {
         back = findView(R.id.back);
         update = findView(R.id.update);
+
+    }
+
+    private void init() {
+        mBle = Ble.getInstance();
+        initBle();
+        bleDevice.setBleAddress(bluetoothaddress);
+        bleDevice.setBleName("WL3667313AA351");
     }
 
     @Override
@@ -95,6 +107,8 @@ public class SetUpdateLockTime extends BluetoothActivity {
     public void initData() {
         power = getIntent().getStringExtra("power");
         bluetoothaddress = getIntent().getStringExtra("bluetoothaddress");
+        Log.e("initData: ",bluetoothaddress);
+        init();
     }
 
     @Override
@@ -104,11 +118,14 @@ public class SetUpdateLockTime extends BluetoothActivity {
                 finish();
                 break;
             case R.id.update:
-
-//                refreshDeviceCache();
-
-                Update();
-
+                Date date = new Date();
+                long temp = date.getTime();
+                if (temp - time > 6000) {
+                    time = temp;
+                    Update();
+                } else {
+                    showToast("更新频繁请于稍后更新");
+                }
                 break;
             default:
                 break;
@@ -119,82 +136,117 @@ public class SetUpdateLockTime extends BluetoothActivity {
      * 校准时间
      */
     private void Update() {
-        String message = GetDate.getDate();
-        sendMessage = "(" + message + ")";
-        Log.e("sendMessage:", sendMessage);
         MyProgressDialog.show(SetUpdateLockTime.this, "Updating...", false, null);
-        bleDevice.setBleAddress("36:67:31:3A:A3:51");
-                    bleDevice.setBleName("WL96B385AB67C1");
-                    mBle = Ble.getInstance();
-                    initBle();
+        if (bleDevice == null) return;
         mBle.connect(bleDevice, connectCallback);
-//        gatt.setCharacteristicNotification(characteristic, enable);
-
-//        getBluetooth(bluetoothaddress, manager);
-//        con();
-        //发送消息延迟 20秒后移除弹框
-//        handler.sendEmptyMessageDelayed(0x125, 20000);
+        handler.sendEmptyMessageDelayed(0x125, 10000);
     }
+
+    /**
+     * 转换成16进制字符数组
+     *
+     * @param str
+     * @return
+     */
+    public static byte[] chance(String str) {
+        byte[] result = new byte[18];
+        result[0] = 0x28;
+        result[1] = 0x21;
+        result[2] = 0x54;
+        result[16] = 0x2a;
+        result[17] = 0x29;
+        for (int i = 3; i <= 15; i++) {
+            result[i] = (byte) (Integer.parseInt(str.substring(i, i + 1), 16) & 0xff);
+        }
+        return result;
+    }
+
+    /**
+     * 链接的回掉成员参数
+     * @param device ble device object
+     */
     private BleConnCallback<BleDevice> connectCallback = new BleConnCallback<BleDevice>() {
         @Override
-        public void onConnectionChanged(BleDevice device) {
+        public void onConnectionChanged(final BleDevice device) {
             if (device.isConnected()) {
+                //获取当前门锁时间按钮
+                String message = GetDate.getDate();
+                String sendMessage = "(" + message + ")";
+                Log.e("onConnectionChanged: ", sendMessage);
+                byte[] result = chance(sendMessage);
+                synchronized (mBle.getLocker()) {
+                    Log.e("onConnectionChanged:", "小姐姐");
+                    for (int i = 0; i < 18; i++) {
+                        Log.e("onConnectionChanged: ", String.valueOf(result[i]));
+                    }
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    List<BleDevice> list = Ble.getInstance().getConnetedDevices();
+                    synchronized (mBle.getLocker()) {
+                        for (BleDevice devices : list) {
+                            sendData(devices, result);
+                        }
+                    }
 
-            } else {
-                mBle = null;
+                }
             }
         }
 
         @Override
         public void onConnectException(BleDevice device, int errorCode) {
             super.onConnectException(device, errorCode);
-            mBle = null;
-            if (gatt != null) {
-                gatt.disconnect();
-                gatt.close();
-                gatt = null;
-            }
-//            if(errorCode==2510){
-//                showToast("连接异常，请重新连接");
-//            }
-//            Toast.makeText(BluetoothActivity.this, "连接异常，异常状态码:" + errorCode, Toast.LENGTH_SHORT).show();
         }
     };
+
+
     /*发送数据*/
-    public void sendData(BleDevice device) {
-        boolean result = mBle.write(device, changeLevelInner(1),
+    public void sendData(final BleDevice device, byte[] results) {
+        boolean result = mBle.write(device, changeLevelInner(1, results),
                 new BleWriteCallback<BleDevice>() {
                     @Override
                     public void onWriteSuccess(BluetoothGattCharacteristic characteristic) {
                         Log.e("bluetoothGatt", String.valueOf(characteristic));
+                        MyProgressDialog.remove();
                         showToast("更新时间成功");
+                        Date date = new Date();
+                        time = date.getTime();
+                        mBle.disconnect(device);
+                        handler.removeMessages(0x125);
                     }
                 });
         if (!result) {
-            showToast("更新时间失败，请重新更新时间");
+//            showToast("更新时间失败，请重新更新时间");
+            Date date = new Date();
+            time = date.getTime();
+            mBle.disconnect(device);
+            MyProgressDialog.remove();
         }
     }
-    public byte[] changeLevelInner(int play) {
-        byte[] data = new byte[Command.qppDataSend.length];
-        System.arraycopy(Command.qppDataSend, 0, data, 0, data.length);
+
+    public byte[] changeLevelInner(int play, byte[] result) {
+        byte[] data = new byte[result.length];
+        System.arraycopy(result, 0, data, 0, data.length);
         data[6] = 0x03;
         data[7] = (byte) play;
-        Logger.e("data:" + Arrays.toString(data));
+        Log.e("changeLevelInner: ", Arrays.toString(data));
         return data;
     }
+
     private void initBle() {
         Ble.Options options = new Ble.Options();
         options.logBleExceptions = true;//设置是否输出打印蓝牙日志
         options.throwBleException = true;//设置是否抛出蓝牙异常
         options.autoConnect = false;//设置是否自动连接
         options.scanPeriod = 12 * 1000;//设置扫描时长
-        options.connectTimeout = 10 * 1000;//设置连接超时时长
+        options.connectTimeout = 15 * 1000;//设置连接超时时长
         options.uuid_service = UUID.fromString("0000fff0-0000-1000-8000-00805f9b34fb");//设置主服务的uuid
-        //options.uuid_services_extra = new UUID[]{UUID.fromString("0000180f-0000-1000-8000-00805f9b34fb")};//添加额外的服务（如电量服务，心跳服务等）
         options.uuid_write_cha = UUID.fromString("0000fff2-0000-1000-8000-00805f9b34fb");//设置可写特征的uuid
+        options.uuid_read_cha = UUID.fromString("0000fff1-0000-1000-8000-00805f9b34fb");//设置可读特征的uuid
         mBle.init(getApplicationContext(), options);
     }
-
 
 
     public synchronized void con() {
@@ -252,8 +304,8 @@ public class SetUpdateLockTime extends BluetoothActivity {
 
     public synchronized void find() {
 //        if (gatt != null) {
-            bluetoothGattCallback.setMessage(sendMessage);
-            gatt.discoverServices();
+        bluetoothGattCallback.setMessage(sendMessage);
+        gatt.discoverServices();
 //        }
     }
 
@@ -323,5 +375,8 @@ public class SetUpdateLockTime extends BluetoothActivity {
     protected void onDestroy() {
         MyProgressDialog.remove();
         super.onDestroy();
+        if (mBle != null) {
+            mBle.destory(getApplicationContext());
+        }
     }
 }

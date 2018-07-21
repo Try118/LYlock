@@ -42,7 +42,7 @@ public abstract class BluetoothActivity extends BaseActivity {
 
     public BluetoothDevice device;
     public BluetoothGattCallBackUtils bluetoothGattCallback;
-    public  BluetoothGatt gatt;
+    public BluetoothGatt gatt;
     private Ble<BleDevice> mBle;
 
     BleDevice bleDevice = new BleDevice();
@@ -57,55 +57,21 @@ public abstract class BluetoothActivity extends BaseActivity {
             } else {
                 bluetoothGattCallback = new BluetoothGattCallBackUtils(this, manager);
 
-                    gatt = device.connectGatt(this, false, bluetoothGattCallback);
+                gatt = device.connectGatt(this, false, bluetoothGattCallback);
 
                 if (gatt == null) {
                     Toast.makeText(this, "bluetoothGatt is null", Toast.LENGTH_SHORT).show();
                 } else {
-//                    gatt.connect();
-//                    蓝牙相关配置修改
-//                    ViseBle.config()
-//                            .setScanTimeout(-1)//扫描超时时间，这里设置为永久扫描
-//                            .setConnectTimeout(14 * 1000)//连接超时时间
-//                            .setOperateTimeout(5 * 1000)//设置数据操作超时时间
-//                            .setConnectRetryCount(3)//设置连接失败重试次数
-//                            .setConnectRetryInterval(1000)//设置连接失败重试间隔时间
-//                            .setOperateRetryCount(3)//设置数据操作失败重试次数
-//                            .setOperateRetryInterval(1000)//设置数据操作失败重试间隔时间
-//                            .setMaxConnectCount(3);//设置最大连接设备数量
-////蓝牙信息初始化，全局唯一，必须在应用初始化时调用
-//                    ViseBle.getInstance().init(this);
-//                    ViseBle.getInstance().connectByMac(bluetoothAddress, new IConnectCallback() {
-//                        @Override
-//                        public void onConnectSuccess(DeviceMirror deviceMirror) {
-//                            showToast("啊哈哈哈或或或");
-//                            Log.e("processClick:123123","deviceMirror" );
-//
-//                        }
-//
-//                        @Override
-//                        public void onConnectFailure(BleException exception) {
-//                            Log.e("processClick:123123","BleException" );
-//                        }
-//
-//                        @Override
-//                        public void onDisconnect(boolean isActive) {
-//                            Log.e("processClick:123123","isActive" );
-//                        }
-//                    });
-                    //---------------------------------------------------------
-//                    bleDevice.setBleAddress(bluetoothAddress);
-//                    bleDevice.setBleName("WL96B385AB67C1");
+
 //                    mBle = Ble.getInstance();
 //                    initBle();
-//                    下次加上一个清空缓存的做法
-//                    mBle.refreshDeviceCache(bluetoothAddress);
-//                    boolean b = refreshDeviceCache();
-//                    Log.e("getBluetooth: ",String.valueOf(b) );
-                    Log.e("getBluetooth: ",bluetoothAddress );
-                    gatt.close();
+//                    bleDevice.setBleAddress(bluetoothAddress);
+//                    bleDevice.setBleName("WL3667313AA351");
 
-                   Boolean a =  gatt.connect();
+                    Log.e("getBluetooth: ", bluetoothAddress);
+                    gatt.close();
+                    Boolean a = gatt.connect();
+
 //                    mBle.connect(bleDevice, connectCallback);
                     Log.e("bluetoothGatt:connect", String.valueOf(a));
                 }
@@ -120,27 +86,7 @@ public abstract class BluetoothActivity extends BaseActivity {
         @Override
         public void onConnectionChanged(BleDevice device) {
             if (device.isConnected()) {
-                Toast.makeText(BluetoothActivity.this, "连接成功", Toast.LENGTH_SHORT).show();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-//                mBle.disconnect(bleDevice);
-
-                if (gatt != null) {
-//                    gatt.disconnect();
-                    gatt.close();
-                    gatt = null;
-                }
             } else {
-                mBle = null;
-                if (gatt != null) {
-                    gatt.disconnect();
-                    gatt.close();
-                    gatt = null;
-                }
-                Log.e("processClick:123123:", "12312312312");
             }
         }
 
@@ -148,15 +94,6 @@ public abstract class BluetoothActivity extends BaseActivity {
         public void onConnectException(BleDevice device, int errorCode) {
             super.onConnectException(device, errorCode);
             mBle = null;
-            if (gatt != null) {
-                gatt.disconnect();
-                gatt.close();
-                gatt = null;
-            }
-//            if(errorCode==2510){
-//                showToast("连接异常，请重新连接");
-//            }
-//            Toast.makeText(BluetoothActivity.this, "连接异常，异常状态码:" + errorCode, Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -172,6 +109,7 @@ public abstract class BluetoothActivity extends BaseActivity {
         options.uuid_read_cha = UUID.fromString("0000fff1-0000-1000-8000-00805f9b34fb");//设置可读特征的uuid
         mBle.init(getApplicationContext(), options);
     }
+
     public boolean refreshDeviceCache() {
         if (gatt != null) {
             try {
@@ -189,6 +127,7 @@ public abstract class BluetoothActivity extends BaseActivity {
         }
         return false;
     }
+
     public void getBluetooth(BluetoothDevice device, BluetoothCallbackManager manager) {
         bluetoothGattCallback = new BluetoothGattCallBackUtils(this, manager);
         gatt = device.connectGatt(this, false, bluetoothGattCallback);

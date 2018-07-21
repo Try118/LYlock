@@ -271,21 +271,10 @@ public class Select_look extends BluetoothActivity {
                         Log.e("processClick:123123", "出来吧");
                         handler.sendEmptyMessageDelayed(0x126, 800);
                         handler.sendEmptyMessage(0x123);
-//                        String message = GetDate.getDate();
-//                        String sendMessage = "(" + message + ")";
-//                        bluetoothGattCallback.setMessage(sendMessage);
-//
-//                        String message = GetDate.getDate();
-//                        String sendMessage = "(" + message + ")";
-//                        bluetoothGattCallback.setMessage(sendMessage);
-                        String message = GetDate.getDate();
-                        String sendMessage = "(" + message + ")";
-                        bluetoothGattCallback.setMessage(sendMessage);
-//                        bluetoothGattCallback.setMessage("(!" + lockKey + ".O*)");
 
-//                        bluetoothGattCallback.setMessage("(!T1806021204056*)");
+                        //开门操作
+                        bluetoothGattCallback.setMessage("(!" + lockKey + ".O*)");
 
-////                        handler.sendEmptyMessageDelayed(0x128,100);
                         try {
                             gatt.discoverServices();
                         } catch (Exception e) {
@@ -302,14 +291,11 @@ public class Select_look extends BluetoothActivity {
 
                         if (gatt!=null){
                             gatt.connect();
-//                            gatt.disconnect();
-//                            gatt.close();
-//                            gatt = null;
                             Log.e("bluetoothGatt:","disconnect--unConnectCallback");
 
                         }
-                        showToast("链接异常,请稍后重试");
-//                        MyProgressDialog.remove();
+                        //别删
+//                        showToast("链接异常,请稍后重试");
                         showNotification(2);
                     }
                 };
