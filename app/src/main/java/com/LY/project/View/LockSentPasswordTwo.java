@@ -3,6 +3,7 @@ package com.LY.project.View;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -134,19 +135,20 @@ public class LockSentPasswordTwo extends BaseActivity {
         } else {
             SentPasswordController sentPasswordController = new SentPasswordController(this);
             String startTime = String.valueOf(new Date().getTime() / 1000);
-//            Log.e( "nextStep: ", times(String.valueOf(Long.valueOf(startTime)*10001)));
-            //一次性密码
+            String endTime = "0";
             List<MultipartBody.Part> parts = null;
             Map<String, RequestBody> params = new HashMap<>();
-            params.put("startTime", RetrofitUtils.convertToRequestBody(times(String.valueOf(Long.valueOf(startTime)*10001))));
-            params.put("endTime", RetrofitUtils.convertToRequestBody("0"));
+            params.put("startTime", RetrofitUtils.convertToRequestBody(times(String.valueOf(Long.valueOf(String.valueOf(new Date().getTime() / 1000))*1000l))));
+            params.put("endTime", RetrofitUtils.convertToRequestBody(times(String.valueOf(Long.valueOf("0")*1000l))));
             params.put("key", RetrofitUtils.convertToRequestBody(lockKey));
             params.put("type", RetrofitUtils.convertToRequestBody("1"));
+            Log.e("onClick:1234:",lockKey+" LINCHUJIE "+String.valueOf(new Date().getTime() / 1000));
             sentPasswordController.GetLockPassword(params, parts, new InterfaceManger.OnRequestListener() {
                 @Override
                 public void onSuccess(Object success) {
                     GetLockPassword data =(GetLockPassword) success;
                     String password = data.getPassword();
+                    Log.e("onClick:1234:",password);
                     //生成消息
                     String str = "欢迎使用物勒智能门锁，您的开锁密码为：" + password.substring(0, 4) + "-" + password.substring(4, 8) + "-" + password.substring(8, 11) + password.substring(11) + "门锁名称为:" + lock_name + ",2小时后失效。输入密码后按 # 号键即可开门";
                     if(account.equals("wechat")){

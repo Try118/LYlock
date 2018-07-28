@@ -73,7 +73,7 @@ public abstract class BluetoothActivity extends BaseActivity {
                     Boolean a = gatt.connect();
 
 //                    mBle.connect(bleDevice, connectCallback);
-                    Log.e("bluetoothGatt:connect", String.valueOf(a));
+                    Log.e("bluetoothGatt:connect", "1、显示连接状态"+String.valueOf(a));
                 }
             }
         } else {

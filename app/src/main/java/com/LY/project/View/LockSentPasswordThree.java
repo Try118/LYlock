@@ -182,8 +182,8 @@ public class LockSentPasswordThree extends BaseActivity {
         if (!end_time.getText().toString().equals(getString(R.string.deadline))) {
             if (start_time.getText().toString().equals(getString(R.string.from_now_start))) {
 
-                params.put("startTime", RetrofitUtils.convertToRequestBody(times(String.valueOf(Long.valueOf(endtime) * 10001))));//第一代的代码这样设置+_+
-                params.put("endTime", RetrofitUtils.convertToRequestBody("0"));
+                params.put("startTime", RetrofitUtils.convertToRequestBody(times(String.valueOf(Long.valueOf(endtime)*1000l))));//第一代的代码这样设置+_+
+                params.put("endTime", RetrofitUtils.convertToRequestBody(times(String.valueOf(Long.valueOf("0") * 10001))));
                 params.put("key", RetrofitUtils.convertToRequestBody(lockKey));
                 params.put("type", RetrofitUtils.convertToRequestBody("0"));
                 sentPasswordController.GetLockPassword(params, parts, new InterfaceManger.OnRequestListener() {
@@ -217,11 +217,13 @@ public class LockSentPasswordThree extends BaseActivity {
                     }
                 });
             }else {
-                Log.e("nextOne: ",starttime+" "+endtime );
-                params.put("startTime", RetrofitUtils.convertToRequestBody(times(String.valueOf(Long.valueOf(starttime) * 10001))));
-                params.put("endTime", RetrofitUtils.convertToRequestBody(times(String.valueOf(Long.valueOf(endtime) * 10001))));
+                Log.e("nextOne: ",starttime+" "+endtime+" "+lockKey+" "+2 );
+                Log.e("nextOne: ",String.valueOf(Long.valueOf(starttime)*1000l)+" "+String.valueOf(Long.valueOf(endtime)*1000l)+" "+lockKey+" "+2 );
+                Log.e("nextOne: ",times(String.valueOf(Long.valueOf(starttime)*1000l))+" "+times(String.valueOf(Long.valueOf(endtime)*1000l))+" "+lockKey+" "+2 );
+                params.put("startTime", RetrofitUtils.convertToRequestBody(times(String.valueOf(Long.valueOf(starttime)*1000l))));
+                params.put("endTime", RetrofitUtils.convertToRequestBody(times(String.valueOf(Long.valueOf(endtime)*1000l))));
                 params.put("key", RetrofitUtils.convertToRequestBody(lockKey));
-                params.put("type", RetrofitUtils.convertToRequestBody("0"));
+                params.put("type", RetrofitUtils.convertToRequestBody("2"));
                 sentPasswordController.GetLockPassword(params, parts, new InterfaceManger.OnRequestListener() {
                     @Override
                     public void onSuccess(Object success) {
@@ -229,7 +231,7 @@ public class LockSentPasswordThree extends BaseActivity {
                         String password = data.getPassword();
 
                         //生成消息
-                        String str = "欢迎使用物勒智能门锁，您的开锁密码为：" + password.substring(0, 4) + "-" + password.substring(4, 8) + "-" + password.substring(8) + "门锁名称为:" + lock_name + ",有效时间至" + end_time.getText() + "。输入密码后按 # 号键即可开门";
+                        String str = "欢迎使用物勒智能门锁，您的开锁密码为：" + password.substring(0, 4) + "-" + password.substring(4, 8) + "-"  + password.substring(8, 11) + password.substring(11) +  "门锁名称为:" + lock_name + ",有效时间至" + end_time.getText() + "。输入密码后按 # 号键即可开门";
                         if (account.equals("wechat")){
                             Intent intent = new Intent(Intent.ACTION_SEND);
                             intent.setType("text/plain");//  intent.setPackage("com.tencent.mm");

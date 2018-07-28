@@ -58,6 +58,7 @@ public class SetLockPasswordPage extends BaseActivity {
                 i.putExtra("endtime",endtime);
                 i.putExtra("bluetoothaddress",bluetoothaddress);
                 startActivity(i);
+                finish();
                 break;
         }
     }

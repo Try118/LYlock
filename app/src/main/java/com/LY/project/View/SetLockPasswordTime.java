@@ -57,7 +57,7 @@ public class SetLockPasswordTime extends BluetoothActivity {
         @Override
         public void handleMessage(Message message) {
             if (message.what == 0x123) {
-//                MyProgressDialog.remove();
+                MyProgressDialog.remove();
             }
         }
     };
@@ -108,7 +108,7 @@ public class SetLockPasswordTime extends BluetoothActivity {
         starttime = i.getStringExtra("starttime");
         endtime = i.getStringExtra("endtime");
         bluetoothaddress = i.getStringExtra("bluetoothaddress");
-//        Log.e("abc: ",password+" "+ lockKey+" "+starttime+" "+endtime+" "+bluetoothaddress);
+        Log.e("abc: ",password+" "+ lockKey+" "+starttime+" "+endtime+" "+bluetoothaddress);
     }
 
     @Override
@@ -135,8 +135,8 @@ public class SetLockPasswordTime extends BluetoothActivity {
             case R.id.finish:
                 if (!endtime2.getText().toString().equals(getString(R.string.deadline))) {
                     getBluetooth(bluetoothaddress, manager);
-//                    MyProgressDialog.show(SetLockPasswordTime.this, "setting...", true, null);
-//                    handler.sendEmptyMessageDelayed(0x123, 10000);
+                    MyProgressDialog.show(SetLockPasswordTime.this, "setting...", true, null);
+                    handler.sendEmptyMessageDelayed(0x123, 10000);
                 } else {
                     showToast(getString(R.string.unset_time));
                 }
@@ -240,7 +240,7 @@ public class SetLockPasswordTime extends BluetoothActivity {
                 showToast(getString(R.string.setting_succssful));
 //                Intent i = new Intent(SetLockPasswordTime.this, SetLock.class);
 //                startActivity(i);
-//                finish();
+                finish();
             } else {
                 showToast(getString(R.string.have_a_error));
             }
@@ -264,34 +264,39 @@ public class SetLockPasswordTime extends BluetoothActivity {
             sentPasswordController.GetLockPassword(params, parts, new InterfaceManger.OnRequestListener() {
                 @Override
                 public void onSuccess(Object success) {
-                    showToast("onSuccess");
                     GetLockPassword glp = (GetLockPassword) success;
                     serverPassword = glp.getPassword();//服务器返回的密码
                     Log.e("serverPassword:",serverPassword);
-                    try {
-                        Thread.sleep(800);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    allWrite();
-                    try {
-                        Thread.sleep(800);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    //第二次写入
-                    bluetoothGattCallback.setMessage("("+serverPassword+")");
-                    Log.e("yyxxrun: ", "("+serverPassword+")");
-                    gatt.discoverServices();
-                    try {
-                        Thread.sleep(800);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    //第三次写入
-                    bluetoothGattCallback.setMessage("(L."+password+"Z*)");//用户填写的开门密码
-                    Log.e("yyxxrun: ", "(L."+password+"Z*)");
-                    gatt.discoverServices();
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                Thread.sleep(800);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            //第一次写入
+                            allWrite();
+                            try {
+                                Thread.sleep(800);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            //第二次写入
+                            bluetoothGattCallback.setMessage("("+serverPassword+")");
+                            Log.e("yyxxrun: ", "("+serverPassword+")");
+                            gatt.discoverServices();
+                            try {
+                                Thread.sleep(800);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            //第三次写入
+                            bluetoothGattCallback.setMessage("(L."+password+"Z*)");//用户填写的开门密码
+                            Log.e("yyxxrun: ", "(L."+password+"Z*)");
+                            gatt.discoverServices();
+                        }
+                    }).start();
                 }
 
                 @Override
@@ -315,7 +320,7 @@ public class SetLockPasswordTime extends BluetoothActivity {
     //所有写入
     public void allWrite() {
         //第一次写入
-        showToast("开始写入");
+//        showToast("开始写入");
         bluetoothGattCallback.setMessage("(!" + lockKey + ".W)");
         Log.e("yyxxrun: ", "(!" + lockKey + ".W)");
         boolean b=gatt.discoverServices();

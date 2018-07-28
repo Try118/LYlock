@@ -59,7 +59,7 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
     //设置发送值
     public void setMessage(String message) {
         this.message = message;
-        Log.e("bluetoothGatt:",message );
+        Log.e("bluetoothGatt:3、写入的数据内容",message );
     }
 
     @Override
@@ -68,7 +68,7 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    Log.e("bluetoothGatt", "connection");
+                    Log.e("bluetoothGatt", "2、连接成功：connection");
                     callback.connectCallback();
                 }
             });
@@ -76,7 +76,7 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    Log.e("bluetoothGatt", "disconnection");
+                    Log.e("bluetoothGatt", "9、连接成功后的断开：disconnection");
                     callback.unConnectCallback();
                 }
             });
@@ -89,8 +89,8 @@ public class BluetoothGattCallBackUtils extends BluetoothGattCallback {
     }
 
     public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-        Log.e("bluetoothGatt", "write");
-        Log.e("bluetoothGatt", String.valueOf(characteristic) );
+        Log.e("bluetoothGatt", "4、进行写入：write");
+        Log.e("bluetoothGatt", "5、特征值内容："+String.valueOf(characteristic) );
     }
 
     public void onCharacteristicChanged(final BluetoothGatt gatt, final BluetoothGattCharacteristic characteristic) {

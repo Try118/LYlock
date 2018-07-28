@@ -79,6 +79,7 @@ public class SetLockPassword extends BaseActivity {
             i.putExtra("endtime",endtime);
             i.putExtra("bluetoothaddress",bluetoothaddress);
             startActivity(i);
+            finish();
         } else {
             showToast(getString(R.string.password_not_write));
         }

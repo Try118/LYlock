@@ -172,10 +172,9 @@ public class SetUpdateLockTime extends BluetoothActivity {
                 //获取当前门锁时间按钮
                 String message = GetDate.getDate();
                 String sendMessage = "(" + message + ")";
-                Log.e("onConnectionChanged: ", sendMessage);
+                Log.e("bluetoothGatt:", sendMessage);
                 byte[] result = chance(sendMessage);
                 synchronized (mBle.getLocker()) {
-                    Log.e("onConnectionChanged:", "小姐姐");
                     for (int i = 0; i < 18; i++) {
                         Log.e("onConnectionChanged: ", String.valueOf(result[i]));
                     }
@@ -208,7 +207,7 @@ public class SetUpdateLockTime extends BluetoothActivity {
                 new BleWriteCallback<BleDevice>() {
                     @Override
                     public void onWriteSuccess(BluetoothGattCharacteristic characteristic) {
-                        Log.e("bluetoothGatt", String.valueOf(characteristic));
+                        Log.e("bluetoothGatt回调写入的特征值：", String.valueOf(characteristic));
                         MyProgressDialog.remove();
                         showToast("更新时间成功");
                         Date date = new Date();
@@ -248,7 +247,7 @@ public class SetUpdateLockTime extends BluetoothActivity {
         mBle.init(getApplicationContext(), options);
     }
 
-
+    //-------------------------------------分----------------------------------------------------//
     public synchronized void con() {
         getBluetooth(bluetoothaddress, manager);
     }

@@ -46,6 +46,8 @@ import okhttp3.RequestBody;
  */
 
 public class Select_look extends BluetoothActivity {
+    private int status = 0;//写入状态位
+
     private TextView back;//返回
     private TextView lockname;//锁的名字
     private TextView lock_setting;//设置门锁信息
@@ -186,9 +188,9 @@ public class Select_look extends BluetoothActivity {
                      */
                     @Override
                     public void readCallback(String result) {
-                        Log.e("YXbluetoothGatt", "aini");
+                        Log.e("YXbluetoothGatt", "6写入回调：aini");
                         state = true;
-                        Log.e("bluetoothGatt:", result);
+                        Log.e("bluetoothGatt:", "7、读回数据："+result);
                         final Intent i = new Intent(Select_look.this, BluetoothReceiver.class);
                         i.setAction("woolock.bluetooth.result");
                         if (result.contains("1111")) {
@@ -238,7 +240,7 @@ public class Select_look extends BluetoothActivity {
                                 }
                                 gatt.close();
                                 gatt = null;
-                                Log.e("bluetoothGatt:","disconnect");
+                                Log.e("bluetoothGatt:","8、开锁成功后下面的断开连接：disconnect");
                             }
                             handler.sendEmptyMessage(0x124);
 
@@ -278,11 +280,19 @@ public class Select_look extends BluetoothActivity {
                         try {
                             gatt.discoverServices();
                         } catch (Exception e) {
+                            status =1 ;
+                            Log.e("bluetoothGatt","写入异常" );
                             e.printStackTrace();
+                        }finally {
+                            Log.e("bluetoothGatt","finally");
+                            if (status ==1){
+                                gatt.discoverServices();
+                            }
                         }
                         MyProgressDialog.remove();
                         //  8 秒后颜色变回原来的样子
                         handler.sendEmptyMessageDelayed(0x127,8000);
+                        status  = 0;
                         showNotification(1);
                     }
 
@@ -291,7 +301,7 @@ public class Select_look extends BluetoothActivity {
 
                         if (gatt!=null){
                             gatt.connect();
-                            Log.e("bluetoothGatt:","disconnect--unConnectCallback");
+                            Log.e("bluetoothGatt:","连接不上重新连接：disconnect--unConnectCallback");
 
                         }
                         //别删
@@ -304,7 +314,6 @@ public class Select_look extends BluetoothActivity {
                 state = false;
                 MyProgressDialog.show(this, "Opening...", false, null);
                 handler.sendEmptyMessageDelayed(0x125, 8000);
-
                 break;
 
             case R.id.send_password:
