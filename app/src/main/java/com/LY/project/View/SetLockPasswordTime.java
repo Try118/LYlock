@@ -28,6 +28,7 @@ import com.LY.project.R;
 import com.LY.project.Utils.RetrofitUtils;
 import com.LY.project.Utils.StringToDate;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -259,8 +260,10 @@ public class SetLockPasswordTime extends BluetoothActivity {
             Map<String, RequestBody> params = new HashMap<>();
             params.put("key", RetrofitUtils.convertToRequestBody(lockKey));
             params.put("type", RetrofitUtils.convertToRequestBody("0"));
-            params.put("endTime", RetrofitUtils.convertToRequestBody(String.valueOf(StringToDate.TransferDate(endtime2.getText().toString()) / 1000)));
-            params.put("startTime", RetrofitUtils.convertToRequestBody(String.valueOf(rank / 1000)));
+            params.put("startTime", RetrofitUtils.convertToRequestBody(times(String.valueOf(Long.valueOf(String.valueOf(StringToDate.TransferDate(endtime2.getText().toString())/1000))*1000l))));
+            params.put("endTime", RetrofitUtils.convertToRequestBody(times(String.valueOf(Long.valueOf(String.valueOf(rank/1000))*1000l))));
+//            times(String.valueOf(Long.valueOf(String.valueOf(StringToDate.TransferDate(endtime2.getText().toString())/1000))*1000l))
+//            times(String.valueOf(Long.valueOf(String.valueOf(rank/1000))*1000l))
             sentPasswordController.GetLockPassword(params, parts, new InterfaceManger.OnRequestListener() {
                 @Override
                 public void onSuccess(Object success) {
@@ -326,5 +329,11 @@ public class SetLockPasswordTime extends BluetoothActivity {
         boolean b=gatt.discoverServices();
         Log.e("yyxxrun", String.valueOf(b));
     }
-
+    public static String times(String time) {
+        SimpleDateFormat sdr;
+        sdr = new SimpleDateFormat("yyMMddHHmm");
+        long lcc = Long.valueOf(time);
+        String times = sdr.format(new Date(lcc));
+        return times;
+    }
 }

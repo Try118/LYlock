@@ -156,6 +156,7 @@ public class SetUpdateLockTime extends BluetoothActivity {
         result[16] = 0x2a;
         result[17] = 0x29;
         for (int i = 3; i <= 15; i++) {
+//            result[i] = (byte) (Integer.parseInt(str.substring(i, i + 1), 16) & 0xff);
             result[i] = (byte) (Integer.parseInt(str.substring(i, i + 1), 16) & 0xff);
         }
         return result;
@@ -172,11 +173,11 @@ public class SetUpdateLockTime extends BluetoothActivity {
                 //获取当前门锁时间按钮
                 String message = GetDate.getDate();
                 String sendMessage = "(" + message + ")";
-                Log.e("bluetoothGatt:", sendMessage);
+                Log.e("onConnectionChanged:", sendMessage);
                 byte[] result = chance(sendMessage);
                 synchronized (mBle.getLocker()) {
                     for (int i = 0; i < 18; i++) {
-                        Log.e("onConnectionChanged: ", String.valueOf(result[i]));
+                        Log.e("onConnectionChanged:", String.valueOf(result[i]));
                     }
                     try {
                         Thread.sleep(2000);
@@ -228,9 +229,13 @@ public class SetUpdateLockTime extends BluetoothActivity {
     public byte[] changeLevelInner(int play, byte[] result) {
         byte[] data = new byte[result.length];
         System.arraycopy(result, 0, data, 0, data.length);
-        data[6] = 0x03;
-        data[7] = (byte) play;
-        Log.e("changeLevelInner: ", Arrays.toString(data));
+//        data[6] = 0x03;
+//        data[7] = (byte) play;
+        for(int i  = 3 ;i<=15;i++){
+            int temp = (int)data[i]+48;
+            data[i] = (byte)temp;
+        }
+        Log.e("onConnectionChanged:", Arrays.toString(data));
         return data;
     }
 
