@@ -3,6 +3,8 @@ package com.LY.project.View;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 
 import com.LY.basemodule.Essential.BaseTemplate.BaseActivity;
 import com.LY.project.Controller.LoginController;
+import com.LY.project.CustomView.MyProgressDialog;
 import com.LY.project.CustomView.Variate;
 import com.LY.project.Manager.InterfaceManger;
 import com.LY.project.R;
@@ -36,6 +39,15 @@ public class Login extends BaseActivity {
     private String account;//账户
     private static String temp;//为了解决内部类必须使用final类型的问题
     static public Activity activity;
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 0x123) {
+                MyProgressDialog.remove();
+            }
+        }
+    };
+
 
     @Override
     public int getLayoutId() {
@@ -72,6 +84,8 @@ public class Login extends BaseActivity {
                 account = phone.getText().toString().trim();
                 temp = account;
                 if (!TextUtils.isEmpty(account)) {
+                    MyProgressDialog.show(this, "Loading...", false, null);
+                    handler.sendEmptyMessageDelayed(0x123, 8000);
                     vefiyAccount(account);
                 } else {
                     showToast(getResources().getString(R.string.no_write_phone));
@@ -96,8 +110,12 @@ public class Login extends BaseActivity {
             public void onSuccess(Object success) {
                 Intent intent = new Intent(Login.this, LoginInputPassword.class);
                 intent.putExtra("account",temp);
+                MyProgressDialog.remove();
+                handler.removeMessages(0x123);
                 startActivity(intent);
                 finish();
+
+
             }
 
             @Override

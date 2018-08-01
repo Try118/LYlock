@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Message;
@@ -35,6 +36,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -47,6 +50,10 @@ import okhttp3.RequestBody;
 
 public class Select_look extends BluetoothActivity {
     private int status = 0;//写入状态位
+
+//    private volatile int flag = 0;//标志位
+//    private TimerTask tast;
+//    final Timer timer = new Timer();
 
     private TextView back;//返回
     private TextView lockname;//锁的名字
@@ -75,23 +82,21 @@ public class Select_look extends BluetoothActivity {
             if (msg.what == 0x123) {
                 open_lock.setBackgroundResource(R.color.Text_color);
                 open_lock.setClickable(false);
-            }
-            else if (msg.what == 0x124) {
+            } else if (msg.what == 0x124) {
                 try {
                     Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 open_lock.setBackgroundResource(R.color.line);
-                    open_lock.setClickable(true);
-                    if (gatt != null) {
-                        gatt.disconnect();
-                        gatt.close();
-                        gatt = null;
-                        Log.e("bluetoothGatt:","disconnect--open—success");
-                    }
-            }
-            else if (msg.what == 0x127) {
+                open_lock.setClickable(true);
+                if (gatt != null) {
+                    gatt.disconnect();
+                    gatt.close();
+                    gatt = null;
+                    Log.e("bluetoothGatt:", "disconnect--open—success");
+                }
+            } else if (msg.what == 0x127) {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -100,8 +105,7 @@ public class Select_look extends BluetoothActivity {
                 open_lock.setBackgroundResource(R.color.line);
                 open_lock.setClickable(true);
                 showToast("连接异常，请重新连接");
-            }
-                else if (msg.what == 0x125) {
+            } else if (msg.what == 0x125) {
                 MyProgressDialog.remove();
             }
 //            else if (msg.what == 0x128) {
@@ -160,6 +164,13 @@ public class Select_look extends BluetoothActivity {
             giver.setVisibility(View.INVISIBLE);
         }
         initviewtime();
+
+//        tast = new TimerTask() {
+//            @Override
+//            public void run() {
+//                flag = 0;
+//            }
+//        };
     }
 
     private void initviewtime() {
@@ -182,138 +193,144 @@ public class Select_look extends BluetoothActivity {
                 lock_setting_click();
                 break;
             case R.id.open_lock:
-                BluetoothCallbackManager manager = new BluetoothCallbackManager() {
-                    /**
-                     * @param result
-                     */
-                    @Override
-                    public void readCallback(String result) {
-                        Log.e("YXbluetoothGatt", "6写入回调：aini");
-                        state = true;
-                        Log.e("bluetoothGatt:", "7、读回数据："+result);
-                        final Intent i = new Intent(Select_look.this, BluetoothReceiver.class);
-                        i.setAction("woolock.bluetooth.result");
-                        if (result.contains("1111")) {
-                            if(gatt!=null){
+//                if (flag==0){
+//                    flag = 1;
+                    BluetoothCallbackManager manager = new BluetoothCallbackManager() {
+                        /**
+                         * @param result
+                         */
+                        @Override
+                        public void readCallback(String result) {
+                            Log.e("YXbluetoothGatt", "6写入回调：aini");
+                            state = true;
+                            Log.e("bluetoothGatt:", "7、读回数据：" + result);
+                            final Intent i = new Intent(Select_look.this, BluetoothReceiver.class);
+                            i.setAction("woolock.bluetooth.result");
+                            if (result.contains("1111")) {
+                                if (gatt != null) {
 //                                gatt.disconnect();
-                                gatt.close();
-                                gatt = null;
-                                Log.e("bluetoothGatt:","disconnect");
-                            }
-                        }
-                        if (result.contains("POWER")) {
-                            //上传操作记录
-                            record();
-
-                            String num = "POWER[0-9]{1,3}";
-                            Pattern pattern = Pattern.compile(num);
-                            Matcher matcher = pattern.matcher(result);
-                            if (matcher.find()) {
-                                String re = matcher.group(0).substring(5, matcher.group(0).length()) + "%";
-                                powernumber.setText(re);
-                                int s = Integer.valueOf(matcher.group(0).substring(5, matcher.group(0).length()));
-                                if (s >= 90) {
-                                    power_photo.setBackgroundResource(R.drawable.battery);
-                                } else if (s >= 75) {
-                                    power_photo.setBackgroundResource(R.drawable.battery1);
-                                } else if (s >= 60) {
-                                    power_photo.setBackgroundResource(R.drawable.battery2);
-                                } else if (s >= 40) {
-                                    power_photo.setBackgroundResource(R.drawable.battery3);
-                                } else if (s >= 20) {
-                                    power_photo.setBackgroundResource(R.drawable.battery4);
-                                } else {
-                                    power_photo.setBackgroundResource(R.drawable.battery5);
+                                    gatt.close();
+                                    gatt = null;
+                                    Log.e("bluetoothGatt:", "disconnect");
                                 }
-                                //电量更改
-                                up_power(re);
                             }
-                            showToast("开锁成功");
-                            handler.removeMessages(0x127);
-                            if(gatt!=null){
-                                gatt.disconnect();
-                                gatt.disconnect();
-                                try {
-                                    Thread.sleep(100);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
+                            if (result.contains("POWER")) {
+                                //上传操作记录
+                                record();
+
+                                String num = "POWER[0-9]{1,3}";
+                                Pattern pattern = Pattern.compile(num);
+                                Matcher matcher = pattern.matcher(result);
+                                if (matcher.find()) {
+                                    String re = matcher.group(0).substring(5, matcher.group(0).length()) + "%";
+                                    powernumber.setText(re);
+                                    int s = Integer.valueOf(matcher.group(0).substring(5, matcher.group(0).length()));
+                                    if (s >= 90) {
+                                        power_photo.setBackgroundResource(R.drawable.battery);
+                                    } else if (s >= 75) {
+                                        power_photo.setBackgroundResource(R.drawable.battery1);
+                                    } else if (s >= 60) {
+                                        power_photo.setBackgroundResource(R.drawable.battery2);
+                                    } else if (s >= 40) {
+                                        power_photo.setBackgroundResource(R.drawable.battery3);
+                                    } else if (s >= 20) {
+                                        power_photo.setBackgroundResource(R.drawable.battery4);
+                                    } else {
+                                        power_photo.setBackgroundResource(R.drawable.battery5);
+                                    }
+                                    //电量更改
+                                    up_power(re);
                                 }
-                                gatt.close();
-                                gatt = null;
-                                Log.e("bluetoothGatt:","8、开锁成功后下面的断开连接：disconnect");
+                                showToast("开锁成功");
+//                                timer.schedule(tast, 10000);
+                                handler.removeMessages(0x127);
+                                if (gatt != null) {
+                                    gatt.disconnect();
+                                    gatt.disconnect();
+                                    try {
+                                        Thread.sleep(100);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    gatt.close();
+                                    gatt = null;
+                                    Log.e("bluetoothGatt:", "8、开锁成功后下面的断开连接：disconnect");
+                                }
+                                handler.sendEmptyMessage(0x124);
+
                             }
-                            handler.sendEmptyMessage(0x124);
+                            if (result.contains("3333")) {
+                                handler.removeMessages(0x127);
+                                i.putExtra("result", 0x124);
+                                sendBroadcast(i);
+                                if (gatt != null) {
+                                    gatt.disconnect();
+                                    gatt.close();
+                                    gatt = null;
+                                    Log.e("bluetoothGatt:", "disconnect");
+                                }
+                                handler.sendEmptyMessage(0x124);
+                            }
+                        }
+
+
+                        @Override
+                        public void writeCallback(String result) {
 
                         }
-                        if (result.contains("3333")) {
-                            handler.removeMessages(0x127);
-                            i.putExtra("result", 0x124);
-                            sendBroadcast(i);
-                            if(gatt!=null){
-                                gatt.disconnect();
-                                gatt.close();
-                                gatt = null;
-                                Log.e("bluetoothGatt:","disconnect");
-                            }
-                            handler.sendEmptyMessage(0x124);
-                        }
-                    }
 
+                        /**
+                         *
+                         */
+                        @Override
+                        public void connectCallback() {
+                            Log.e("processClick:123123", "出来吧");
+                            handler.sendEmptyMessageDelayed(0x126, 800);
+                            handler.sendEmptyMessage(0x123);
 
-                    @Override
-                    public void writeCallback(String result) {
+                            //开门操作
+                            bluetoothGattCallback.setMessage("(!" + lockKey + ".O*)");
 
-                    }
-
-                    /**
-                     *
-                     */
-                    @Override
-                    public void connectCallback() {
-                        Log.e("processClick:123123", "出来吧");
-                        handler.sendEmptyMessageDelayed(0x126, 800);
-                        handler.sendEmptyMessage(0x123);
-
-                        //开门操作
-                        bluetoothGattCallback.setMessage("(!" + lockKey + ".O*)");
-
-                        try {
-                            gatt.discoverServices();
-                        } catch (Exception e) {
-                            status =1 ;
-                            Log.e("bluetoothGatt","写入异常" );
-                            e.printStackTrace();
-                        }finally {
-                            Log.e("bluetoothGatt","finally");
-                            if (status ==1){
+                            try {
                                 gatt.discoverServices();
+                            } catch (Exception e) {
+                                status = 1;
+                                Log.e("bluetoothGatt", "写入异常");
+                                e.printStackTrace();
+                            } finally {
+                                Log.e("bluetoothGatt", "finally");
+                                if (status == 1) {
+                                    gatt.discoverServices();
+                                }
                             }
+                            MyProgressDialog.remove();
+                            //  8 秒后颜色变回原来的样子
+                            handler.sendEmptyMessageDelayed(0x127, 8000);
+                            status = 0;
+                            showNotification(1);
                         }
-                        MyProgressDialog.remove();
-                        //  8 秒后颜色变回原来的样子
-                        handler.sendEmptyMessageDelayed(0x127,8000);
-                        status  = 0;
-                        showNotification(1);
-                    }
 
-                    @Override
-                    public void unConnectCallback() {
+                        @Override
+                        public void unConnectCallback() {
 
-                        if (gatt!=null){
-                            gatt.connect();
-                            Log.e("bluetoothGatt:","连接不上重新连接：disconnect--unConnectCallback");
+                            if (gatt != null) {
+                                gatt.connect();
+                                Log.e("bluetoothGatt:", "连接不上重新连接：disconnect--unConnectCallback");
 
-                        }
-                        //别删
+                            }
+                            //别删
 //                        showToast("链接异常,请稍后重试");
-                        showNotification(2);
-                    }
-                };
-                Log.e("processClick:123123", bluetoothaddress);
-                getBluetooth(bluetoothaddress, manager);
-                state = false;
-                MyProgressDialog.show(this, "Opening...", false, null);
-                handler.sendEmptyMessageDelayed(0x125, 8000);
+                            showNotification(2);
+                        }
+                    };
+                    Log.e("processClick:123123", bluetoothaddress);
+                    getBluetooth(bluetoothaddress, manager);
+                    state = false;
+                    MyProgressDialog.show(this, "Opening...", false, null);
+                    handler.sendEmptyMessageDelayed(0x125, 8000);
+//                }else{
+//                    showToast("门锁以打开，请勿频繁操作");
+//                }
                 break;
 
             case R.id.send_password:
@@ -352,7 +369,7 @@ public class Select_look extends BluetoothActivity {
         intent.putExtra("address", address);
         intent.putExtra("power", power);
         intent.putExtra("lockId", lockId);
-        intent.putExtra("bluetoothaddress",bluetoothaddress);
+        intent.putExtra("bluetoothaddress", bluetoothaddress);
         startActivity(intent);
     }
 
@@ -439,4 +456,47 @@ public class Select_look extends BluetoothActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LockController lockController = new LockController(Select_look.this);
+        final List<String> photos = new ArrayList<>();
+        List<MultipartBody.Part> parts = null;
+        Map<String, RequestBody> params = new HashMap<>();
+        params.put("lockKey", RetrofitUtils.convertToRequestBody(lockKey));
+        LockController.GetLockBattery(params, parts, new InterfaceManger.OnRequestListener() {
+            @Override
+            public void onSuccess(Object success) {
+
+                powernumber.setText(String.valueOf(success));
+                int s = Integer.valueOf(String.valueOf(success));
+                if (s >= 90) {
+                    power_photo.setBackgroundResource(R.drawable.battery);
+                } else if (s >= 75) {
+                    power_photo.setBackgroundResource(R.drawable.battery1);
+                } else if (s >= 60) {
+                    power_photo.setBackgroundResource(R.drawable.battery2);
+                } else if (s >= 40) {
+                    power_photo.setBackgroundResource(R.drawable.battery3);
+                } else if (s >= 20) {
+                    power_photo.setBackgroundResource(R.drawable.battery4);
+                } else {
+                    //powerPhoto.setBackgroundResource(R.drawable.battery5);
+                    power_photo.setBackgroundResource(R.drawable.flashing);
+                    AnimationDrawable animationDrawable1 = (AnimationDrawable) power_photo.getBackground();
+                    animationDrawable1.start();
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+                showToast(error);
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+    }
 }

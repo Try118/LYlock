@@ -2,6 +2,8 @@ package com.LY.project.View;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import com.LY.basemodule.Essential.BaseTemplate.BaseActivity;
 import com.LY.project.Controller.LoginController;
+import com.LY.project.CustomView.MyProgressDialog;
 import com.LY.project.Manager.InterfaceManger;
 import com.LY.project.R;
 import com.LY.project.Utils.RetrofitUtils;
@@ -34,6 +37,15 @@ public class LoginInputPassword extends BaseActivity {
     private TextView input_forget_password;//忘记密码
     private Button login;//登录
     private TextView input_back;//返回控件
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 0x123) {
+                MyProgressDialog.remove();
+            }
+        }
+    };
     @Override
     public int getLayoutId() {
         return R.layout.activity_input_password;
@@ -78,6 +90,8 @@ public class LoginInputPassword extends BaseActivity {
                 Log.e("processClick:123","123123123");
                 String account = input_account.getText().toString().trim();
                 String password = input_password.getText().toString().trim();
+                MyProgressDialog.show(this, "Loading...", false, null);
+                handler.sendEmptyMessageDelayed(0x123, 8000);
                 verify(account,password);
 //                startActivity(AddLock.class);
                 break;
@@ -94,18 +108,14 @@ public class LoginInputPassword extends BaseActivity {
         final List<String> photos = new ArrayList<>();
 
         List<MultipartBody.Part> parts = null;
-//        parts = RetrofitUtils.filesToMultipartBodyParts("photo", photos);
+
         Map<String, RequestBody> params = new HashMap<>();
-//        params.put("token", RetrofitUtils.convertToRequestBody(PrefManager.getToken()));
+
         params.put("account", RetrofitUtils.convertToRequestBody(account));
         params.put("password", RetrofitUtils.convertToRequestBody(password));
         loginController.login(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
-//                Announcements announcements = (Announcements) success;
-//                mAdapter = new AnnouncementsAdapter(AnnouncementsCompanyActivity.this, announcements.getContent().getContent());
-//                lv_announcements.setAdapter(mAdapter);
-//                com.diko.project.Module.Login login = (com.diko.project.Module.Login) success;
 
                 //保存用户的账号密码
                 SharedPreferences.Editor editor = getSharedPreferences("UserInformation", MODE_PRIVATE).edit();
@@ -116,6 +126,9 @@ public class LoginInputPassword extends BaseActivity {
                 Intent i = new Intent(LoginInputPassword.this,AddLock.class);
                 i.putExtra("phone",account);
                 i.putExtra("password",password);
+
+                MyProgressDialog.remove();
+                handler.removeMessages(0x123);
 
                 startActivity(i);
                 finish();

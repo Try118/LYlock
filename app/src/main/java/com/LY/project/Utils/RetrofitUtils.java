@@ -159,7 +159,13 @@ public class RetrofitUtils {
         @Multipart
         @POST("lock/deleteLock")
         Call<ResponseBody> deleteLock(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
-//        //新建入库
+
+        //删除门锁
+        @Multipart
+        @POST("Lock/GetLockBattery")
+        Call<ResponseBody> GetLockBattery(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+//
+// 新建入库
 //        @Multipart
 //        @POST("goods/createGoods")
 //        Call<ResponseBody> createGoods(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);

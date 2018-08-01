@@ -376,4 +376,50 @@ public class LockController {
         });
     }
 
+    /**
+     * 获得门锁电量
+     */
+
+    public static void GetLockBattery(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().GetLockBattery(map, parts);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (listener == null) {
+                    return;
+                }
+                if (!response.isSuccessful() || response == null) {
+                    listener.onError(context.getString(R.string.server_error) + response.code());
+                    return;
+                }
+                try {
+                    String body = response.body().string();
+                    JSONObject jsonObject = new JSONObject(body);
+                    String battery = jsonObject.getString("battery");
+                    Log.e("onResponse:body","213123");
+                    Log.e("onResponse:body",body);
+                    listener.onSuccess(battery);
+                } catch (Exception e) {
+                    listener.onError(e.toString());
+                    e.printStackTrace();
+                }
+                listener.onComplete();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (listener == null) {
+                    return;
+                }
+                Log.e("onFailure", t.toString());
+                if (t.toString().contains("ConnectException")) {
+                    listener.onError(context.getString(R.string.no_internet));
+                } else {
+                    listener.onError(context.getString(R.string.network_anomaly));
+                }
+                listener.onComplete();
+            }
+        });
+    }
+
 }

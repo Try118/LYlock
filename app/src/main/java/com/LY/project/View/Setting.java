@@ -16,7 +16,7 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
     private MyFastMenuBar correct_password;//修改密码
     private MyFastMenuBar gesture;//手势密码
     private MyFastMenuBar version;//版本更新
-    private MyFastMenuBar language;//语言
+//    private MyFastMenuBar language;//语言
     private MyFastMenuBar about;//关于我们
     private MyFastMenuBar question;//常见问题
     private MyFastMenuBar logout;//退出登录
@@ -32,7 +32,7 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
         correct_password = (MyFastMenuBar) findView(R.id.correct_password);
         gesture = (MyFastMenuBar) findView(R.id.gesture);
         version = (MyFastMenuBar) findView(R.id.version);
-        language = (MyFastMenuBar) findView(R.id.language);
+//        language = (MyFastMenuBar) findView(R.id.language);
         about = (MyFastMenuBar) findView(R.id.about);
         question = (MyFastMenuBar) findView(R.id.question);
         logout = (MyFastMenuBar) findView(R.id.logout);
@@ -44,7 +44,7 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
         correct_password.setOnMenuBarClickListener(this);
         gesture.setOnMenuBarClickListener(this);
         version.setOnMenuBarClickListener(this);
-        language.setOnMenuBarClickListener(this);
+//        language.setOnMenuBarClickListener(this);
         about.setOnMenuBarClickListener(this);
         question.setOnMenuBarClickListener(this);
         logout.setOnMenuBarClickListener(this);
@@ -78,8 +78,8 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
                 break;
             case R.id.version:
                 break;
-            case R.id.language:
-                break;
+//            case R.id.language:
+//                break;
             case R.id.about:
                 break;
             case R.id.question:

@@ -49,13 +49,13 @@
         app:fmb_icon="@drawable/update"
         app:fmb_title="@string/Update" />
 
-    <com.LY.project.CustomView.MyFastMenuBar
-        android:id="@+id/language"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:fmb_animation_type="fmb_fade"
-        app:fmb_icon="@drawable/language"
-        app:fmb_title="@string/Language" />
+    <!--<com.LY.project.CustomView.MyFastMenuBar-->
+        <!--android:id="@+id/language"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:fmb_animation_type="fmb_fade"-->
+        <!--app:fmb_icon="@drawable/language"-->
+        <!--app:fmb_title="@string/Language" />-->
 
     <com.LY.project.CustomView.MyFastMenuBar
         android:id="@+id/about"
@@ -82,13 +82,13 @@
         app:fmb_icon="@drawable/exit"
         app:fmb_title="@string/Exit" />
 
-    <com.LY.project.CustomView.MyFastMenuBar
-        android:id="@+id/net_version"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:fmb_animation_type="fmb_fade"
-        app:fmb_icon="@drawable/change"
-        app:fmb_title="@string/net_version" />
+    <!--<com.LY.project.CustomView.MyFastMenuBar-->
+        <!--android:id="@+id/net_version"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:fmb_animation_type="fmb_fade"-->
+        <!--app:fmb_icon="@drawable/change"-->
+        <!--app:fmb_title="@string/net_version" />-->
 
 
     <!--<LinearLayout-->

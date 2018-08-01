@@ -12,7 +12,7 @@ import com.LY.project.R;
 
 
 /**
- * Created by 柯东煜 on 2017/10/1.
+ * Created by lcj on 2017/10/1.
  */
 
 public class  MyProgressDialog extends Dialog {

@@ -53,8 +53,10 @@ public class AddLock extends BaseActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        lists.clear();
+
         intit(phone, password);
+        lists.clear();
+        adapter.notifyDataSetChanged();
     }
 
     @Override
