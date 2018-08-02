@@ -140,6 +140,7 @@ public class LockSentPasswordTwo extends BaseActivity {
             Map<String, RequestBody> params = new HashMap<>();
             params.put("startTime", RetrofitUtils.convertToRequestBody(times(String.valueOf(Long.valueOf(String.valueOf(new Date().getTime() / 1000))*1000l))));
             params.put("endTime", RetrofitUtils.convertToRequestBody(times(String.valueOf(Long.valueOf("0")*1000l))));
+            Log.e("nextStep:",times(String.valueOf(Long.valueOf(String.valueOf(new Date().getTime() / 1000))*1000l)));
             params.put("key", RetrofitUtils.convertToRequestBody(lockKey));
             params.put("type", RetrofitUtils.convertToRequestBody("1"));
             Log.e("onClick:1234:",lockKey+" LINCHUJIE "+String.valueOf(new Date().getTime() / 1000));

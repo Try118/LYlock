@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-    <resources>
+<resources>
 
     <string name="not_gain_user_information">Unable to get the information of user, please try again</string>
 
@@ -13,7 +13,7 @@
     <string name="beizhu">name</string>
 
     <string name="login_way">Login in by E-mail</string>
-    
+
     <string name="send_successful">Sent successfully</string>
     <string name="correct_successfully">correct successfully</string>
 
@@ -154,5 +154,11 @@
     <string name="account_format_error">Account format error</string>
     <string name="correct_success">correct success</string>
     <string name="account_not_exist">account not exist</string>
-    <string name="Trying_to_search">Trying to search</string>
+    <string name="trying_to_search">Trying to search</string>
+    <string name="connect_timeout">time out</string>
+    <string name="ota_error">更新设备%1$s失败，请检查蓝牙连接</string>
+    <string name="update_retry">重试</string>
+    <string name="update_cancel">取消</string>
+    <string name="updating">更新中,请稍后</string>
+    <string name="ota_title">硬件更新</string>
 </resources>

@@ -76,7 +76,7 @@
     <string name="a_month">1月</string>
     <string name="a_year">1年</string>
     <string name="Invited_users"> 点击即可邀请用户 </string>
-    <string name="login_way">手机登陆</string>
+    <string name="login_way">手机登录</string>
     <string name="contract">联系人</string>
 
     <string name="server_error">服务器错误,error code:</string>

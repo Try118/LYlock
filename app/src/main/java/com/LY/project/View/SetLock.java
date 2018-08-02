@@ -95,6 +95,10 @@ public class SetLock extends BaseActivity implements MyFastMenuBar.onMenuBarClic
             giver_record.setVisibility(View.GONE);
 //            set_open_password.setVisibility(View.INVISIBLE);
         }
+        if (power.contains("3")||power.contains("2")){
+            delete_all_password.setVisibility(View.GONE);
+            delete_lock.setVisibility(View.GONE);
+        }
     }
 
     @Override

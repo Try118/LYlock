@@ -23,6 +23,7 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:screenOrientation="landscape"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name="com.LY.project.View.MainPage">
             <intent-filter>
