@@ -1,7 +1,7 @@
 package com.LY.project.Utils;
 
 /**
- * Created by 柯东煜 on 2017/9/25.
+ * Created by linchujie on 2017/9/25.
  */
 
 public class isEmpty {

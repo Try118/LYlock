@@ -104,6 +104,6 @@
             android:id="@+id/login"
             style="@style/button_one"
             android:layout_marginTop="23dp"
-            android:text="注册" />
+            android:text="@string/register" />
     </LinearLayout>
 </RelativeLayout>

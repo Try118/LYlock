@@ -1,6 +1,7 @@
 package com.LY.project.View;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -90,8 +91,15 @@ public class Register extends BaseActivity {
         loginController.signUp(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
+                SharedPreferences.Editor edit = getSharedPreferences("UserInformation", MODE_PRIVATE).edit();
+                edit.putString("account",account);
+                edit.putString("password",input_password.getText().toString().trim());
+                edit.apply();
                 showToast(String.valueOf(success));
-                startActivity(AddLock.class);
+                Intent i = new Intent(Register.this,AddLock.class);
+                i.putExtra("phone",account);
+                i.putExtra("password",input_password.getText().toString().trim());
+                startActivity(i);
             }
 
             @Override

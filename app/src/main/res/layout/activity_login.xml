@@ -38,7 +38,7 @@
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
                     android:lines="1"
-                    android:text="CN > +86">
+                    android:text="@string/cn86">
 
                 </TextView>
 
@@ -48,7 +48,6 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
                     android:hint="@string/input_phone_number"
-                    android:inputType="phone"
                     android:lines="1"
                     android:padding="8dp"
                     android:textColorHint="@color/colorhint"
