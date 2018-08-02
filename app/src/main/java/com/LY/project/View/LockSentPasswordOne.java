@@ -203,16 +203,16 @@ public class LockSentPasswordOne extends BaseActivity {
 
     private void nextStep() {
         String account = phone.getText().toString();
-        if (!TextUtils.isEmpty(account)) {
-            Intent i = new Intent(this, LockSentPasswordTwo.class);
-            i.putExtra("account", account);//账号
-            i.putExtra("name", name.getText().toString());//备注名
-            i.putExtra("lockKey",lockKey);//密钥
-            i.putExtra("lock_name",lock_name);//门锁名
-            i.putExtra("endtime",endtime);//结束时间
-            startActivity(i);
-        } else {
-            showToast(getString(R.string.no_write_phone));
-        }
+            if (!TextUtils.isEmpty(account)) {
+                Intent i = new Intent(this, LockSentPasswordTwo.class);
+                i.putExtra("account", account);//账号
+                i.putExtra("name", name.getText().toString());//备注名
+                i.putExtra("lockKey",lockKey);//密钥
+                i.putExtra("lock_name",lock_name);//门锁名
+                i.putExtra("endtime",endtime);//结束时间
+                startActivity(i);
+            } else {
+                showToast(getString(R.string.no_write_phone));
+            }
     }
 }

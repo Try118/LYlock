@@ -194,15 +194,26 @@ public class LockSentPasswordThree extends BaseActivity {
 
                         //生成消息
                         String str = "欢迎使用物勒智能门锁，您的开锁密码为：" + password.substring(0, 4) + "-" + password.substring(4, 8) + "-" + password.substring(8) + "门锁名称为:" + lock_name + ",有效时间至" + end_time.getText() + "。输入密码后按 # 号键即可开门";
-                        if (account.equals("wechat")){
-                            Intent intent = new Intent(Intent.ACTION_SEND);
-                            intent.setType("text/plain");//  intent.setPackage("com.tencent.mm");
-                            intent.putExtra(Intent.EXTRA_TEXT, str);
-                            startActivity(Intent.createChooser(intent, "请选择"));
+                        if (account.contains("@")){
+                            Intent i = new Intent(Intent.ACTION_SEND);
+                            // i.setType("text/plain"); //模拟器请使用这行
+                            i.setType("message/rfc822"); // 真机上使用这行
+                            i.putExtra(Intent.EXTRA_EMAIL,
+                                    new String[] { account });
+                            i.putExtra(Intent.EXTRA_SUBJECT, "门锁密码");
+                            i.putExtra(Intent.EXTRA_TEXT, str);
+                            startActivity(Intent.createChooser(i, "Select email application."));
                         }else{
-                            Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + account));
-                            sendIntent.putExtra("sms_body", str);
-                            startActivity(sendIntent);
+                            if (account.equals("wechat")){
+                                Intent intent = new Intent(Intent.ACTION_SEND);
+                                intent.setType("text/plain");//  intent.setPackage("com.tencent.mm");
+                                intent.putExtra(Intent.EXTRA_TEXT, str);
+                                startActivity(Intent.createChooser(intent, "请选择"));
+                            }else{
+                                Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + account));
+                                sendIntent.putExtra("sms_body", str);
+                                startActivity(sendIntent);
+                            }
                         }
                     }
 

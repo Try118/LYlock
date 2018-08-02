@@ -73,6 +73,9 @@ public class LoginInputPassword extends BaseActivity {
         SharedPreferences.Editor edit = getSharedPreferences("UserInformation", MODE_PRIVATE).edit();
         edit.putString("account",temp1);
         edit.apply();
+        SharedPreferences book = getSharedPreferences("UserInformation", MODE_PRIVATE);
+        String s = book.getString("password", null);
+        input_password.setText(s);
         input_account.setText(temp1);
         input_account.setEnabled(false);
     }
