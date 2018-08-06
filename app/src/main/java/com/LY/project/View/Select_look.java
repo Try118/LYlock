@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -54,6 +55,7 @@ public class Select_look extends BluetoothActivity {
 //    private volatile int flag = 0;//标志位
 //    private TimerTask tast;
 //    final Timer timer = new Timer();
+    String language ;
 
     private TextView back;//返回
     private TextView lockname;//锁的名字
@@ -134,6 +136,15 @@ public class Select_look extends BluetoothActivity {
         giver = findView(R.id.giver);
         powernumber = findView(R.id.powernumber);
         power_photo = findView(R.id.power_photo);
+        initLanguage();
+    }
+
+    /**
+     * 初始化语言
+     */
+    private void initLanguage() {
+        Locale locale = Locale.getDefault();
+        language = locale.getLanguage();
     }
 
     @Override
@@ -177,7 +188,11 @@ public class Select_look extends BluetoothActivity {
         lockname.setText(lock_name);
         start.setText(StringToDate.times(String.valueOf(Long.valueOf(starttime) * 1000)));
         if (endtime.equals("0")) {
-            end_time.setText("永久");
+            if (language.contains("zh")){
+                end_time.setText("永久");
+            }else{
+                end_time.setText("forever");
+            }
         } else {
             end_time.setText(StringToDate.times(String.valueOf(Long.valueOf(endtime) * 1000)));
         }

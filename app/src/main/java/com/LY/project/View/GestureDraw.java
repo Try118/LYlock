@@ -15,11 +15,15 @@ import com.LY.project.CustomView.Variate;
 import com.LY.project.R;
 import com.LY.project.Utils.ToastUtils;
 
+import java.util.Locale;
+
 /**
  * Created by YX on 2018/6/10.
  */
 
 public class GestureDraw extends BaseActivity {
+    String language;
+
     private FrameLayout mFrameLayout;
     private SharedPreferences sp;
     private String pwd;
@@ -34,6 +38,12 @@ public class GestureDraw extends BaseActivity {
     @Override
     public void initViews() {
         mFrameLayout = (FrameLayout) findViewById(R.id.framelayout);
+        initlanguage();
+    }
+
+    private void initlanguage() {
+        Locale aDefault = Locale.getDefault();
+        language = aDefault.getLanguage();
     }
 
     @Override
@@ -67,33 +77,46 @@ public class GestureDraw extends BaseActivity {
                     if (TextUtils.isEmpty(Variate.PASSWORD)) {
                         //如果这个变量为null，第一次将密码保存在Variate.PASSWORD提示再次输入密码
                         Variate.PASSWORD = password;
-                        ToastUtils.showToast(GestureDraw.this, "请再次输入密码");
+                        if (language.contains("zh")) {
+                            ToastUtils.showToast(GestureDraw.this, "请再次输入密码");
+                        } else {
+                            ToastUtils.showToast(GestureDraw.this, "Please enter your password again");
+                        }
+
                         // 并且刷新当前页面
                         //refresh();
-                    }
-                    else {
+                    } else {
                         //如果Variate.PASSWORD不为空代表是第二次输入新密码，判断两次输入密码是否相同
                         if (password.equals(Variate.PASSWORD)) {
                             //如果相同，将密码保存在当地sp中
                             sp.edit().putString("gestureState", password).commit();
-                            ToastUtils.showToast(GestureDraw.this, "密码设置成功");
+                            if (language.contains("zh")) {
+                                ToastUtils.showToast(GestureDraw.this, "密码设置成功");
+                            } else {
+                                ToastUtils.showToast(GestureDraw.this, "Password set successful");
+                            }
+
                             sp.edit().putBoolean("gesture", true).commit();
-                            Intent intent = new Intent(GestureDraw.this, GestureSetting.class);
-                            startActivity(intent);
+//                            Intent intent = new Intent(GestureDraw.this, GestureSetting.class);
+//                            startActivity(intent);
                             finish();
                         } else {
                             //如果两次输入密码不一样，将Variate.PASSWORD设为null,提示密码设置失败
                             Variate.PASSWORD = null;
-                            ToastUtils.showToast(GestureDraw.this, "密码设置失败");
+                            if (language.contains("zh")) {
+                                ToastUtils.showToast(GestureDraw.this, "密码设置失败");
+                            } else {
+                                ToastUtils.showToast(GestureDraw.this, "Password setting failed");
+                            }
+
                             sp.edit().putBoolean("gesture", false).commit();
                             // 跳回主页面需重新设置密码
-                            Intent intent = new Intent(GestureDraw.this, GestureSetting.class);
-                            startActivity(intent);
+//                            Intent intent = new Intent(GestureDraw.this, GestureSetting.class);
+//                            startActivity(intent);
                             finish();
                         }
                     }
-                }
-                else {
+                } else {
                     //如果已经设置密码，判断输入密码和保存密码是否相同
                     if (pwd.equals(password)) {
                         //如果相同，密码正确，进入主页面
@@ -101,13 +124,17 @@ public class GestureDraw extends BaseActivity {
                             //关闭手势密码
                             sp.edit().putBoolean("gesture", false).commit();
                             sp.edit().putString("gestureState", null).commit();
-                            Intent i = new Intent(GestureDraw.this, GestureSetting.class);
-                            startActivity(i);
+//                            Intent i = new Intent(GestureDraw.this, GestureSetting.class);
+//                            startActivity(i);
                             finish();
                         } else if (state == 2) {
                             sp.edit().putBoolean("gesture", false).commit();
                             sp.edit().putString("gestureState", null).commit();
-                            ToastUtils.showShortToast(GestureDraw.this, "重新设置密码");
+                            if (language.contains("zh")) {
+                                ToastUtils.showToast(GestureDraw.this, "重新设置密码");
+                            } else {
+                                ToastUtils.showToast(GestureDraw.this, "router enable password cisco");
+                            }
                             //refresh();
                         } else {
                             Variate.state = true;
@@ -118,16 +145,24 @@ public class GestureDraw extends BaseActivity {
                     } else {
                         if (state != 0) {
                             //如果不相同，密码错误，刷新当前activity，需重新输入密码
-                            Toast.makeText(GestureDraw.this, "密码错误", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(GestureDraw.this, GestureSetting.class);
-                            startActivity(i);
+                            if (language.contains("zh")) {
+                                Toast.makeText(GestureDraw.this, "密码错误", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(GestureDraw.this, "wrong password", Toast.LENGTH_SHORT).show();
+                            }
+//                            Intent i = new Intent(GestureDraw.this, GestureSetting.class);
+//                            startActivity(i);
                             finish();
                         } else {
 //                            Intent i = new Intent(GestureDraw.this, Login.class);
 //                            startActivity(i);
 //                            Variate.setState = true;
 //                            finish();
-                            showToast("密码错误,请重新输入");
+                            if (language.contains("zh")) {
+                                Toast.makeText(GestureDraw.this, "密码错误,请重新输入", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(GestureDraw.this, "Password error, please re-enter", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
                 }
@@ -150,9 +185,8 @@ public class GestureDraw extends BaseActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if(Login.activity!=null)
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (Login.activity != null)
             Login.activity.finish();
         this.finish();
         return false;

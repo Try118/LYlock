@@ -25,7 +25,7 @@
         android:supportsRtl="true"
         android:screenOrientation="landscape"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name="com.LY.project.View.MainPage">
+        <activity android:name="com.LY.project.View.MainPage" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,39 +33,39 @@
             </intent-filter>
         </activity>
         <!--<activity android:name="android.support.multidex.MultiDexApplication"/>-->
-        <activity android:name="com.LY.project.View.Login" />
-        <activity android:name="com.LY.project.View.LegalProvisions" />
-        <activity android:name="com.LY.project.View.AddLock" />
-        <activity android:name="com.LY.project.View.SearchDoorLock2" />
-        <activity android:name="com.LY.project.View.Select_look" />
-        <activity android:name="com.LY.project.View.Setting" />
-        <activity android:name="com.LY.project.View.GestureSetting" />
-        <activity android:name="com.LY.project.View.VerifyRegistration" />
-        <activity android:name="com.LY.project.View.SetLock" />
-        <activity android:name="com.LY.project.View.LockSentAuthorityOne" />
-        <activity android:name="com.LY.project.View.LockSentPasswordOne" />
-        <activity android:name="com.LY.project.View.LockSentPasswordTwo" />
-        <activity android:name="com.LY.project.View.LockSentAuthorityTwo" />
-        <activity android:name="com.LY.project.View.LockSentPasswordThree" />
-        <activity android:name="com.LY.project.View.LockSentAuthorityThree" />
-        <activity android:name="com.LY.project.View.SetLockName" />
-        <activity android:name="com.LY.project.View.SetLockPassword" />
-        <activity android:name="com.LY.project.View.SetLockAddress" />
-        <activity android:name="com.LY.project.View.SetUpdateLockTime" />
-        <activity android:name="com.LY.project.View.SetLockOpenLockRecord" />
-        <activity android:name="com.LY.project.View.SetLockAuthorizationRecord" />
-        <activity android:name="com.LY.project.View.SetLockDeleteAllPassword" />
-        <activity android:name="com.LY.project.View.SetLockDeletePage" />
-        <activity android:name="com.LY.project.View.LoginInputPassword" />
-        <activity android:name="com.LY.project.View.RegistrationCode"/>
-        <activity android:name="com.LY.project.View.Register"/>
-        <activity android:name="com.LY.project.View.RevisePassword"/>
-        <activity android:name=".View.Reset"/>
-        <activity android:name=".View.ResetSetLockAddress"/>
-        <activity android:name=".View.ResetSetLockName"/>
-        <activity android:name=".View.SetLockPasswordPage"/>
-        <activity android:name=".View.SetLockPasswordTime"/>
-        <activity android:name=".View.GestureDraw"/>
+        <activity android:name="com.LY.project.View.Login"  android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.LegalProvisions" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.AddLock" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.SearchDoorLock2" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.Select_look" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.Setting" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.GestureSetting" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.VerifyRegistration" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.SetLock" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.LockSentAuthorityOne" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.LockSentPasswordOne" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.LockSentPasswordTwo" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.LockSentAuthorityTwo" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.LockSentPasswordThree" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.LockSentAuthorityThree" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.SetLockName" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.SetLockPassword" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.SetLockAddress" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.SetUpdateLockTime" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.SetLockOpenLockRecord" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.SetLockAuthorizationRecord" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.SetLockDeleteAllPassword" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.SetLockDeletePage" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.LoginInputPassword" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.RegistrationCode" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.Register" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.RevisePassword" android:screenOrientation="portrait"/>
+        <activity android:name=".View.Reset" android:screenOrientation="portrait"/>
+        <activity android:name=".View.ResetSetLockAddress" android:screenOrientation="portrait"/>
+        <activity android:name=".View.ResetSetLockName" android:screenOrientation="portrait"/>
+        <activity android:name=".View.SetLockPasswordPage" android:screenOrientation="portrait"/>
+        <activity android:name=".View.SetLockPasswordTime" android:screenOrientation="portrait"/>
+        <activity android:name=".View.GestureDraw" android:screenOrientation="portrait"/>
 
         <receiver android:name=".Utils.BluetoothReceiver">
             <intent-filter>
