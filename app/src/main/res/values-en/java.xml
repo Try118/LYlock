@@ -129,13 +129,14 @@
 
     <string name="start">Start : </string>
 
-    <string name="end">End   : </string>
+    <string name="end">End    : </string>
 
     <string name="cn86">E-Mail</string>
 
     <string name="set_valid">set the valid time</string>
+    <string name="update_lock_time">update</string>
 
-    <string name="update_lock_time">update the time of lock</string>
+    <string name="up_lock_time">Update the lock time</string>
 
     <string name="customized">Free </string>
     <string name="one_day">One day</string>
@@ -154,7 +155,7 @@
     <string name="account_format_error">Account format error</string>
     <string name="correct_success">correct success</string>
     <string name="account_not_exist">account not exist</string>
-    <string name="trying_to_search">Trying to search</string>
+    <string name="trying_to_search">Searching</string>
     <string name="connect_timeout">time out</string>
     <string name="ota_error">Failed, please check the bluetooth connection</string>
     <string name="update_retry">Retry</string>

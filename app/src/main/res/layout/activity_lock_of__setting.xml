@@ -54,7 +54,7 @@
         android:layout_height="wrap_content"
         app:fmb_animation_type="fmb_fade"
         app:fmb_icon="@drawable/update_lock_time"
-        app:fmb_title="@string/update_lock_time"
+        app:fmb_title="@string/up_lock_time"
         />
     <com.LY.project.CustomView.MyFastMenuBar
         android:id="@+id/open_record"

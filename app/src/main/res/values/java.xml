@@ -70,6 +70,7 @@
     <string name="cn86">CN > +86</string>
     <string name="set_valid">设置有效时间</string>
     <string name="update_lock_time">更新门锁时间</string>
+    <string name="up_lock_time">更新门锁时间</string>
     <string name="customized">自定义</string>
     <string name="one_day">1天</string>
     <string name="a_week">1周</string>

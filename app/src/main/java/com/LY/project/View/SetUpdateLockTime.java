@@ -3,6 +3,7 @@ package com.LY.project.View;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -27,6 +28,7 @@ import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -41,8 +43,10 @@ import cn.com.heaton.blelibrary.ble.callback.BleWriteCallback;
  */
 
 public class SetUpdateLockTime extends BluetoothActivity {
-    private long time = 0;//记录点击时间
+    private String language;
 
+    private long time = 0;//记录点击时间
+    private TextView tv_back;
     private TextView back;//返回控件
     private Button update;//更新时间
     private Ble<BleDevice> mBle;
@@ -85,9 +89,15 @@ public class SetUpdateLockTime extends BluetoothActivity {
 
     @Override
     public void initViews() {
+        initLanguage();
         back = findView(R.id.back);
         update = findView(R.id.update);
+        tv_back = findView(R.id.tv_back);
+        if (language.contains("zh")){
 
+        }else{
+            tv_back.setBackground(getApplication().getResources().getDrawable(R.drawable.guideen));
+        }
     }
 
     private void init() {
@@ -95,6 +105,11 @@ public class SetUpdateLockTime extends BluetoothActivity {
         initBle();
         bleDevice.setBleAddress(bluetoothaddress);
         bleDevice.setBleName("WL3667313AA351");
+    }
+
+    private void initLanguage() {
+        Locale aDefault = Locale.getDefault();
+        language = aDefault.getLanguage();
     }
 
     @Override
