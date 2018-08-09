@@ -137,11 +137,11 @@
 
     <string name="update_lock_time">update the time of lock</string>
 
-    <string name="customized">customized</string>
+    <string name="customized">Free </string>
     <string name="one_day">One day</string>
-    <string name="a_week">A week</string>
-    <string name="a_month">A month</string>
-    <string name="a_year">A year</string>
+    <string name="a_week">One week</string>
+    <string name="a_month">One month</string>
+    <string name="a_year">One year</string>
 
     <string name="contract">Contract</string>
     <string name="server_error">server error,error code:</string>
@@ -161,4 +161,7 @@
     <string name="update_cancel">cancel</string>
     <string name="updating">In progress, please wait</string>
     <string name="ota_title">hardware-updating</string>
+    <string name="get_code">Click to get the verification code</string>
+    <string name="send_verity">The verification code has been sent</string>
+    <string name="send_auth">Send Permissions</string>
 </resources>

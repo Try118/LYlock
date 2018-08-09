@@ -215,6 +215,8 @@ public class SetUpdateLockTime extends BluetoothActivity {
                         time = date.getTime();
                         mBle.disconnect(device);
                         handler.removeMessages(0x125);
+                        startActivity(Select_look.class);
+                        finish();
                     }
                 });
         if (!result) {

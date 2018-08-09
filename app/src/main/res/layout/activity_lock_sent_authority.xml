@@ -16,7 +16,7 @@
 
         <TextView
             style="@style/banerText"
-            android:text="发送权限" />
+            android:text="@string/send_auth" />
 
         <TextView style="@style/forward" />
     </RelativeLayout>
@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
-                android:text="高级权限" />
+                android:text="@string/advanced" />
 
         </LinearLayout>
 
@@ -72,7 +72,7 @@
                 style="@style/TextView_style1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="普通权限" />
+                android:text="@string/popular" />
 
         </LinearLayout>
 
@@ -82,7 +82,7 @@
     <TextView
         android:id="@+id/send"
         style="@style/TextView_style"
-        android:text="确定" />
+        android:text="@string/certain" />
 
     <TextView
         android:id="@+id/tip"

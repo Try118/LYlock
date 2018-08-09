@@ -25,6 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -35,6 +36,8 @@ import okhttp3.RequestBody;
  */
 
 public class LockSentAuthorityThree extends BaseActivity {
+    private String Language;
+
     private TextView back;//返回控件按钮
 
     private TextView mytextView;//此控件只是单纯的一个 引用类型 为了下面选择控件节省代码量不存在于界面的（起辅助性作用）
@@ -74,6 +77,12 @@ public class LockSentAuthorityThree extends BaseActivity {
         start_time = findView(R.id.start_time);
         end_time = findView(R.id.end_time);
         next = findView(R.id.next);
+        initLanguage();
+    }
+
+    private void initLanguage() {
+        Locale locale = Locale.getDefault();
+        Language = locale.getLanguage();
     }
 
     @Override
@@ -121,8 +130,13 @@ public class LockSentAuthorityThree extends BaseActivity {
             case R.id.self:
                 mytextView.setTextColor(Color.parseColor("#333333"));
                 self.setTextColor(Color.RED);
-                start_time.setText("从现在开始");
-                end_time.setText("截止时间");
+                if (Language.contains("zh")){
+                    start_time.setText("从现在开始");
+                    end_time.setText("截止时间");
+                }else{
+                    start_time.setText("From now on");
+                    end_time.setText("Deadline");
+                }
                 mytextView = self;
                 break;
             case R.id.one_day:
@@ -132,7 +146,11 @@ public class LockSentAuthorityThree extends BaseActivity {
                     start_time.setText(times(new Date().getTime()));
                     end_time.setText(times(new Date().getTime() + day));
                 } else {
-                    Toast.makeText(this, "该时间超过权限范围", Toast.LENGTH_SHORT).show();
+                    if (Language.contains("zh")){
+                        Toast.makeText(this, "该时间超过权限范围", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(this, "Time Limited Exceed", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 mytextView = one_day;
                 break;
@@ -143,7 +161,11 @@ public class LockSentAuthorityThree extends BaseActivity {
                     start_time.setText(times(new Date().getTime()));
                     end_time.setText(times(new Date().getTime() + 7 * day));
                 } else {
-                    Toast.makeText(this, "该时间超过权限范围", Toast.LENGTH_SHORT).show();
+                    if (Language.contains("zh")){
+                        Toast.makeText(this, "该时间超过权限范围", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(this, "Time Limited Exceed", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 mytextView = one_week;
                 break;
@@ -154,7 +176,11 @@ public class LockSentAuthorityThree extends BaseActivity {
                     start_time.setText(times(new Date().getTime()));
                     end_time.setText(times(new Date().getTime() + 30 * day));
                 } else {
-                    Toast.makeText(this, "该时间超过权限范围", Toast.LENGTH_SHORT).show();
+                    if (Language.contains("zh")){
+                        Toast.makeText(this, "该时间超过权限范围", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(this, "Time Limited Exceed", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 mytextView = one_month;
                 break;
@@ -165,7 +191,11 @@ public class LockSentAuthorityThree extends BaseActivity {
                     start_time.setText(times(new Date().getTime()));
                     end_time.setText(times(new Date().getTime() + 365 * day));
                 } else {
-                    Toast.makeText(this, "该时间超过权限范围", Toast.LENGTH_SHORT).show();
+                    if (Language.contains("zh")){
+                        Toast.makeText(this, "该时间超过权限范围", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(this, "Time Limited Exceed", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 mytextView = one_year;
                 break;
@@ -211,7 +241,12 @@ public class LockSentAuthorityThree extends BaseActivity {
         sentAuthorityContorller.GiveLock(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
-                showToast("授权成功");
+                if (Language.contains("zh")){
+                    showToast("授权成功");
+                }else{
+                    showToast("Authorization success");
+                }
+
             }
 
             @Override

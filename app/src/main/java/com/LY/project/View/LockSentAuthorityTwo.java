@@ -8,11 +8,15 @@ import android.widget.TextView;
 import com.LY.basemodule.Essential.BaseTemplate.BaseActivity;
 import com.LY.project.R;
 
+import java.util.Locale;
+
 /**
  * Created by jie on 2018/4/12.
  */
 
 public class LockSentAuthorityTwo extends BaseActivity {
+    private String Lanuage;
+
     private TextView back;//返回控件按钮
     private TextView times;//发送高级权限
     private TextView Once;//发送普通权限
@@ -35,13 +39,24 @@ public class LockSentAuthorityTwo extends BaseActivity {
 
     @Override
     public void initViews() {
+        initLanuage();
         back = findView(R.id.back);
         times = findView(R.id.times);
         Once = findView(R.id.once);
         send = findView(R.id.send);
         tip = findView(R.id.tip);
         times.setTextColor(Color.RED);
-        tip.setText("高级权限指的是拥有发送密码/开锁/授权/设置密码这几个权限");
+        if (Lanuage.contains("zh")){
+            tip.setText("高级权限指的是拥有发送密码/开锁/授权/设置密码这几个权限");
+        }else{
+            tip.setText("Advanced permissions refer to the ability to send/unlock/authorize/set passwords");
+        }
+
+    }
+
+    private void initLanuage() {
+        Locale locale = Locale.getDefault();
+        Lanuage = locale.getLanguage();
     }
 
     @Override
@@ -71,13 +86,21 @@ public class LockSentAuthorityTwo extends BaseActivity {
                 break;
             case R.id.times:
                 times.setTextColor(Color.RED);
-                tip.setText("高级权限指的是拥有发送密码/开锁/授权/设置密码这几个权限");
+                if (Lanuage.contains("zh")){
+                    tip.setText("高级权限指的是拥有发送密码/开锁/授权/设置密码这几个权限");
+                }else{
+                    tip.setText("Advanced permissions refer to the ability to send/unlock/authorize/set passwords");
+                }
                 Once.setTextColor(getResources().getColor(R.color.Text_color));
                 choice = 1;
                 break;
             case R.id.once:
                 Once.setTextColor(Color.RED);
-                tip.setText("普通权限指的是只拥有开锁这个权限");
+                if (Lanuage.contains("zh")){
+                    tip.setText("普通权限指的是只拥有开锁这个权限");
+                }else{
+                    tip.setText("Common permission means you only have the right to unlock the lock");
+                }
                 times.setTextColor(getResources().getColor(R.color.Text_color));
                 choice = 2;
                 break;

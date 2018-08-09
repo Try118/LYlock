@@ -27,6 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -37,6 +38,8 @@ import okhttp3.RequestBody;
  */
 
 public class LockSentPasswordThree extends BaseActivity {
+    private String language;
+
     private TextView back;//返回控件按钮
     private TextView self;//自定义时间按键
     private TextView one_day;//选择时间为一天
@@ -59,6 +62,7 @@ public class LockSentPasswordThree extends BaseActivity {
 
     @Override
     public void initViews() {
+        initLanguage();
         back = (TextView) findView(R.id.back);
         self = (TextView) findView(R.id.self);
         one_day = (TextView) findView(R.id.one_day);
@@ -69,6 +73,14 @@ public class LockSentPasswordThree extends BaseActivity {
         end_time = (TextView) findView(R.id.end_time);
         next = (TextView) findView(R.id.next);
         mytextView = self;
+    }
+
+    /**
+     * 初始化语言
+     */
+    private void initLanguage() {
+        Locale locale = Locale.getDefault();
+        language = locale.getLanguage();
     }
 
     @Override
@@ -193,14 +205,23 @@ public class LockSentPasswordThree extends BaseActivity {
                         String password = data.getPassword();
 
                         //生成消息
-                        String str = "欢迎使用物勒智能门锁，您的开锁密码为：" + password.substring(0, 4) + "-" + password.substring(4, 8) + "-" + password.substring(8) + "门锁名称为:" + lock_name + ",有效时间至" + end_time.getText() + "。输入密码后按 # 号键即可开门";
+                        String str;
+                        if (language.contains("zh")){
+                            str = "欢迎使用物勒智能门锁，您的开锁密码为：" + password.substring(0, 4) + "-" + password.substring(4, 8) + "-" + password.substring(8) + "门锁名称为:" + lock_name + ",有效时间至" + end_time.getText() + "。输入密码后按 # 号键即可开门";
+                        }else{
+                            str = "Welcome to use the Wooloc intelligent lock, your unlock password is" + password.substring(0, 4) + "-" + password.substring(4, 8) + "-" + password.substring(8) + "Lock name:" + lock_name + ",Effective time" + end_time.getText() + "。Enter your password and press # to open the door";
+                        }
                         if (account.contains("@")){
                             Intent i = new Intent(Intent.ACTION_SEND);
                             // i.setType("text/plain"); //模拟器请使用这行
                             i.setType("message/rfc822"); // 真机上使用这行
                             i.putExtra(Intent.EXTRA_EMAIL,
                                     new String[] { account });
-                            i.putExtra(Intent.EXTRA_SUBJECT, "门锁密码");
+                            if (language.contains("zh")){
+                                i.putExtra(Intent.EXTRA_SUBJECT, "门锁密码");
+                            }else{
+                                i.putExtra(Intent.EXTRA_SUBJECT, "Wooloc Password");
+                            }
                             i.putExtra(Intent.EXTRA_TEXT, str);
                             startActivity(Intent.createChooser(i, "Select email application."));
                         }else{
@@ -242,17 +263,38 @@ public class LockSentPasswordThree extends BaseActivity {
                         String password = data.getPassword();
 
                         //生成消息
-                        String str = "欢迎使用物勒智能门锁，您的开锁密码为：" + password.substring(0, 4) + "-" + password.substring(4, 8) + "-"  + password.substring(8, 11) + password.substring(11) +  "门锁名称为:" + lock_name + ",有效时间至" + end_time.getText() + "。输入密码后按 # 号键即可开门";
-                        if (account.equals("wechat")){
-                            Intent intent = new Intent(Intent.ACTION_SEND);
-                            intent.setType("text/plain");//  intent.setPackage("com.tencent.mm");
-                            intent.putExtra(Intent.EXTRA_TEXT, str);
-                            startActivity(Intent.createChooser(intent, "请选择"));
+                        String str;
+                        if (language.contains("zh")){
+                            str = "欢迎使用物勒智能门锁，您的开锁密码为：" + password.substring(0, 4) + "-" + password.substring(4, 8) + "-" + password.substring(8) + "门锁名称为:" + lock_name + ",有效时间至" + end_time.getText() + "。输入密码后按 # 号键即可开门";
                         }else{
-                            Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + account));
-                            sendIntent.putExtra("sms_body", str);
-                            startActivity(sendIntent);
+                            str = "Welcome to use the Vooloc intelligent lock, your unlock password is" + password.substring(0, 4) + "-" + password.substring(4, 8) + "-" + password.substring(8) + "Lock name:" + lock_name + ",Effective time" + end_time.getText() + "。Enter your password and press # to open the door";
                         }
+                        if(account.contains("@")){
+                            Intent i = new Intent(Intent.ACTION_SEND);
+                            // i.setType("text/plain"); //模拟器请使用这行
+                            i.setType("message/rfc822"); // 真机上使用这行
+                            i.putExtra(Intent.EXTRA_EMAIL,
+                                    new String[] { account });
+                            if (language.contains("zh")){
+                                i.putExtra(Intent.EXTRA_SUBJECT, "门锁密码");
+                            }else{
+                                i.putExtra(Intent.EXTRA_SUBJECT, "Vooloc Password");
+                            }
+                            i.putExtra(Intent.EXTRA_TEXT, str);
+                            startActivity(Intent.createChooser(i, "Select email application."));
+                        }else{
+                            if (account.equals("wechat")){
+                                Intent intent = new Intent(Intent.ACTION_SEND);
+                                intent.setType("text/plain");//  intent.setPackage("com.tencent.mm");
+                                intent.putExtra(Intent.EXTRA_TEXT, str);
+                                startActivity(Intent.createChooser(intent, "请选择"));
+                            }else{
+                                Intent sendIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + account));
+                                sendIntent.putExtra("sms_body", str);
+                                startActivity(sendIntent);
+                            }
+                        }
+
                     }
 
                     @Override

@@ -37,7 +37,7 @@
         <activity android:name="com.LY.project.View.LegalProvisions" android:screenOrientation="portrait"/>
         <activity android:name="com.LY.project.View.AddLock" android:screenOrientation="portrait"/>
         <activity android:name="com.LY.project.View.SearchDoorLock2" android:screenOrientation="portrait"/>
-        <activity android:name="com.LY.project.View.Select_look" android:screenOrientation="portrait"/>
+        <activity android:name="com.LY.project.View.Select_look" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name="com.LY.project.View.Setting" android:screenOrientation="portrait"/>
         <activity android:name="com.LY.project.View.GestureSetting" android:screenOrientation="portrait"/>
         <activity android:name="com.LY.project.View.VerifyRegistration" android:screenOrientation="portrait"/>

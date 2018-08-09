@@ -52,10 +52,10 @@ import okhttp3.RequestBody;
 public class Select_look extends BluetoothActivity {
     private int status = 0;//写入状态位
 
-//    private volatile int flag = 0;//标志位
+    //    private volatile int flag = 0;//标志位
 //    private TimerTask tast;
 //    final Timer timer = new Timer();
-    String language ;
+    String language;
 
     private TextView back;//返回
     private TextView lockname;//锁的名字
@@ -188,9 +188,9 @@ public class Select_look extends BluetoothActivity {
         lockname.setText(lock_name);
         start.setText(StringToDate.times(String.valueOf(Long.valueOf(starttime) * 1000)));
         if (endtime.equals("0")) {
-            if (language.contains("zh")){
+            if (language.contains("zh")) {
                 end_time.setText("永久");
-            }else{
+            } else {
                 end_time.setText("forever");
             }
         } else {
@@ -210,139 +210,142 @@ public class Select_look extends BluetoothActivity {
             case R.id.open_lock:
 //                if (flag==0){
 //                    flag = 1;
-                    BluetoothCallbackManager manager = new BluetoothCallbackManager() {
-                        /**
-                         * @param result
-                         */
-                        @Override
-                        public void readCallback(String result) {
-                            Log.e("YXbluetoothGatt", "6写入回调：aini");
-                            state = true;
-                            Log.e("bluetoothGatt:", "7、读回数据：" + result);
-                            final Intent i = new Intent(Select_look.this, BluetoothReceiver.class);
-                            i.setAction("woolock.bluetooth.result");
-                            if (result.contains("1111")) {
-                                if (gatt != null) {
-//                                gatt.disconnect();
-                                    gatt.close();
-                                    gatt = null;
-                                    Log.e("bluetoothGatt:", "disconnect");
-                                }
-                            }
-                            if (result.contains("POWER")) {
-                                //上传操作记录
-                                record();
-
-                                String num = "POWER[0-9]{1,3}";
-                                Pattern pattern = Pattern.compile(num);
-                                Matcher matcher = pattern.matcher(result);
-                                if (matcher.find()) {
-                                    String re = matcher.group(0).substring(5, matcher.group(0).length()) + "%";
-                                    powernumber.setText(re);
-                                    int s = Integer.valueOf(matcher.group(0).substring(5, matcher.group(0).length()));
-                                    if (s >= 90) {
-                                        power_photo.setBackgroundResource(R.drawable.battery);
-                                    } else if (s >= 75) {
-                                        power_photo.setBackgroundResource(R.drawable.battery1);
-                                    } else if (s >= 60) {
-                                        power_photo.setBackgroundResource(R.drawable.battery2);
-                                    } else if (s >= 40) {
-                                        power_photo.setBackgroundResource(R.drawable.battery3);
-                                    } else if (s >= 20) {
-                                        power_photo.setBackgroundResource(R.drawable.battery4);
-                                    } else {
-                                        power_photo.setBackgroundResource(R.drawable.battery5);
-                                    }
-                                    //电量更改
-                                    up_power(re);
-                                }
-                                showToast("开锁成功");
-//                                timer.schedule(tast, 10000);
-                                handler.removeMessages(0x127);
-                                if (gatt != null) {
-                                    gatt.disconnect();
-                                    gatt.disconnect();
-                                    try {
-                                        Thread.sleep(100);
-                                    } catch (InterruptedException e) {
-                                        e.printStackTrace();
-                                    }
-                                    gatt.close();
-                                    gatt = null;
-                                    Log.e("bluetoothGatt:", "8、开锁成功后下面的断开连接：disconnect");
-                                }
-                                handler.sendEmptyMessage(0x124);
-
-                            }
-                            if (result.contains("3333")) {
-                                handler.removeMessages(0x127);
-                                i.putExtra("result", 0x124);
-                                sendBroadcast(i);
-                                if (gatt != null) {
-                                    gatt.disconnect();
-                                    gatt.close();
-                                    gatt = null;
-                                    Log.e("bluetoothGatt:", "disconnect");
-                                }
-                                handler.sendEmptyMessage(0x124);
-                            }
-                        }
-
-
-                        @Override
-                        public void writeCallback(String result) {
-
-                        }
-
-                        /**
-                         *
-                         */
-                        @Override
-                        public void connectCallback() {
-                            Log.e("processClick:123123", "出来吧");
-                            handler.sendEmptyMessageDelayed(0x126, 800);
-                            handler.sendEmptyMessage(0x123);
-
-                            //开门操作
-                            bluetoothGattCallback.setMessage("(!" + lockKey + ".O*)");
-
-                            try {
-                                gatt.discoverServices();
-                            } catch (Exception e) {
-                                status = 1;
-                                Log.e("bluetoothGatt", "写入异常");
-                                e.printStackTrace();
-                            } finally {
-                                Log.e("bluetoothGatt", "finally");
-                                if (status == 1) {
-                                    gatt.discoverServices();
-                                }
-                            }
-                            MyProgressDialog.remove();
-                            //  8 秒后颜色变回原来的样子
-                            handler.sendEmptyMessageDelayed(0x127, 8000);
-                            status = 0;
-                            showNotification(1);
-                        }
-
-                        @Override
-                        public void unConnectCallback() {
-
+                BluetoothCallbackManager manager = new BluetoothCallbackManager() {
+                    /**
+                     * @param result
+                     */
+                    @Override
+                    public void readCallback(String result) {
+                        Log.e("YXbluetoothGatt", "6写入回调：aini");
+                        state = true;
+                        Log.e("bluetoothGatt:", "7、读回数据：" + result);
+                        final Intent i = new Intent(Select_look.this, BluetoothReceiver.class);
+                        i.setAction("woolock.bluetooth.result");
+                        if (result.contains("1111")) {
                             if (gatt != null) {
-                                gatt.connect();
-                                Log.e("bluetoothGatt:", "连接不上重新连接：disconnect--unConnectCallback");
-
+//                                gatt.disconnect();
+                                gatt.close();
+                                gatt = null;
+                                Log.e("bluetoothGatt:", "disconnect");
                             }
-                            //别删
-//                        showToast("链接异常,请稍后重试");
-                            showNotification(2);
                         }
-                    };
-                    Log.e("processClick:123123", bluetoothaddress);
-                    getBluetooth(bluetoothaddress, manager);
-                    state = false;
+                        if (result.contains("POWER")) {
+                            //上传操作记录
+                            record();
+
+                            String num = "POWER[0-9]{1,3}";
+                            Pattern pattern = Pattern.compile(num);
+                            Matcher matcher = pattern.matcher(result);
+                            if (matcher.find()) {
+                                String re = matcher.group(0).substring(5, matcher.group(0).length()) + "%";
+                                powernumber.setText(re);
+                                int s = Integer.valueOf(matcher.group(0).substring(5, matcher.group(0).length()));
+                                if (s >= 90) {
+                                    power_photo.setBackgroundResource(R.drawable.battery);
+                                } else if (s >= 75) {
+                                    power_photo.setBackgroundResource(R.drawable.battery1);
+                                } else if (s >= 60) {
+                                    power_photo.setBackgroundResource(R.drawable.battery2);
+                                } else if (s >= 40) {
+                                    power_photo.setBackgroundResource(R.drawable.battery3);
+                                } else if (s >= 20) {
+                                    power_photo.setBackgroundResource(R.drawable.battery4);
+                                } else {
+                                    power_photo.setBackgroundResource(R.drawable.battery5);
+                                }
+                                //电量更改
+                                up_power(re);
+                            }
+                            showToast("开锁成功");
+//                                timer.schedule(tast, 10000);
+                            handler.removeMessages(0x127);
+                            if (gatt != null) {
+                                gatt.disconnect();
+                                gatt.disconnect();
+                                try {
+                                    Thread.sleep(100);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                gatt.close();
+                                gatt = null;
+                                Log.e("bluetoothGatt:", "8、开锁成功后下面的断开连接：disconnect");
+                            }
+                            handler.sendEmptyMessage(0x124);
+
+                        }
+                        if (result.contains("3333")) {
+                            handler.removeMessages(0x127);
+                            i.putExtra("result", 0x124);
+                            sendBroadcast(i);
+                            if (gatt != null) {
+                                gatt.disconnect();
+                                gatt.close();
+                                gatt = null;
+                                Log.e("bluetoothGatt:", "disconnect");
+                            }
+                            handler.sendEmptyMessage(0x124);
+                        }
+                    }
+
+
+                    @Override
+                    public void writeCallback(String result) {
+
+                    }
+
+                    /**
+                     *
+                     */
+                    @Override
+                    public void connectCallback() {
+                        Log.e("processClick:123123", "出来吧");
+                        handler.sendEmptyMessageDelayed(0x126, 800);
+                        handler.sendEmptyMessage(0x123);
+
+                        //开门操作
+                        bluetoothGattCallback.setMessage("(!" + lockKey + ".O*)");
+
+                        try {
+                            gatt.discoverServices();
+                        } catch (Exception e) {
+                            status = 1;
+                            Log.e("bluetoothGatt", "写入异常");
+                            e.printStackTrace();
+                        } finally {
+                            Log.e("bluetoothGatt", "finally");
+                            if (status == 1) {
+                                gatt.discoverServices();
+                            }
+                        }
+                        MyProgressDialog.remove();
+                        //  8 秒后颜色变回原来的样子
+                        handler.sendEmptyMessageDelayed(0x127, 8000);
+                        status = 0;
+                        showNotification(1);
+                    }
+
+                    @Override
+                    public void unConnectCallback() {
+
+                        if (gatt != null) {
+                            gatt.connect();
+                            Log.e("bluetoothGatt:", "连接不上重新连接：disconnect--unConnectCallback");
+
+                        }
+                        //别删
+//                        showToast("链接异常,请稍后重试");
+                        showNotification(2);
+                    }
+                };
+                Log.e("processClick:123123", bluetoothaddress);
+                getBluetooth(bluetoothaddress, manager);
+                state = false;
+                if (!isFinishing()) {
                     MyProgressDialog.show(this, "Opening...", false, null);
-                    handler.sendEmptyMessageDelayed(0x125, 8000);
+                }
+
+                handler.sendEmptyMessageDelayed(0x125, 8000);
 //                }else{
 //                    showToast("门锁以打开，请勿频繁操作");
 //                }

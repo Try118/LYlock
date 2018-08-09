@@ -44,7 +44,7 @@ public class VerifyRegistration extends BaseActivity {
             if(second==0){
                 resend.setText(getResources().getString(R.string.click_send));
                 resend.setEnabled(true);
-                send_state.setText("点击获取验证码");
+                send_state.setText(getResources().getString(R.string.get_code));
                 code.reInput();
             }
             else{
@@ -112,7 +112,7 @@ public class VerifyRegistration extends BaseActivity {
         loginController.GetVerifyCode(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
-                send_state.setText("验证码已经发送到"+" "+account);
+                send_state.setText(getResources().getString(R.string.send_verity)+" "+account);
                 resend.setEnabled(false);
                 second=60;
                 handler.postDelayed(r,1000);

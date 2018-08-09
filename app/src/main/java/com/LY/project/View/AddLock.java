@@ -29,6 +29,7 @@ import com.google.gson.JsonParser;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -40,6 +41,8 @@ import okhttp3.RequestBody;
  */
 
 public class AddLock extends BaseActivity {
+    private String Language;
+
     private RelativeLayout addLock;//添加门锁
     private TextView setting;//右上角三点
     private ListView lockList;//门锁列表
@@ -69,6 +72,12 @@ public class AddLock extends BaseActivity {
         addLock = (RelativeLayout) findView(R.id.add_lock);
         setting = (TextView) findView(R.id.setting);
         lockList = (ListView) findView(R.id.lock_list);
+        initLanguage();
+    }
+
+    private void initLanguage() {
+        Locale locale = Locale.getDefault();
+        Language = locale.getLanguage();
     }
 
     @Override
@@ -162,24 +171,37 @@ public class AddLock extends BaseActivity {
     }
 
     public void exit() {
-        // 创建退出对话框
         AlertDialog isExit = new AlertDialog.Builder(this).create();
-        // 设置对话框标题
-        isExit.setTitle("系统提示");
-        // 设置对话框消息
-        isExit.setMessage("确定要退出吗");
-        // 添加选择按钮并注册监听
-        isExit.setButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        isExit.setButton2("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
+        if (Language.contains("zh")){
+            isExit.setTitle("系统提示");
+            isExit.setMessage("确定要退出吗");
+            isExit.setButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            isExit.setButton2("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+        }else{
+            isExit.setTitle("system prompt");
+            isExit.setMessage("sure to quit");
+            isExit.setButton("ensure", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            isExit.setButton2("cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+        }
+
         // 显示对话框
         isExit.show();
     }
