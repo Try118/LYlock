@@ -1,5 +1,7 @@
 package com.LY.project.View;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
 
@@ -81,6 +83,7 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
 //            case R.id.language:
 //                break;
             case R.id.about:
+                ShowDialog();
                 break;
             case R.id.question:
                 break;
@@ -90,5 +93,18 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
             default:
                 break;
         }
+    }
+    public void ShowDialog(){
+        final AlertDialog dialog=new AlertDialog.Builder(this)
+                .setIcon(R.drawable.icon)
+                .setTitle("温馨提醒")
+                .setMessage("\n深圳市物勒智能科技有限公司\n\n4008-656-256")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create();
+        dialog.show();
     }
 }
