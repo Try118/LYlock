@@ -103,7 +103,7 @@
 
     <string name="Invited_users"> Click to invite the user </string>
 
-    <string name="sending_password"> Send the password </string>
+    <string name="sending_password"> Send password </string>
 
     <string name="next">NEXT</string>
     <string name="sent_password_news"> Click to send the password </string>
