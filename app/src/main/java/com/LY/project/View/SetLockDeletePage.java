@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -24,6 +25,7 @@ import com.LY.project.Utils.RetrofitUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -34,6 +36,8 @@ import okhttp3.RequestBody;
  */
 
 public class SetLockDeletePage extends BluetoothActivity {
+    private String language;
+
     private Button delete;//删除门锁控件
     private TextView back;//返回控件
     private String power;//权限
@@ -65,6 +69,8 @@ public class SetLockDeletePage extends BluetoothActivity {
     private String password;
     private String lockKey;//密钥
 
+    private TextView tv_back2;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_delete_page;
@@ -74,6 +80,14 @@ public class SetLockDeletePage extends BluetoothActivity {
     public void initViews() {
         delete = findView(R.id.delete);
         back = findView(R.id.back);
+        tv_back2 = findView(R.id.tv_back2);
+        Locale aDefault = Locale.getDefault();
+        language = aDefault.getLanguage();
+        if(language.contains("zh")){
+
+        }else{
+            tv_back2.setBackground(getResources().getDrawable(R.drawable.guideen));
+        }
     }
 
     @Override

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -13,7 +13,7 @@
         <TextView
             android:id="@+id/back"
             style="@style/correct_back"
-            android:background="@drawable/back"/>
+            android:background="@drawable/back" />
 
         <TextView
             style="@style/banerText"
@@ -21,13 +21,13 @@
 
         <TextView
             android:id="@+id/refresh"
-            style="@style/forward"/>
+            style="@style/forward" />
     </RelativeLayout>
+
     <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/myList"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     </ListView>
 </LinearLayout>

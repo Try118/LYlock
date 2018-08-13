@@ -110,7 +110,7 @@ public class Login extends BaseActivity {
                         showToast(getResources().getString(R.string.no_write_phone));
                     }
                 }else {
-                    if (!isEmpty.StringIsEmpty(account)&&account.contains("@")) {
+                    if (!isEmpty.StringIsEmpty(account)) {
                         MyProgressDialog.show(this, "Loading...", false, null);
                         handler.sendEmptyMessageDelayed(0x123, 8000);
                         vefiyAccount(account);

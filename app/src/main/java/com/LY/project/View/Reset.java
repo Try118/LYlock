@@ -1,6 +1,9 @@
 package com.LY.project.View;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,7 +34,15 @@ public class Reset extends BluetoothActivity {
     private String address;//mac地址
     private String lockKey;//服务器取回的秘钥
     private String lockid;//服务器传回的lockid
-
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 0x123) {
+                MyProgressDialog.remove();
+            }
+            super.handleMessage(msg);
+        }
+    };
     @Override
     public int getLayoutId() {
         return R.layout.activity_reset;
@@ -70,6 +81,7 @@ public class Reset extends BluetoothActivity {
                     secret.noInput();
                     MyProgressDialog.show(Reset.this, "Updating...", false, null);
                     getBluetooth(address, manager);
+                    handler.sendEmptyMessageDelayed(0x123,10000);
                 } else {
                     showToast("未设置恢复出厂密码");
                 }
