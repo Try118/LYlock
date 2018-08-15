@@ -1,7 +1,9 @@
 package com.LY.project.View;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -85,8 +87,9 @@ public class VerifyRegistration extends BaseActivity {
 
     @Override
     public void initData() {
-        Intent intent = getIntent();
-        account = intent.getStringExtra("account");
+        SharedPreferences information = getSharedPreferences("UserInformation", MODE_PRIVATE);
+        account = information.getString("account",null);
+        Log.e("initData:lcj",account);
     }
 
     @Override
