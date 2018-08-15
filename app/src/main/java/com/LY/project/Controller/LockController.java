@@ -422,4 +422,56 @@ public class LockController {
         });
     }
 
+    /**
+     * 删除门锁
+     */
+
+    public static void getApkVersion(Map<String, RequestBody> map, List<MultipartBody.Part> parts, final InterfaceManger.OnRequestListener listener) {
+        Call<ResponseBody> call = RetrofitUtils.getInstance().getApkVersion(map, parts);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (listener == null) {
+                    return;
+                }
+                if (!response.isSuccessful() || response == null) {
+                    listener.onError(context.getString(R.string.server_error) + response.code());
+                    return;
+                }
+                try {
+                    String body = response.body().string();
+                    JSONObject jsonObject = new JSONObject(body);
+                    Log.e("YXonResponse", body);
+
+                    int code = jsonObject.getInt("code");
+                    String version = jsonObject.getString("version");
+                    Log.e("activeLockonResponse", String.valueOf(code));
+                    if (code == 1) {
+                        listener.onSuccess(version);
+                    } else {
+                        listener.onError("获取失败");
+                    }
+                } catch (Exception e) {
+                    listener.onError(e.toString());
+                    e.printStackTrace();
+                }
+                listener.onComplete();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (listener == null) {
+                    return;
+                }
+                Log.e("onFailure", t.toString());
+                if (t.toString().contains("ConnectException")) {
+                    listener.onError(context.getString(R.string.no_internet));
+                } else {
+                    listener.onError(context.getString(R.string.network_anomaly));
+                }
+                listener.onComplete();
+            }
+        });
+    }
+
 }

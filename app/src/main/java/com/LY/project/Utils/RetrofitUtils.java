@@ -160,10 +160,15 @@ public class RetrofitUtils {
         @POST("lock/deleteLock")
         Call<ResponseBody> deleteLock(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
 
-        //删除门锁
+        //获取电量
         @Multipart
         @POST("Lock/GetLockBattery")
         Call<ResponseBody> GetLockBattery(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
+
+        //获取版本号
+        @Multipart
+        @POST("Lock/getApkVersion")
+        Call<ResponseBody> getApkVersion(@PartMap Map<String, RequestBody> map, @Part List<MultipartBody.Part> parts);
 //
 // 新建入库
 //        @Multipart

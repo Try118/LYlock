@@ -1,13 +1,45 @@
 package com.LY.project.View;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.LY.basemodule.Essential.BaseTemplate.BaseActivity;
+import com.LY.project.Adapter.MyLockAdapter;
+import com.LY.project.Controller.LockController;
 import com.LY.project.CustomView.MyFastMenuBar;
+import com.LY.project.Manager.InterfaceManger;
+import com.LY.project.Module.ReadAllLock;
 import com.LY.project.R;
+import com.LY.project.Utils.RetrofitUtils;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import customview.ConfirmDialog;
+import feature.Callback;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import util.UpdateAppUtils;
 
 /**
  * Created by YX_PC on 2018/4/10.
@@ -15,6 +47,7 @@ import com.LY.project.R;
  */
 
 public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClickListener{
+
     private MyFastMenuBar correct_password;//修改密码
     private MyFastMenuBar gesture;//手势密码
     private MyFastMenuBar version;//版本更新
@@ -23,6 +56,10 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
     private MyFastMenuBar question;//常见问题
     private MyFastMenuBar logout;//退出登录
     private TextView correct_back;//返回键
+
+    private String newcode = null; //最新版本号
+    private int code ; //当前版本号
+    private String apkPath = "https://www.vooloc.com/Public/upload/apk/wule_apk.apk";//下载apk的路径
 
     @Override
     public int getLayoutId() {
@@ -79,6 +116,8 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
                 startActivity(GestureSetting.class);
                 break;
             case R.id.version:
+                init();
+                checkAndUpdate();
                 break;
 //            case R.id.language:
 //                break;
@@ -94,6 +133,62 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
                 break;
         }
     }
+    private void checkAndUpdate() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            realUpdate();
+        } else {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                realUpdate();
+            } else {//申请权限
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
+        }
+    }
+
+    private void realUpdate() {
+        String vername = null;
+        vername = getAPPLocalVersion(this);
+        Log.e("realUpdate:",vername );
+                if (!vername.equals(newcode)){
+                    Log.e("realUpdate:123123","123123" );
+                    UpdateAppUtils.from(this)
+                            .serverVersionCode(10000)
+                            .serverVersionName(newcode)
+                            .apkPath(apkPath)
+                            .updateInfo("1.修复若干bug\n2.美化部分页面\n3.增加微信支付方式")
+                            .update();
+                }else{
+                    showToast("当前为最新版本号");
+                }
+
+    }
+
+    private void init() {
+        LockController lockController = new LockController(Setting.this);
+        List<String> photos = new ArrayList<>();
+        List<MultipartBody.Part> parts = null;
+        Map<String, RequestBody> params = new HashMap<>();
+        params.put("newcode", RetrofitUtils.convertToRequestBody("1"));
+        lockController.getApkVersion(params, parts, new InterfaceManger.OnRequestListener() {
+            @Override
+            public void onSuccess(Object success) {
+                Log.e("onSuccess:succ",String.valueOf(success));
+                newcode = String.valueOf(success);
+            }
+
+            @Override
+            public void onError(String error) {
+                showToast(error);
+            }
+
+            @Override
+            public void onComplete() {
+            }
+        });
+    }
+
     public void ShowDialog(){
         final AlertDialog dialog=new AlertDialog.Builder(this)
                 .setIcon(R.drawable.icon)
@@ -107,4 +202,45 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
                 }).create();
         dialog.show();
     }
+//    //获取apk的版本号 currentVersionCode
+    private  String getAPPLocalVersion(Context ctx) {
+        int localVersionCode = 0;
+        String versionName = null;
+        PackageManager manager = ctx.getPackageManager();
+        try {
+            PackageInfo info = manager.getPackageInfo(ctx.getPackageName(), 0);
+            localVersionCode = info.versionCode; // 版本号
+            versionName = info.versionName; // 版本号
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }finally {
+            return versionName;
+        }
+    }
+    //权限请求结果
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case 1:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    realUpdate();
+                } else {
+                    new ConfirmDialog(this, new Callback() {
+                        @Override
+                        public void callback(int position) {
+                            if (position==1){
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                intent.setData(Uri.parse("package:" + getPackageName())); // 根据包名打开对应的设置界面
+                                startActivity(intent);
+                            }
+                        }
+                    }).setContent("暂无读写SD卡权限\n是否前往设置？").show();
+                }
+                break;
+        }
+
+    }
+
 }

@@ -57,9 +57,6 @@ public class Select_look extends BluetoothActivity {
 
     private int status = 0;//写入状态位
 
-    //    private volatile int flag = 0;//标志位
-//    private TimerTask tast;
-//    final Timer timer = new Timer();
     String language;
 
     private TextView back;//返回
@@ -192,37 +189,7 @@ public class Select_look extends BluetoothActivity {
         }
         initviewtime();
 
-//        tast = new TimerTask() {
-//            @Override
-//            public void run() {
-//                flag = 0;
-//            }
-//        };
     }
-
-    /**
-     * 渐变动画
-     */
-//    private void crossfade() {
-//
-//        open_lock.setAlpha(0f);
-//        open_lock.setVisibility(View.VISIBLE);
-//
-//        open_lock.animate()
-//                .alpha(1f)
-//                .setDuration(10000)
-//                .setListener(null);
-//
-//        send_password.animate()
-//                .alpha(0f)
-//                .setDuration(20000)
-//                .setListener(new AnimatorListenerAdapter() {
-//                    @Override
-//                    public void onAnimationEnd(Animator animation) {
-//                        open_lock.setVisibility(View.GONE);
-//                    }
-//                });
-//    }
 
     private void initviewtime() {
         lockname.setText(lock_name);
@@ -249,7 +216,7 @@ public class Select_look extends BluetoothActivity {
                 lock_setting_click();
                 break;
             case R.id.open_lock:
-                if(open_flag){
+                if (open_flag) {
                     open_flag = false;
                     BluetoothCallbackManager manager = new BluetoothCallbackManager() {
                         /**
@@ -383,7 +350,7 @@ public class Select_look extends BluetoothActivity {
                     }
 
                     handler.sendEmptyMessageDelayed(0x125, 8000);
-                } else{
+                } else {
                     showToast("门锁以打开，请勿频繁操作");
                 }
                 break;
