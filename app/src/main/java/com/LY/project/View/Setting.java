@@ -46,19 +46,18 @@ import util.UpdateAppUtils;
  * 门锁列表设置
  */
 
-public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClickListener{
-
+public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClickListener {
     private MyFastMenuBar correct_password;//修改密码
     private MyFastMenuBar gesture;//手势密码
     private MyFastMenuBar version;//版本更新
-//    private MyFastMenuBar language;//语言
+    //    private MyFastMenuBar language;//语言
     private MyFastMenuBar about;//关于我们
     private MyFastMenuBar question;//常见问题
     private MyFastMenuBar logout;//退出登录
     private TextView correct_back;//返回键
 
     private String newcode = null; //最新版本号
-    private int code ; //当前版本号
+    private int code; //当前版本号
     private String apkPath = "https://www.vooloc.com/Public/upload/apk/wule_apk.apk";//下载apk的路径
 
     @Override
@@ -75,7 +74,7 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
         about = (MyFastMenuBar) findView(R.id.about);
         question = (MyFastMenuBar) findView(R.id.question);
         logout = (MyFastMenuBar) findView(R.id.logout);
-        correct_back=(TextView)findView(R.id.correct_back);
+        correct_back = (TextView) findView(R.id.correct_back);
     }
 
     @Override
@@ -97,7 +96,7 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
 
     @Override
     public void processClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.correct_back:
                 finish();
                 break;
@@ -108,7 +107,7 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
 
     @Override
     public void onMenuBarClick(MyFastMenuBar view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.correct_password:
                 startActivity(VerifyRegistration.class);
                 break;
@@ -117,7 +116,7 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
                 break;
             case R.id.version:
                 init();
-                checkAndUpdate();
+
                 break;
 //            case R.id.language:
 //                break;
@@ -133,6 +132,10 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
                 break;
         }
     }
+
+    /**
+     * 权限检查
+     */
     private void checkAndUpdate() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             realUpdate();
@@ -147,35 +150,39 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
         }
     }
 
+    /**
+     * 此处更新仅仅靠版本名字的区别来做判定，也是一个bug吧。
+     */
     private void realUpdate() {
         String vername = null;
         vername = getAPPLocalVersion(this);
-        Log.e("realUpdate:",vername );
-                if (!vername.equals(newcode)){
-                    Log.e("realUpdate:123123","123123" );
-                    UpdateAppUtils.from(this)
-                            .serverVersionCode(10000)
-                            .serverVersionName(newcode)
-                            .apkPath(apkPath)
-                            .updateInfo("1.修复若干bug\n2.美化部分页面\n3.增加微信支付方式")
-                            .update();
-                }else{
-                    showToast("当前为最新版本号");
-                }
+        if (!vername.equals(newcode)) {
+            UpdateAppUtils.from(this)
+                    .serverVersionCode(10000)
+                    .serverVersionName(newcode)
+                    .apkPath(apkPath)
+                    .updateInfo("1.修复若干bug\n2.美化部分页面\n3.增加微信支付方式")
+                    .update();
+        } else {
+            showToast("当前为最新版本号");
+        }
 
     }
 
+    /**
+     * 网络获取当前服务前的版本号
+     */
     private void init() {
         LockController lockController = new LockController(Setting.this);
         List<String> photos = new ArrayList<>();
         List<MultipartBody.Part> parts = null;
         Map<String, RequestBody> params = new HashMap<>();
-        params.put("newcode", RetrofitUtils.convertToRequestBody("1"));
+        params.put("newco", RetrofitUtils.convertToRequestBody("1"));
         lockController.getApkVersion(params, parts, new InterfaceManger.OnRequestListener() {
             @Override
             public void onSuccess(Object success) {
-                Log.e("onSuccess:succ",String.valueOf(success));
                 newcode = String.valueOf(success);
+                checkAndUpdate();
             }
 
             @Override
@@ -189,8 +196,11 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
         });
     }
 
-    public void ShowDialog(){
-        final AlertDialog dialog=new AlertDialog.Builder(this)
+    /**
+     * 关于我们
+     */
+    public void ShowDialog() {
+        final AlertDialog dialog = new AlertDialog.Builder(this)
                 .setIcon(R.drawable.icon)
                 .setTitle("温馨提醒")
                 .setMessage("\n深圳市物勒智能科技有限公司\n\n4008-656-256")
@@ -202,8 +212,14 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
                 }).create();
         dialog.show();
     }
-//    //获取apk的版本号 currentVersionCode
-    private  String getAPPLocalVersion(Context ctx) {
+
+    /**
+     * 获取apk版本号
+     *
+     * @param ctx
+     * @return
+     */
+    private String getAPPLocalVersion(Context ctx) {
         int localVersionCode = 0;
         String versionName = null;
         PackageManager manager = ctx.getPackageManager();
@@ -213,11 +229,18 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
             versionName = info.versionName; // 版本号
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             return versionName;
         }
     }
-    //权限请求结果
+
+    /**
+     * 权限请求结果
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -230,7 +253,7 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
                     new ConfirmDialog(this, new Callback() {
                         @Override
                         public void callback(int position) {
-                            if (position==1){
+                            if (position == 1) {
                                 Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                                 intent.setData(Uri.parse("package:" + getPackageName())); // 根据包名打开对应的设置界面
                                 startActivity(intent);
