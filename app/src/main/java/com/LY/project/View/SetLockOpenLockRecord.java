@@ -55,27 +55,27 @@ public class SetLockOpenLockRecord extends BaseActivity {
         public int compare(SetLockOpenLockRecordModule O1, SetLockOpenLockRecordModule O2) {
             String o1 = O1.time;
             String o2 = O2.time;
-            if (o1.equals("今天")) {
+            if (o1.equals(getString(R.string.today))) {
                 return -1;
-            } else if (o2.equals("今天")) {
+            } else if (o2.equals(getString(R.string.today))) {
                 return 1;
             }
             long a = 0;
             long b = 0;
-            if (o1.equals("最近三天")) {
+            if (o1.equals(getString(R.string.In_the_last_three_days))) {
                 a = Time(new Date().getTime());
-            } else if (o1.equals("最近一周")) {
+            } else if (o1.equals(getString(R.string.In_the_latest_week))) {
                 a = Time(new Date().getTime() - 259200000);
-            } else if (o1.equals("其他")) {
+            } else if (o1.equals(getString(R.string.other))) {
                 a = Time(new Date().getTime() - 604800000);
             } else {
                 a = Long.valueOf(o1);
             }
-            if (o2.equals("最近三天")) {
+            if (o2.equals(getString(R.string.In_the_last_three_days))) {
                 b = Time(new Date().getTime());
-            } else if (o2.equals("最近一周")) {
+            } else if (o2.equals(getString(R.string.In_the_latest_week))) {
                 b = Time(new Date().getTime() - 259200000);
-            } else if (o2.equals("其他")) {
+            } else if (o2.equals(getString(R.string.other))) {
                 b = Time(new Date().getTime() - 604800000);
             } else {
                 b = Long.valueOf(o2);
@@ -140,10 +140,10 @@ public class SetLockOpenLockRecord extends BaseActivity {
                     SetLockOpenLockRecordModule userBean = gson.fromJson(record, SetLockOpenLockRecordModule.class);
                     v.add(userBean);
                 }
-                v.add(new SetLockOpenLockRecordModule("今天"));
-                v.add(new SetLockOpenLockRecordModule("最近三天"));
-                v.add(new SetLockOpenLockRecordModule("最近一周"));
-                v.add(new SetLockOpenLockRecordModule("其他"));
+                v.add(new SetLockOpenLockRecordModule(getString(R.string.today)));
+                v.add(new SetLockOpenLockRecordModule(getString(R.string.In_the_last_three_days)));
+                v.add(new SetLockOpenLockRecordModule(getString(R.string.In_the_latest_week)));
+                v.add(new SetLockOpenLockRecordModule(getString(R.string.other)));
                 Collections.sort(v, comparator);
                 final MyOpenRecordAdapter arrayAdapter = new MyOpenRecordAdapter(SetLockOpenLockRecord.this, v);
                 list.setAdapter(arrayAdapter);
@@ -154,13 +154,13 @@ public class SetLockOpenLockRecord extends BaseActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         MyOpenRecordAdapter.Holder holder = (MyOpenRecordAdapter.Holder) view.getTag();
                         String s = holder.textView3.getText().toString();
-                        if (s.equals("今天")) {
+                        if (s.equals(getString(R.string.today))) {
                             arrayAdapter.today = !arrayAdapter.today;
-                        } else if (s.equals("最近三天")) {
+                        } else if (s.equals(getString(R.string.In_the_last_three_days))) {
                             arrayAdapter.threeDay = !arrayAdapter.threeDay;
-                        } else if (s.equals("最近一周")) {
+                        } else if (s.equals(getString(R.string.In_the_latest_week))) {
                             arrayAdapter.weekend = !arrayAdapter.weekend;
-                        } else if (s.equals("其他")) {
+                        } else if (s.equals(getString(R.string.other))) {
                             arrayAdapter.other = !arrayAdapter.other;
                         }
                         arrayAdapter.notifyDataSetChanged();

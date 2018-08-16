@@ -151,4 +151,11 @@
     <string name="Phone_number_login">Log In Via Mobile Number</string>
     <string name="delete_all_password">Clear all passwords</string>
     <string name="network_anomaly">network anomaly</string>
+
+    <string name="custom">custom</string>
+    <string name="forever">forever</string>
+    <string name="today">today</string>
+    <string name="In_the_last_three_days">In the last three days</string>
+    <string name="In_the_latest_week">In the latest week</string>
+    <string name="other">other</string>
 </resources>

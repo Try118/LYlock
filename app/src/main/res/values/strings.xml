@@ -90,4 +90,11 @@
     <string name="set_the_reset_password">设置恢复出厂密码</string>
     <string name="delete_all_password">删除所有密码</string>
     <string name="network_anomaly">网络异常</string>
+
+    <string name="custom">自定义</string>
+    <string name="forever">永久</string>
+    <string name="today">今天</string>
+    <string name="In_the_last_three_days">最近三天</string>
+    <string name="In_the_latest_week">最近一周</string>
+    <string name="other">其他</string>
 </resources>
