@@ -11,7 +11,7 @@
         android:layout_height="48dp"
         android:gravity="center"
         android:paddingTop="8dp"
-        android:text="门锁一"
+        android:text="lizi"
         android:textSize="@dimen/text_emphasize" />
 
     <TextView

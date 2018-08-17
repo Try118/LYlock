@@ -116,7 +116,6 @@ public class Setting extends BaseActivity implements MyFastMenuBar.onMenuBarClic
                 break;
             case R.id.version:
                 init();
-
                 break;
 //            case R.id.language:
 //                break;
