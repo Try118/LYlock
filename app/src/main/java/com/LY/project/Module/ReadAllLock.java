@@ -1,5 +1,12 @@
 package com.LY.project.Module;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by jie on 2018/4/14.
  */
@@ -22,7 +29,13 @@ public class ReadAllLock {
      * state : 1
      * address : 61402
      */
+    public static List<ReadAllLock> arrayDemoFromData(String str) {
 
+        Type listType = new TypeToken<ArrayList<ReadAllLock>>() {
+        }.getType();
+
+        return new Gson().fromJson(str, listType);
+    }
     private String id;
     private String key;
     private String bluetooth;

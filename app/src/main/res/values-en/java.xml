@@ -51,7 +51,7 @@
 
     <string name="lock_info_error">Failed to read the information of lock, please try again </string>
 
-    <string name="forever">Permanent</string>
+    <!--<string name="forever">Permanent</string>-->
 
     <string name="year">Year</string>
 
