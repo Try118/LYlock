@@ -42,5 +42,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
 
     compile "com.android.support:recyclerview-v7:26.1.0"
+
+    compile 'com.jcodecraeer:xrecyclerview:1.5.8'
 //    compile 'com.vise.xiaoyaoyou:baseble:2.0.5'
 }
