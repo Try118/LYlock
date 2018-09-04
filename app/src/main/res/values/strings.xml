@@ -97,4 +97,5 @@
     <string name="In_the_last_three_days">最近三天</string>
     <string name="In_the_latest_week">最近一周</string>
     <string name="other">其他</string>
+    <string name="reset">该密码仅在门锁\n无法工作时，或者紧急状况下使用</string>
 </resources>

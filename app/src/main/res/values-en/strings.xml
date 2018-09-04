@@ -158,4 +158,5 @@
     <string name="In_the_last_three_days">In the last three days</string>
     <string name="In_the_latest_week">In the latest week</string>
     <string name="other">other</string>
+    <string name="reset">This password is only used when the door lock \n cannot work, or in an emergency</string>
 </resources>
