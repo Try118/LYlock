@@ -265,7 +265,6 @@ public class Select_look extends BluetoothActivity {
                                     up_power(re);
                                 }
                                 showToast("开锁成功");
-//                                timer.schedule(tast, 10000);
                                 handler.removeMessages(0x127);
                                 if (gatt != null) {
                                     gatt.disconnect();

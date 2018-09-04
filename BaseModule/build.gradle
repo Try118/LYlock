@@ -3,6 +3,7 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 28
     buildToolsVersion '27.0.3'
+
 //    sourceSets.main.jniLibs.srcDirs = ['src/main/libs']
     defaultConfig {
         minSdkVersion 18

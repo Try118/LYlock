@@ -17,7 +17,7 @@ import com.LY.project.View.Select_look;
 import java.util.List;
 
 /**
- * Created by YX_PC on 2018/4/11.
+ * Created by jie on 2018/4/11.
  */
 
 public class MyLockAdapter extends BaseAdapter {

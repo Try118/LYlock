@@ -8,34 +8,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by jie on 2018/4/14.
+ * Created by jie on 2018/8/17.
  */
 
-public class ReadAllLock {
+public class Demo {
 
     /**
-     * id : 238
-     * key : 00017786
-     * bluetooth : 96:B3:85:4B:54:C4
-     * owerid : 5
-     * name : WL96B3854B54C4
-     * lockname : 61402
+     * id : 989
+     * key : 29774772
+     * bluetooth : 96:B3:85:AB:67:C1
+     * owerid : 20
+     * name : WL96B385AB67C1
+     * lockname : WL96B385AB67C1
      * username :
-     * starttime : 1516506434
+     * starttime : 1529910267
      * endtime : 0
-     * motherid : 234
+     * motherid : 929
      * power : 1
      * givemessage :
      * state : 1
-     * address : 61402
+     * address : don't have address
      */
-    public static List<ReadAllLock> arrayDemoFromData(String str) {
 
-        Type listType = new TypeToken<ArrayList<ReadAllLock>>() {
-        }.getType();
-
-        return new Gson().fromJson(str, listType);
-    }
     private String id;
     private String key;
     private String bluetooth;
@@ -50,6 +44,19 @@ public class ReadAllLock {
     private String givemessage;
     private String state;
     private String address;
+
+    public static Demo objectFromData(String str) {
+
+        return new Gson().fromJson(str, Demo.class);
+    }
+
+    public static List<Demo> arrayDemoFromData(String str) {
+
+        Type listType = new TypeToken<ArrayList<Demo>>() {
+        }.getType();
+
+        return new Gson().fromJson(str, listType);
+    }
 
     public String getId() {
         return id;
