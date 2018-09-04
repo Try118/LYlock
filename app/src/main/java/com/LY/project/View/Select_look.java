@@ -42,6 +42,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,7 +54,7 @@ import okhttp3.RequestBody;
  */
 
 public class Select_look extends BluetoothActivity {
-    private Boolean open_flag = true;
+    private volatile AtomicBoolean open_flag = new AtomicBoolean(true);
 
     private int status = 0;//写入状态位
 
@@ -92,6 +93,13 @@ public class Select_look extends BluetoothActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+//                open_lock.setClickable(true);
+                if (gatt != null) {
+                    gatt.disconnect();
+                    gatt.close();
+                    gatt = null;
+                    Log.e("bluetoothGatt:", "disconnect--open—success");
+                }
                 open_lock.setBackgroundResource(R.color.line);
                 open_lock.setAlpha(0f);
                 open_lock.animate()
@@ -100,26 +108,23 @@ public class Select_look extends BluetoothActivity {
                         .setListener(new AnimatorListenerAdapter() {
                             @Override
                             public void onAnimationEnd(Animator animation) {
-                                open_flag = true;
+                                open_flag.compareAndSet(false,true);
                                 open_lock.setClickable(true);
                             }
                         });
-//                open_lock.setClickable(true);
-                if (gatt != null) {
-                    gatt.disconnect();
-                    gatt.close();
-                    gatt = null;
-                    Log.e("bluetoothGatt:", "disconnect--open—success");
-                }
             } else if (msg.what == 0x127) {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                if (!open_flag.get()) {
+                    open_flag.compareAndSet(false, true);
+                }
                 open_lock.setBackgroundResource(R.color.line);
                 open_lock.setClickable(true);
                 showToast("连接异常，请重新连接");
+
             } else if (msg.what == 0x125) {
                 MyProgressDialog.remove();
             }
@@ -216,8 +221,8 @@ public class Select_look extends BluetoothActivity {
                 lock_setting_click();
                 break;
             case R.id.open_lock:
-                if (open_flag) {
-                    open_flag = false;
+                if (open_flag.get()) {
+                    open_flag.compareAndSet(true,false);
                     BluetoothCallbackManager manager = new BluetoothCallbackManager() {
                         /**
                          * @param result
