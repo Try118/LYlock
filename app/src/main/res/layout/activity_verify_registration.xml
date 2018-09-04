@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+
         style="@style/RelativeLayout_style"
         android:background="@color/bannercolor">
 
